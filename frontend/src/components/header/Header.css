@@ -1,0 +1,53 @@
+.header{
+    height: 34vw;
+    margin: 30px auto;
+    background: url('/hero2.jpg') no-repeat;
+    background-size:100% 100%;
+    position: relative;
+    border-radius: 8px;
+}
+.header-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap:1.5vw;
+    max-width: 50%;
+    top: 5%;
+    left:4vw; 
+    animation: fadeIn 3s ease-in-out;
+}
+.header-content h2{
+    font-weight: 500;
+    font-size: max(4.5vw,22px);
+}
+.header-content p{
+    font-size: 1vw;
+}
+.header-content button{
+    border: none;
+    color:#e64427;
+    font-weight: 500;
+    padding: 1vw 2vw;
+    background-color: #fff;
+    font-size: max(1vw, 20px);
+    cursor: pointer;
+    border-radius:50px
+}
+@media(max-width:1050px){
+    .header-content {
+        max-width: 45%;
+    }
+}
+@media(max-width:900px){
+    .header-content {
+        max-width: 65%;
+    }
+    .header-content p{
+        display: none;
+    }
+    .header-content button{
+        padding: 2vw 4vw;
+    }
+}

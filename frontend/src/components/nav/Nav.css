@@ -1,0 +1,130 @@
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: 1px solid #292929; */
+}
+.logo{
+    width: 120px;
+}
+.nav-menu{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: #c26a2f;
+    font-size: 18px;
+}
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.nav button{
+    background:transparent;
+    font-size: 16px;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    padding: 10px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.nav button:hover{
+    background: #464544;
+    border: 1px solid #464544;
+}
+.nav .active{
+    padding-bottom: 2px;
+    border-bottom: 2px solid #ffffff;
+}
+.nav li{
+    cursor: pointer;
+}
+.search-icon{
+ position: relative;
+}
+.search-icon .dot{
+    position: absolute;
+    min-width: 10px;
+    min-height: 10px;
+    background-color: tomato;
+    border-radius: 5px;
+    top:-8px;
+    right: -8px;
+}
+.navbar-profile{
+    position: relative;
+}
+.nav-profile-dropdown{
+    position: absolute;
+    display: none;
+    right: 0;
+    z-index: 10;
+}
+.navbar-profile:hover .nav-profile-dropdown{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgb(71, 70, 70);
+    padding: 12px 25px ;
+    border-radius: 4px;
+    border: 1px solid tomato;
+    outline: 2px solid white;
+    list-style: none;
+}
+.nav-profile-dropdown li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+.nav-profile-dropdown img{
+    width: 20px;
+}
+.nav-profile-dropdown li:hover{
+    color: #c26a2f;
+}
+@media(max-width:1050px){
+    .nav .logo{
+        width: 140px;
+    }
+    .nav-menu{
+        gap: 20px;
+        font-size: 17px;
+    }
+    .nav-right{
+        gap:30px;
+    }
+    .nav-right img{
+        width:22px;
+    }
+    .nav-right button{
+        padding: 8px 25px;
+    }
+}
+@media(max-width:900px){
+    .nav .logo{
+        width: 120px;
+    }
+    .nav-menu{
+        gap: 15px;
+        font-size: 16px;
+    }
+    .nav-right{
+        gap:20px;
+    }
+    .nav-right img{
+        width:20px;
+    }
+    .nav-right button{
+        padding: 7px 20px;
+        font-size: 15px;
+    }
+}
+@media(max-width:750px){
+    
+    .nav-menu{
+        display: none;
+    }
+    
+}
