@@ -19,9 +19,13 @@ const Verify = () => {
     });
     if (response.data.success) {
       setCartItems({});
-      navigate("/myorders");
+      setTimeout(() => {
+        navigate("/myorders");
+      }, 1000);
     } else {
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     }
   };
   useEffect(() => {
