@@ -18,8 +18,8 @@ const Verify = () => {
       orderId,
     });
     if (response.data.success) {
-      await setCartItems({});
-      await navigate("/myorders");
+      setCartItems({});
+      navigate("/myorders");
     } else {
       navigate("/");
     }

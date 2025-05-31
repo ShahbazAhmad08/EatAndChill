@@ -65,5 +65,5 @@
     cursor: pointer;
 }
 .login-popup-inputs input::placeholder{
-    color: #000;
+    color: #5e5656;
 }
