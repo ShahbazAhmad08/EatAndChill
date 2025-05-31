@@ -33,4 +33,3 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// mongodb+srv://sa798027:sa798027@cluster0.bgatlhp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
