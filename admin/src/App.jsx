@@ -5,22 +5,49 @@ import { Route, Routes } from "react-router-dom";
 import Add from "./pages/add/Add";
 import List from "./pages/list/List";
 import Order from "./pages/orders/Order";
+import Login from "./components/login/Login"; // import login
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.css";
+import PrivateRoute from "./components/privateRoute/PrivateRoute"; // import route guard
 
 const App = () => {
   const url = import.meta.env.VITE_BACKEND_URL;
+
   return (
     <div>
       <ToastContainer />
+      {/* <Login /> */}
       <NavBar />
       <hr />
       <div className="app-content">
         <SideBar />
         <Routes>
-          <Route path="/add" element={<Add url={url} />} />
-          <Route path="/list" element={<List url={url} />} />
-          <Route path="/orders" element={<Order url={url} />} />
+          <Route path="/login" element={<Login url={url} />} />
+          <Route
+            path="/add"
+            element={
+              <PrivateRoute>
+                <Add url={url} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/list"
+            element={
+              <PrivateRoute>
+                <List url={url} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <Order url={url} />
+              </PrivateRoute>
+            }
+          />
+          <Route path="*" element={<Login url={url} />} />
         </Routes>
       </div>
     </div>

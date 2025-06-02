@@ -1,9 +1,17 @@
-import React from "react";
 import "./SideBar.css";
 import { assets } from "../../assets/assets";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SideBar = () => {
+  const token = localStorage.getItem("adminToken");
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken"); // Clear token
+    toast.success("Logged out successfully");
+    navigate("/login"); // Redirect to login page
+  };
   return (
     <div className="side-bar">
       <div className="side-bar-options">
@@ -19,6 +27,11 @@ const SideBar = () => {
           <img src={assets.order_icon} alt="" />
           <p>Orders</p>
         </NavLink>
+        {token && (
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        )}
       </div>
     </div>
   );

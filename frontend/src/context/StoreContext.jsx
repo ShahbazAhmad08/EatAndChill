@@ -1,10 +1,11 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+// import { toast } from "react-toastify";
 export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const url = import.meta.env.VITE_BACKEND_URL;
-  console.log(url);
+  // console.log(url);
 
   const [token, setToken] = useState("");
   const [food_list, setFoodList] = useState([]);
@@ -27,6 +28,7 @@ const StoreContextProvider = (props) => {
         { headers: { token } }
       );
     }
+    // toast.success("Item Added to Cart");
   };
   const removeFromCart = async (itemId) => {
     setCartItems((prev) => ({
@@ -40,6 +42,7 @@ const StoreContextProvider = (props) => {
         { headers: { token } }
       );
     }
+    // toast("Item Removed From Cart");
   };
   const getTotalCartAmount = () => {
     let totalAmount = 0;

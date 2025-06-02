@@ -5,6 +5,7 @@ import foodRouter from "./routes/foodRouter.js";
 import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRouter from "./routes/OrderRoute.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 //app config
 const app = express();
@@ -24,6 +25,7 @@ app.use("/images", express.static("uploads")); // serve static files from the up
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World! This is the server running on port " + PORT);
@@ -32,4 +34,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-

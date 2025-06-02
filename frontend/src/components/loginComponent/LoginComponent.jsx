@@ -3,6 +3,7 @@ import "./LoginComponent.css";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 const LoginComponent = ({ toggleLoginPopup }) => {
   const { url, setToken } = useContext(StoreContext);
   const [currState, setCurrState] = useState("Sign up");
@@ -34,9 +35,13 @@ const LoginComponent = ({ toggleLoginPopup }) => {
     if (response.data.success) {
       setToken(response.data.token);
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("userId", response.data.userId);
       toggleLoginPopup();
+      if (newUrl == url + "/api/user/login") toast("Log in success");
+      else if (newUrl == url + "/api/user/register")
+        toast.info("User register Successful");
     } else {
-      alert(response.data.message);
+      toast.error(response.data.message);
     }
   };
   return (

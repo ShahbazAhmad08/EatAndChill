@@ -17,7 +17,7 @@ const MyOrders = () => {
       }
     );
     setData(response.data.data);
-    console.log(response.data.data);
+    // console.log(response.data.data);
   };
   useEffect(() => {
     if (token) {
@@ -28,27 +28,48 @@ const MyOrders = () => {
     <div className="my-orders">
       <h2>My Orders</h2>
       <div className="container">
-        {data.map((order, index) => (
-          <div key={index} className="my-orders-order">
-            <img src={assets.parcel_icon} alt="" />
-            <p>
-              {order.items.map((item, index) => {
-                if (index === order.items.length - 1) {
-                  return item.name + "X" + item.quantity;
-                } else {
-                  return item.name + "X" + item.quantity + ", ";
-                }
-              })}
-            </p>
-            <p>${order.amount}.00</p>
-            <p>items:{order.items.length}</p>
-            <p>
-              <span>&#x25cf; &nbsp;</span>
-              <b>{order.status}</b>
-            </p>
-            <button onClick={fetchOrder}>Track Order</button>
-          </div>
-        ))}
+        {data.map((order, index) =>
+          order.payment ? (
+            <div key={index} className="my-orders-order">
+              <img src={assets.parcel_icon} alt="" />
+              <p>
+                {order.items.map((item, index) => {
+                  if (index === order.items.length - 1) {
+                    return item.name + "X" + item.quantity;
+                  } else {
+                    return item.name + "X" + item.quantity + ", ";
+                  }
+                })}
+              </p>
+              <p>${order.amount}.00</p>
+              <p>items:{order.items.length}</p>
+              <p>
+                <span>&#x25cf; &nbsp;</span>
+                <b>{order.status}</b>
+              </p>
+              <button onClick={fetchOrder}>Track Order</button>
+            </div>
+          ) : (
+            <div key={index} className="my-orders-order">
+              <img src={assets.parcel_icon} alt="" />
+              <p>
+                {order.items.map((item, index) => {
+                  if (index === order.items.length - 1) {
+                    return item.name + "X" + item.quantity;
+                  } else {
+                    return item.name + "X" + item.quantity + ", ";
+                  }
+                })}
+              </p>
+              <p>${order.amount}.00</p>
+              <p>items:{order.items.length}</p>
+              <p>
+                <span>&#x25cf; &nbsp;</span>
+                <b>Payment Failed</b>
+              </p>
+            </div>
+          )
+        )}
       </div>
     </div>
   );

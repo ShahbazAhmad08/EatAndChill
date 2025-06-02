@@ -3,6 +3,7 @@ import "./PlaceOrder.css";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const PlaceOrder = () => {
   const { getTotalCartAmount, token, food_list, cartItems, url } =
     useContext(StoreContext);
@@ -19,7 +20,7 @@ const PlaceOrder = () => {
   });
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   const onChangeHandler = (event) => {
@@ -46,18 +47,23 @@ const PlaceOrder = () => {
       headers: { token },
     });
     if (response.data.success) {
-      const { session_url } = response.data;
-      window.location.replace(session_url);
+      toast.warn("Redirected t o the payment page");
+      setTimeout(() => {
+        const { session_url } = response.data;
+        window.location.replace(session_url);
+      }, 1000);
     } else {
-      alert("Error");
+      toast.error("ERROR");
     }
   };
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
       navigate("/cart");
+      toast.error("Please Login");
     } else if (getTotalCartAmount() === 0) {
-      navigate("/cart");
+      navigate("/");
+      toast.error("Please Add Items In Cart");
     }
   }, [token]);
   return (

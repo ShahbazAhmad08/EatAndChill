@@ -4,7 +4,7 @@ import "./Nav.css";
 import { Link, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 const Nav = ({ toggleLoginPopup }) => {
-  const [menu, setMenu] = useState("menu");
+  const [menu, setMenu] = useState("home");
   const { getTotalCartAmount, setToken, token } = useContext(StoreContext);
   const navigate = useNavigate();
   const logout = () => {

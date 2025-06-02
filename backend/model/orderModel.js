@@ -7,6 +7,11 @@ const orderSchema = new mongoose.Schema({
   status: { type: String, default: "Food processing" },
   date: { type: Date, default: Date.now() },
   payment: { type: Boolean, default: false },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 180,
+  },
 });
 
 const orderModel = mongoose.model.order || mongoose.model("order", orderSchema);

@@ -3,6 +3,7 @@ import "./Verify.css";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { StoreContext } from "../../context/StoreContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Verify = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,21 +11,25 @@ const Verify = () => {
   const orderId = searchParams.get("orderId");
   const { url, setCartItems, cartItems } = useContext(StoreContext);
   const navigate = useNavigate();
-  console.log(cartItems);
+  // console.log(cartItems);
 
   const verifyPayment = async () => {
+    const userId = localStorage.getItem("userId");
     let response = await axios.post(url + "/api/order/verify", {
       success,
       orderId,
+      userId,
     });
     if (response.data.success) {
-      setCartItems({});
       setTimeout(() => {
+        setCartItems({});
         navigate("/myorders");
+        toast.success("Order Placed");
       }, 1000);
     } else {
       setTimeout(() => {
         navigate("/");
+        toast.error("Order Failed");
       }, 1000);
     }
   };
