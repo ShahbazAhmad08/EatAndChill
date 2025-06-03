@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Shimmer from "../shimmer/Shimmer";
 
 const Login = ({ url }) => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   function onChangeHandler(e) {
     const name = e.target.name;
@@ -18,7 +20,7 @@ const Login = ({ url }) => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
     if (!data.email || !data.password)
       return toast.warning("Please fill all fields");
 
@@ -39,6 +41,9 @@ const Login = ({ url }) => {
       }
     } catch (err) {
       toast.error("Server error");
+    }
+    if (isLoading) {
+      <Shimmer />;
     }
   };
 

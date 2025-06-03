@@ -24,9 +24,17 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login url={url} />} />
           <Route
+            path="/"
+            element={
+              <PrivateRoute url={url}>
+                <List url={url} />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="/add"
             element={
-              <PrivateRoute>
+              <PrivateRoute url={url}>
                 <Add url={url} />
               </PrivateRoute>
             }
@@ -34,7 +42,7 @@ const App = () => {
           <Route
             path="/list"
             element={
-              <PrivateRoute>
+              <PrivateRoute url={url}>
                 <List url={url} />
               </PrivateRoute>
             }
@@ -42,7 +50,7 @@ const App = () => {
           <Route
             path="/orders"
             element={
-              <PrivateRoute>
+              <PrivateRoute url={url}>
                 <Order url={url} />
               </PrivateRoute>
             }

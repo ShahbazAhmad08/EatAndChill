@@ -1,6 +1,6 @@
 .footer{
     display: flex;
-    background-color: #323232;
+    background-color: #0f0f0f;
     flex-direction: column;
     align-items: center;
     gap:20px;
@@ -30,7 +30,7 @@
     cursor: pointer;
 }
 .footer-content-right h2, .footer-content-center h2{
-    color: white;
+    color: tomato;
 
 }
 .footer-social-icons img{
@@ -54,4 +54,18 @@
     .footer-copyright{
         text-align: center;
     }
+}
+
+.footer-link {
+  color: #ffffff; /* Or your theme color */
+  text-decoration: none;
+}
+
+.footer-link:hover {
+    color: rgb(135, 149, 189);
+  text-decoration: underline;
+}
+
+.footer-note strong{
+    color: tomato;
 }
