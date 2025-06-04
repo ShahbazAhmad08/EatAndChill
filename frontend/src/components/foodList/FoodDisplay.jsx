@@ -5,6 +5,13 @@ import FoodItem from "../foodItem/FoodItem";
 
 const FoodDisplay = ({ category }) => {
   const { food_list } = useContext(StoreContext);
+  if (food_list > 0) {
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div>
+      </div>
+    );
+  }
   return (
     <div className="food-display" id="food-display">
       <h2>Explore our food</h2>

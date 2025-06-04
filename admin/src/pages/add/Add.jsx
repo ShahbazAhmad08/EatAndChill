@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 const Add = ({ url }) => {
   const [image, setImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -18,6 +20,7 @@ const Add = ({ url }) => {
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
@@ -26,14 +29,24 @@ const Add = ({ url }) => {
     formData.append("image", image);
     const response = await axios.post(`${url}/api/food/add`, formData);
     if (response.data.success) {
-      setData({ name: "", description: "", price: "", category: "Salad" });
-
-      setImage(false);
-      toast.success(response.data.message);
+      setTimeout(() => {
+        setData({ name: "", description: "", price: "", category: "Salad" });
+        setImage(false);
+        toast.success(response.data.message);
+        setIsLoading(false);
+      }, 1000);
     } else {
+      setIsLoading(false);
       toast.error(response.data.message);
     }
   };
+  if (isLoading) {
+    return (
+      <div className="add-loader">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <div className="add">
       <form onSubmit={onSubmitHandler} className="flex-col ">
@@ -95,7 +108,7 @@ const Add = ({ url }) => {
               value={data.price}
               type="number"
               name="price"
-              placeholder="$20"
+              placeholder="&#8377; 20"
             />
           </div>
         </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import Shimmer from "../shimmer/Shimmer";
 
 const PrivateRoute = ({ children, url }) => {
   const [isValid, setIsValid] = useState(null);
@@ -39,8 +38,10 @@ const PrivateRoute = ({ children, url }) => {
 
   if (isValid === null)
     return (
-      <div>
-        <Shimmer />
+      <div className="spinner-container">
+        {/* <div className="dual-ring"></div> */}
+        <div className="loader"></div>
+        <p> Loading... please wait</p>
       </div>
     );
   if (isValid === false) {

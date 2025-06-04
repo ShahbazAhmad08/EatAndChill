@@ -2,25 +2,27 @@ import React, { useEffect, useState } from "react";
 import "./List.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Shimmer from "../../components/shimmer/Shimmer"; // Ensure correct path
 
 const List = ({ url }) => {
   const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true); // Track loading state
+  const [loading, setLoading] = useState(false); // Track loading state
 
   const fetchList = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
       const response = await axios.get(`${url}/api/food/list`);
 
       if (response.data.success) {
-        setList(response.data.data);
+        setTimeout(() => {
+          setList(response.data.data);
+          setLoading(false);
+        }, 1500);
       } else {
         toast.error("Error fetching food list.");
+        setLoading(false);
       }
     } catch (error) {
       toast.error("Server error");
-    } finally {
       setLoading(false);
     }
   };
@@ -41,15 +43,19 @@ const List = ({ url }) => {
       toast.error("Error removing item");
     }
   };
-
   useEffect(() => {
     fetchList();
   }, []);
 
-  if (loading) {
-    return <Shimmer />; // Display shimmer/loader while data is loading
+  if (!list || loading) {
+    return (
+      <div className="spinner-container">
+        {/* <div className="dual-ring"></div> */}
+        <div className="loader"></div>
+        <p> Loading... please wait</p>
+      </div>
+    );
   }
-
   return (
     <div className="list add flex-col">
       <p>All Food List</p>
@@ -67,7 +73,7 @@ const List = ({ url }) => {
               <img src={`${url}/images/` + item.image} alt="" />
               <p>{item.name}</p>
               <p>{item.category}</p>
-              <p>${item.price}</p>
+              <p>&#8377; {item.price}</p>
               <p className="cursor" onClick={() => removeFood(item._id)}>
                 X
               </p>

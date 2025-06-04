@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import axios from "axios";
 import { toast } from "react-toastify";
-import Shimmer from "../shimmer/Shimmer";
 
 const Login = ({ url }) => {
   const [data, setData] = useState({
@@ -21,8 +20,10 @@ const Login = ({ url }) => {
   const loginHandler = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    if (!data.email || !data.password)
+    if (!data.email || !data.password) {
+      setIsLoading(false);
       return toast.warning("Please fill all fields");
+    }
 
     try {
       const res = await axios.post(`${url}/api/admin/login`, {
@@ -33,17 +34,26 @@ const Login = ({ url }) => {
 
       if (res.data.success) {
         localStorage.setItem("adminToken", res.data.token); // Store token
+        setIsLoading(false);
         toast.success("Login successful");
         navigate("/list"); // Redirect to dashboard page
       } else {
         setData({ name: "", password: "" });
+        setIsLoading(false);
         toast.error(res.data.message || "Invalid credentials");
       }
     } catch (err) {
-      toast.error("Server error");
+      setIsLoading(false);
+      toast.error(err.message || "Server error");
     }
     if (isLoading) {
-      <Shimmer />;
+      return (
+        <div className="spinner-container">
+          {/* <div className="dual-ring"></div> */}
+          <div className="loader"></div>
+          <p> Loading... please wait</p>
+        </div>
+      );
     }
   };
 
