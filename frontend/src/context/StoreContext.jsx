@@ -5,6 +5,7 @@ export const StoreContext = createContext(null);
 const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const url = import.meta.env.VITE_BACKEND_URL;
+  const [IsLoading, setIsLoading] = useState(true);
   // console.log(url);
 
   const [token, setToken] = useState("");
@@ -49,13 +50,17 @@ const StoreContextProvider = (props) => {
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         let itemInfo = food_list.find((product) => product._id === item);
+        console.log(itemInfo);
+
         totalAmount += itemInfo.price * cartItems[item];
       }
     }
     return totalAmount;
   };
   const fetchFoodList = async () => {
+    setIsLoading(true);
     const response = await axios.get(url + "/api/food/list");
+    setIsLoading(false);
     setFoodList(response.data.data);
   };
 
@@ -91,6 +96,7 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    IsLoading,
   };
   return (
     <StoreContext.Provider value={contextValue}>
