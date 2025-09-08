@@ -75,6 +75,8 @@ const Login = ({ url }) => {
         onChange={onChangeHandler}
       />
       <button type="submit">Login</button>
+
+      <p>  adminemail :admin@admin.com & pass : admin123 </p>
     </form>
   );
 };
