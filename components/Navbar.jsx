@@ -33,6 +33,7 @@ export default function Navbar() {
     searchQuery,
     setSearchQuery,
     settings,
+    selectedLocation,
   } = useStore();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function Navbar() {
     { name: "Home", href: "/" },
     { name: "Menu", href: "/menu" },
     { name: "Delhi Specials", href: "/delhi-specials", isSpecial: true },
-    { name: "Delivery Zones", href: "/delhi-delivery" },
+    { name: "Market Areas", href: "/market-area" },
     { name: "About Us", href: "/about-us" },
     { name: "Contact", href: "/contact" },
   ];
@@ -63,15 +64,28 @@ export default function Navbar() {
       <div className="bg-gradient-to-r from-brand-600 via-orange-600 to-amber-600 text-white text-xs py-1.5 px-4 font-medium">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 truncate">
-            <span className="bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider">
-              Delhi NCR
-            </span>
-            <span className="truncate text-orange-50 font-semibold">
-              {settings.bannerNotice ||
-                "⚡ 30-Min Fast Food Delivery across Delhi | Free Delivery above ₹499"}
-            </span>
+            <Link
+              href="/market-area"
+              className="flex items-center gap-1.5 hover:opacity-90 transition-opacity truncate"
+            >
+              <span className="bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1">
+                <MapPin className="w-3 h-3 text-orange-200" />
+                {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Delhi NCR"}
+              </span>
+              <span className="truncate text-orange-50 font-semibold text-xs">
+                {selectedLocation
+                  ? `⚡ Delivering in ${selectedLocation.avgDeliveryMinutes} mins to ${selectedLocation.name} · Free above ₹499`
+                  : (settings.bannerNotice || "⚡ 30-Min Fast Food Delivery across 22+ Delhi NCR Areas | Free above ₹499")}
+              </span>
+            </Link>
           </div>
           <div className="hidden md:flex items-center gap-4 shrink-0 text-white/90">
+            <Link
+              href="/market-area"
+              className="text-[11px] font-bold text-orange-100 hover:text-white underline transition-colors"
+            >
+              Change Location
+            </Link>
             <a
               href={`tel:${settings.storePhone || "+917755013772"}`}
               className="flex items-center gap-1.5 hover:text-white transition-colors font-bold text-xs"
@@ -84,7 +98,7 @@ export default function Navbar() {
               className="flex items-center gap-1 text-white/80 hover:text-white underline text-[11px] font-semibold"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Admin Portal</span>
+              <span>Admin</span>
             </Link>
           </div>
         </div>
@@ -110,9 +124,18 @@ export default function Navbar() {
                 <span className="text-2xl font-black tracking-tight text-gray-950 group-hover:text-brand-600 transition-colors">
                   Eat &amp; Chill
                 </span>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-brand-600 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-brand-500" /> Delhi Hub
-                </span>
+                <Link
+                  href="/market-area"
+                  onClick={(e) => e.stopPropagation()}
+                  title="Click to change your delivery location"
+                  className="text-[10px] font-extrabold uppercase tracking-wider text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors group/hub"
+                >
+                  <MapPin className="w-3 h-3 text-brand-500 animate-pulse" />
+                  <span className="max-w-[120px] truncate">
+                    {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Delhi NCR Hub"}
+                  </span>
+                  <ChevronDown className="w-2.5 h-2.5 text-gray-400 group-hover/hub:text-brand-600" />
+                </Link>
               </div>
             </Link>
           </div>
@@ -285,10 +308,21 @@ export default function Navbar() {
             transition={{ duration: 0.25 }}
             className="lg:hidden border-t border-gray-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-xl"
           >
-            <div className="flex items-center gap-2 py-2 px-3 bg-orange-50 rounded-xl text-brand-700 text-xs font-bold mb-2">
-              <MapPin className="w-4 h-4 text-brand-500" />
-              <span>Delivering across all Delhi NCR pin codes</span>
-            </div>
+            <Link
+              href="/market-area"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-between py-2.5 px-3 bg-orange-50 rounded-xl text-brand-700 text-xs font-bold mb-2 border border-orange-200/60"
+            >
+              <div className="flex items-center gap-2 truncate">
+                <MapPin className="w-4 h-4 text-brand-500 shrink-0" />
+                <span className="truncate">
+                  {selectedLocation ? `Delivering to: ${selectedLocation.name}` : "Select Delivery Market Area"}
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-black text-brand-600 bg-white px-2 py-0.5 rounded-md shrink-0 shadow-2xs">
+                {selectedLocation ? "Change" : "Select"}
+              </span>
+            </Link>
             {navLinks.map((link) => (
               <Link
                 key={link.name}

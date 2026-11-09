@@ -15,6 +15,7 @@ export const StoreContextProvider = ({ children }) => {
   const [category, setCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterVeg, setFilterVeg] = useState("all"); // 'all', 'veg', 'delhi'
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [settings, setSettings] = useState({
     deliveryFee: 50,
     freeDeliveryThreshold: 499,
@@ -147,6 +148,19 @@ export const StoreContextProvider = ({ children }) => {
     return Object.values(cartItems).reduce((acc, count) => acc + count, 0);
   };
 
+  // Delivery location persistence
+  const updateSelectedLocation = (loc) => {
+    setSelectedLocation(loc);
+    if (typeof window !== "undefined") {
+      if (loc) {
+        localStorage.setItem("eatandchill_market_location", JSON.stringify(loc));
+        toast.success(`📍 Delivery location set to ${loc.name}`, { duration: 2500 });
+      } else {
+        localStorage.removeItem("eatandchill_market_location");
+      }
+    }
+  };
+
   // Delivery charge calculation
   const getDeliveryFee = () => {
     const subtotal = getTotalCartAmount();
@@ -181,6 +195,15 @@ export const StoreContextProvider = ({ children }) => {
       }
       loadCartData(storedToken);
     }
+
+    const storedLoc = localStorage.getItem("eatandchill_market_location");
+    if (storedLoc) {
+      try {
+        setSelectedLocation(JSON.parse(storedLoc));
+      } catch (err) {
+        console.error("Failed to parse stored location:", err);
+      }
+    }
   }, []);
 
   const value = {
@@ -193,6 +216,8 @@ export const StoreContextProvider = ({ children }) => {
     getTotalCartAmount,
     getTotalCartCount,
     getDeliveryFee,
+    selectedLocation,
+    setSelectedLocation: updateSelectedLocation,
     token,
     setToken,
     user,

@@ -135,6 +135,17 @@ export default function DelhiBanner() {
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              <div className="mt-2.5 flex items-center justify-between text-[11px] text-gray-500 font-semibold px-1">
+                <span>⚡ Express delivery across Delhi NCR</span>
+                <Link
+                  href="/market-area"
+                  className="text-brand-600 hover:text-brand-700 font-bold underline flex items-center gap-1"
+                >
+                  <span>Explore 22+ Market Areas</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
             </div>
 
             {/* Trust Badges */}

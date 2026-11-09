@@ -13,7 +13,20 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/delhi-delivery',
+        destination: '/market-area',
+        permanent: true,
+      },
+      {
+        source: '/delhi-delivery/:slug',
+        destination: '/market-area/:slug',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
-

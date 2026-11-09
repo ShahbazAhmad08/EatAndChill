@@ -30,8 +30,8 @@ export default function Footer() {
     { name: "Greater Kailash & GK-2 (110048)", slug: "greater-kailash" },
     { name: "Dwarka Sub-City (110075)", slug: "dwarka" },
     { name: "Rohini (110085)", slug: "rohini" },
-    { name: "Karol Bagh (110005)", slug: "karol-bagh" },
-    { name: "Chandni Chowk & Dilli 6 (110006)", slug: "chandni-chowk" },
+    { name: "Noida Sector 18 & 62 (201301)", slug: "noida-sector-18" },
+    { name: "Gurugram CyberHub (122002)", slug: "gurugram-cyber-city" },
   ];
 
   return (
@@ -101,13 +101,13 @@ export default function Footer() {
           <div className="space-y-3">
             <h3 className="text-white font-bold text-sm uppercase tracking-wider flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-brand-500" />
-              Delhi NCR Localities
+              Delivery Market Areas
             </h3>
             <ul className="space-y-1.5 text-xs text-slate-400">
               {deliveryZones.map((zone, idx) => (
                 <li key={idx}>
                   <Link
-                    href={`/delhi-delivery/${zone.slug}`}
+                    href={`/market-area/${zone.slug}`}
                     className="hover:text-white transition-colors flex items-center gap-1.5"
                   >
                     <span className="text-brand-500">•</span>
@@ -117,10 +117,10 @@ export default function Footer() {
               ))}
               <li className="pt-1">
                 <Link
-                  href="/delhi-delivery"
+                  href="/market-area"
                   className="text-brand-400 hover:text-brand-300 font-semibold inline-flex items-center gap-1"
                 >
-                  View all 50+ Delhi Pincodes <ChevronRight className="w-3 h-3" />
+                  View all 22+ Market Areas <ChevronRight className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
@@ -143,6 +143,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/market-area" className="hover:text-white transition-colors">
+                  Market Delivery Hubs
+                </Link>
+              </li>
+              <li>
                 <Link href="/cart" className="hover:text-white transition-colors">
                   View My Cart
                 </Link>
@@ -150,11 +155,6 @@ export default function Footer() {
               <li>
                 <Link href="/myorders" className="hover:text-white transition-colors">
                   Track Live Orders
-                </Link>
-              </li>
-              <li>
-                <Link href="/delhi-delivery" className="hover:text-white transition-colors">
-                  Delhi Delivery Guide
                 </Link>
               </li>
               <li>
