@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/context/StoreContext";
 import {
   MapPin,
@@ -12,6 +13,9 @@ import {
   Flame,
   ShieldCheck,
   ArrowRight,
+  Star,
+  Zap,
+  ShoppingBag,
 } from "lucide-react";
 
 export default function DelhiBanner() {
@@ -32,7 +36,7 @@ export default function DelhiBanner() {
     if (pincode.startsWith("110")) {
       setPincodeResult({
         success: true,
-        message: `🎉 Great news! Fast 30-Min Delivery is ACTIVE in Pincode ${pincode}! Order hot food now.`,
+        message: `🎉 Fast 30-Min Delivery is ACTIVE in Pincode ${pincode}! Order hot food now.`,
       });
     } else {
       setPincodeResult({
@@ -43,37 +47,57 @@ export default function DelhiBanner() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-orange-50/70 via-white to-white py-12 md:py-20 border-b border-orange-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Heading & Value Prop */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-brand-700 text-xs font-bold uppercase tracking-wider">
-              <Flame className="w-3.5 h-3.5 text-brand-600 fill-brand-600 animate-pulse" />
-              <span>{settings.heroTag || "Delhi NCR's #1 Food Ordering Hub"}</span>
-            </div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-orange-50/80 via-white to-slate-50/50 py-16 md:py-24 border-b border-orange-100/60">
+      {/* Ambient background blur circles */}
+      <div className="absolute top-10 left-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 tracking-tight leading-[1.15]">
-              {settings.heroHeading || (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          {/* Left Column: Heading, Value Props & Pincode */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="lg:col-span-7 space-y-6 text-center lg:text-left"
+          >
+            {/* Top Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-orange-200/80 text-brand-700 text-xs font-black uppercase tracking-wider shadow-sm"
+            >
+              <span className="w-2 h-2 rounded-full bg-brand-500 animate-ping" />
+              <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
+              <span>{settings.heroTag || "Delhi NCR's #1 Cloud Kitchen Hub"}</span>
+            </motion.div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-950 tracking-tight leading-[1.12]">
+              {settings.heroHeading ? (
+                settings.heroHeading
+              ) : (
                 <>
                   Order Delicious Food Online in{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-amber-500">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-orange-500 to-amber-500">
                     Delhi NCR
                   </span>
                 </>
               )}
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0">
+            {/* Subheading */}
+            <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0 font-medium">
               {settings.heroSubheading ||
                 "Satisfy your cravings with Delhi's best Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!"}
             </p>
 
             {/* Interactive Delhi Pincode Checker */}
-            <div className="bg-white p-4 rounded-2xl shadow-lg border border-orange-100 max-w-lg mx-auto lg:mx-0">
+            <div className="bg-white/90 backdrop-blur-md p-3.5 sm:p-4 rounded-3xl shadow-xl shadow-orange-500/5 border border-orange-200/60 max-w-lg mx-auto lg:mx-0">
               <form onSubmit={checkPincode} className="flex flex-col sm:flex-row gap-2">
                 <div className="relative flex-1">
-                  <MapPin className="w-4 h-4 text-brand-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <MapPin className="w-4 h-4 text-brand-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     maxLength={6}
@@ -83,105 +107,108 @@ export default function DelhiBanner() {
                       setPincodeResult(null);
                     }}
                     placeholder="Enter Delhi Pincode (e.g. 110001)"
-                    className="w-full pl-9 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white font-medium"
+                    className="w-full pl-10 pr-3 py-3 text-sm bg-gray-50/80 border border-gray-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white font-medium transition-all"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm rounded-xl transition-all shadow-sm shrink-0"
+                  className="px-6 py-3 bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-extrabold text-sm rounded-2xl transition-all shadow-md shadow-brand-500/25 active:scale-95 shrink-0"
                 >
                   Check Delivery
                 </button>
               </form>
 
-              {pincodeResult && (
-                <div
-                  className={`mt-2.5 p-2.5 rounded-lg text-xs font-semibold flex items-center gap-2 ${
-                    pincodeResult.success
-                      ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                      : "bg-red-50 text-red-800 border border-red-200"
-                  }`}
-                >
-                  {pincodeResult.success ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  ) : (
-                    <span className="text-red-500">⚠️</span>
-                  )}
-                  <span>{pincodeResult.message}</span>
-                </div>
-              )}
+              <AnimatePresence>
+                {pincodeResult && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className={`mt-3 p-3 rounded-xl text-xs font-bold flex items-center gap-2 ${
+                      pincodeResult.success
+                        ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                        : "bg-red-50 text-red-800 border border-red-200"
+                    }`}
+                  >
+                    <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
+                    <span>{pincodeResult.message}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
-              <a
-                href="#explore-menu"
-                className="px-7 py-3.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-sm shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all flex items-center gap-2 group"
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 pt-2 text-xs font-bold text-gray-700">
+              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
+                <Clock className="w-4 h-4 text-brand-500" />
+                <span>30-Min Fast Delivery</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>100% Hygienic Kitchen</span>
+              </div>
+              <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
+                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                <span>4.8 / 5.0 Delhi Rating</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Hero Visual with Animated Floating Cards */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="lg:col-span-5 relative flex justify-center items-center"
+          >
+            {/* Main Visual Circle & Glow */}
+            <div className="relative w-72 sm:w-96 h-72 sm:h-96">
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-orange-400/20 to-brand-500/30 blur-2xl animate-pulse-glow" />
+
+              <div className="relative w-full h-full rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
+                <Image
+                  src="/assets/header_img.png"
+                  alt="Delicious food feast from Eat & Chill Delhi"
+                  fill
+                  priority
+                  className="object-cover hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, 400px"
+                />
+              </div>
+
+              {/* Floating Pill 1: Top Right */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -top-4 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5"
               >
-                <span>Explore Full Menu</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <Link
-                href="/delhi-delivery"
-                className="px-6 py-3.5 rounded-xl bg-white hover:bg-gray-50 text-gray-800 font-bold text-sm border border-gray-200 shadow-sm transition-all"
+                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">
+                  ⚡
+                </div>
+                <div>
+                  <div className="text-[11px] font-black text-gray-900">28 Mins Avg</div>
+                  <div className="text-[10px] text-gray-500 font-semibold">Delhi NCR Delivery</div>
+                </div>
+              </motion.div>
+
+              {/* Floating Pill 2: Bottom Left */}
+              <motion.div
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute -bottom-4 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5"
               >
-                Delhi Delivery Areas
-              </Link>
-            </div>
-
-            {/* Feature Pills */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-orange-100/60 max-w-xl mx-auto lg:mx-0">
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <Clock className="w-4 h-4 text-brand-500 shrink-0" />
-                <span>30-Min Delivery</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                <span>Hygienic Packing</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>Open till 3 AM</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
-                <CheckCircle2 className="w-4 h-4 text-brand-500 shrink-0" />
-                <span>UPI &amp; COD Available</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column: Hero Visual Graphic */}
-          <div className="lg:col-span-5 relative flex justify-center">
-            <div className="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-gradient-to-tr from-orange-400 to-amber-300 p-2">
-              <Image
-                src="/assets/header_img.png"
-                alt="Delicious Delhi Food Platter - Eat & Chill"
-                fill
-                className="object-cover rounded-2xl hover:scale-105 transition-transform duration-500"
-                priority
-              />
-              {/* Floating Badge 1 */}
-              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm py-2 px-3.5 rounded-2xl shadow-lg border border-orange-100 flex items-center gap-2">
-                <span className="text-xl">🌶️</span>
-                <div className="text-left">
-                  <p className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Top Rated</p>
-                  <p className="text-xs font-extrabold text-gray-900">Old Delhi Rolls</p>
+                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                 </div>
-              </div>
-
-              {/* Floating Badge 2 */}
-              <div className="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm py-2 px-3.5 rounded-2xl shadow-lg border border-orange-100 flex items-center gap-2">
-                <span className="text-xl">⚡</span>
-                <div className="text-left">
-                  <p className="text-[10px] uppercase font-bold text-emerald-600 tracking-wider">Live Tracking</p>
-                  <p className="text-xs font-extrabold text-gray-900">Delivery in 30 Min</p>
+                <div>
+                  <div className="text-[11px] font-black text-gray-900">18,500+ Orders</div>
+                  <div className="text-[10px] text-gray-500 font-semibold">Loved Across Dilli</div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
-

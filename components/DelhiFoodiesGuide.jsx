@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ShieldCheck,
   Zap,
@@ -11,10 +12,14 @@ import {
   ChevronDown,
   Star,
   Quote,
+  Flame,
+  CheckCircle2,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
 export default function DelhiFoodiesGuide() {
-  const [openFaq, setOpenFaq] = useState(null);
+  const [openFaq, setOpenFaq] = useState(0);
 
   const toggleFaq = (idx) => {
     setOpenFaq(openFaq === idx ? null : idx);
@@ -59,175 +64,124 @@ export default function DelhiFoodiesGuide() {
         "We order lunch for our CP corporate team every Friday. The packaging is spill-proof, portions are hearty, and the Greek salad + Creamy Alfredo pasta combination is delicious!",
     },
     {
-      name: "Rohan Kapoor",
+      name: "Rohan Khanna",
       locality: "Dwarka Sector 12",
       rating: 5,
       review:
-        "Best online food delivery in Delhi NCR without bloated fees. Love that I can pay via UPI or Cash on Delivery smoothly without app crashes.",
+        "Fastest delivery app in West Delhi! Everything arrives sizzling hot, and the live GPS tracking shows exactly where the rider is. Pure Veg dishes are handled in a dedicated prep station.",
     },
   ];
 
-  // Schema Markup for FAQ and Restaurant
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
-      "@type": "Question",
-      name: f.q,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: f.a,
-      },
-    })),
-  };
-
-  const restaurantSchema = {
-    "@context": "https://schema.org",
-    "@type": "Restaurant",
-    name: "Eat & Chill - Delhi",
-    image: "https://eatandchill.com/assets/header_img.png",
-    priceRange: "₹₹",
-    servesCuisine: ["North Indian", "Fast Food", "Rolls", "Desserts", "Italian", "Chinese"],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Connaught Place & South Delhi Delivery Hub",
-      addressLocality: "New Delhi",
-      addressRegion: "Delhi",
-      postalCode: "110001",
-      addressCountry: "IN",
-    },
-    telephone: "+91-7755013772",
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        opens: "11:00",
-        closes: "03:00",
-      },
-    ],
-  };
-
   return (
-    <section className="py-16 bg-white" id="delhi-specials">
-      {/* Inject Structured Data for SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantSchema) }}
-      />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Why Delhi Foodies Choose Eat & Chill */}
-        <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-          <span className="text-xs font-bold tracking-widest text-brand-600 uppercase bg-orange-50 px-3 py-1 rounded-full">
-            The Delhi Food Standard
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-gray-900 tracking-tight">
-            Why Delhiites Trust Eat &amp; Chill Every Day
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-            From the bustling bylanes of Old Delhi to South Delhi cafes, we unite iconic culinary traditions with cutting-edge cloud kitchen precision and swift doorstep delivery.
-          </p>
-        </div>
-
-        {/* 4 Pillars Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <div className="p-6 rounded-2xl bg-orange-50/50 border border-orange-100 hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center mb-4 shadow-sm">
-              <Zap className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              30-Min Fast Delivery
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Strategically placed cloud kitchen hubs across Central &amp; South Delhi ensure your meal arrives piping hot in record time.
+    <section className="py-20 bg-white" id="delhi-specials">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+        {/* Bento Grid: Why Foodies Love Us */}
+        <div>
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+            <span className="text-xs font-black uppercase tracking-widest text-brand-600 bg-orange-50 px-4 py-1.5 rounded-full border border-orange-200 shadow-2xs">
+              The Delhi Experience
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
+              Why Dilliwala Foodies Love Eat &amp; Chill
+            </h2>
+            <p className="text-sm sm:text-base text-gray-600">
+              Four golden standards that make us Delhi NCR&apos;s highest-rated late-night kitchen
             </p>
           </div>
 
-          <div className="p-6 rounded-2xl bg-orange-50/50 border border-orange-100 hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 rounded-xl bg-amber-500 text-white flex items-center justify-center mb-4 shadow-sm">
-              <Moon className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-orange-50/70 to-white border border-orange-100 shadow-card hover:shadow-card-hover transition-all space-y-3 group">
+              <div className="w-12 h-12 rounded-2xl bg-brand-500 text-white flex items-center justify-center shadow-md shadow-brand-500/30 group-hover:scale-110 transition-transform">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-gray-950">30-Min Fast Track</h3>
+              <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                Strategically positioned cloud hubs across Connaught Place, Saket &amp; Dwarka guarantee lightning turnaround even in peak Delhi traffic.
+              </p>
             </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              Late Night Till 3 AM
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Midnight food cravings in Delhi? We deliver spicy rolls, steaming pastas, and cold desserts until 3:00 AM every night.
-            </p>
-          </div>
 
-          <div className="p-6 rounded-2xl bg-orange-50/50 border border-orange-100 hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center mb-4 shadow-sm">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-emerald-50/70 to-white border border-emerald-100 shadow-card hover:shadow-card-hover transition-all space-y-3 group">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md shadow-emerald-600/30 group-hover:scale-110 transition-transform">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-gray-950">100% Hygienic Seal</h3>
+              <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                Microwave-safe, tamper-evident containers that maintain 65°C+ heat until you unbox your feast at home.
+              </p>
             </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              Hygienic Safety Packing
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              100% contactless thermal packaging with tamper-proof security seals that lock in freshness and authentic aroma.
-            </p>
-          </div>
 
-          <div className="p-6 rounded-2xl bg-orange-50/50 border border-orange-100 hover:shadow-md transition-shadow">
-            <div className="w-12 h-12 rounded-xl bg-indigo-500 text-white flex items-center justify-center mb-4 shadow-sm">
-              <CreditCard className="w-6 h-6" />
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-indigo-50/70 to-white border border-indigo-100 shadow-card hover:shadow-card-hover transition-all space-y-3 group">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-600/30 group-hover:scale-110 transition-transform">
+                <Moon className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-gray-950">Open Till 3:00 AM</h3>
+              <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                Late night cravings sorted! From midnight paneer rolls to piping hot Italian pastas, our ovens stay lit late.
+              </p>
             </div>
-            <h3 className="font-bold text-gray-900 text-base mb-1">
-              UPI, Card &amp; COD
-            </h3>
-            <p className="text-xs text-gray-600 leading-relaxed">
-              Admin-managed payment methods allowing you to pay your way — Cash on Delivery, instant UPI QR, or debit/credit cards.
-            </p>
+
+            <div className="p-7 rounded-3xl bg-gradient-to-b from-amber-50/70 to-white border border-amber-100 shadow-card hover:shadow-card-hover transition-all space-y-3 group">
+              <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-md shadow-amber-500/30 group-hover:scale-110 transition-transform">
+                <CreditCard className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-black text-gray-950">UPI, COD &amp; Cards</h3>
+              <p className="text-xs text-gray-600 leading-relaxed font-medium">
+                Pay your way! We accept Cash on Delivery, instant Google Pay / PhonePe UPI, and secure Stripe credit/debit cards.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Delhi Customer Reviews */}
-        <div className="mb-16">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-black text-gray-900">
-              Loved by Foodies Across Delhi NCR
-            </h3>
-            <p className="text-xs text-gray-500 mt-1">Real feedback from verified Delhi customers</p>
+        {/* Testimonials */}
+        <div className="bg-slate-50/70 rounded-3xl p-8 sm:p-12 border border-slate-100">
+          <div className="text-center max-w-xl mx-auto mb-10 space-y-1">
+            <span className="text-xs font-black uppercase tracking-widest text-brand-600">
+              Community Love
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-gray-950">
+              What Delhi Foodies Are Saying
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between"
+                className="bg-white p-6 rounded-3xl border border-gray-100 shadow-card flex flex-col justify-between space-y-4"
               >
-                <div>
-                  <div className="flex items-center gap-1 text-amber-400 mb-3">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1">
                     {[...Array(t.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-700 italic leading-relaxed mb-4">
+                  <p className="text-xs text-gray-600 italic leading-relaxed">
                     &ldquo;{t.review}&rdquo;
                   </p>
                 </div>
-                <div className="pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
-                  <span className="font-bold text-gray-900">{t.name}</span>
-                  <span className="text-gray-400 flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-brand-500" />
-                    {t.locality}
-                  </span>
+                <div className="pt-3 border-t border-gray-100 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-500 to-orange-400 text-white font-black text-xs flex items-center justify-center shadow-sm">
+                    {t.name[0]}
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-black text-gray-950">{t.name}</h4>
+                    <p className="text-[11px] text-gray-400 font-semibold">{t.locality}</p>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Delhi Delivery FAQ Accordion */}
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-black text-gray-900">
-              Frequently Asked Questions (Delhi Delivery)
-            </h3>
-            <p className="text-xs text-gray-500 mt-1">Everything you need to know about placing orders in Delhi</p>
+        {/* Interactive FAQ Accordion with Animation */}
+        <div className="max-w-3xl mx-auto space-y-6">
+          <div className="text-center space-y-1 mb-8">
+            <span className="text-xs font-black uppercase tracking-widest text-brand-600">
+              Everything You Need To Know
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-black text-gray-950">
+              Frequently Asked Questions
+            </h2>
           </div>
 
           <div className="space-y-3">
@@ -236,24 +190,34 @@ export default function DelhiFoodiesGuide() {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-gray-200 overflow-hidden bg-gray-50/50 transition-colors"
+                  className="rounded-2xl border border-gray-200 overflow-hidden transition-all bg-white"
                 >
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full p-4 text-left font-bold text-sm sm:text-base text-gray-800 flex items-center justify-between gap-4 hover:text-brand-600 transition-colors"
+                    className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-sm text-gray-900 hover:text-brand-600 transition-colors"
                   >
                     <span>{faq.q}</span>
                     <ChevronDown
-                      className={`w-4 h-4 text-gray-500 shrink-0 transition-transform duration-200 ${
-                        isOpen ? "rotate-180 text-brand-600" : ""
+                      className={`w-5 h-5 text-gray-400 shrink-0 transition-transform duration-300 ${
+                        isOpen ? "rotate-180 text-brand-500" : ""
                       }`}
                     />
                   </button>
-                  {isOpen && (
-                    <div className="p-4 pt-0 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 bg-white">
-                      {faq.a}
-                    </div>
-                  )}
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <div className="px-5 pb-5 text-xs sm:text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-3">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -263,4 +227,3 @@ export default function DelhiFoodiesGuide() {
     </section>
   );
 }
-
