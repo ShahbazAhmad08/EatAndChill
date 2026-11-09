@@ -47,8 +47,8 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "Menu", href: "/#explore-menu" },
-    { name: "Delhi Specials", href: "/#delhi-specials" },
+    { name: "Menu", href: "/menu" },
+    { name: "Delhi Specials", href: "/delhi-specials", isSpecial: true },
     { name: "Delivery Zones", href: "/delhi-delivery" },
     { name: "About Us", href: "/about-us" },
     { name: "Contact", href: "/contact" },
@@ -118,18 +118,24 @@ export default function Navbar() {
           </div>
 
           {/* Navigation Links - Desktop */}
-          <nav className="hidden lg:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`text-sm font-bold transition-colors hover:text-brand-600 ${
-                  pathname === link.href ? "text-brand-600 font-extrabold" : "text-gray-700"
-                }`}
-              >
-                {link.name}
-              </Link>
-            ))}
+          <nav className="hidden lg:flex items-center gap-1.5">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-xs font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-orange-50 text-brand-600 shadow-2xs border border-orange-200/50"
+                      : "text-gray-700 hover:text-brand-600 hover:bg-gray-50"
+                  }`}
+                >
+                  {link.isSpecial && <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />}
+                  <span>{link.name}</span>
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Search Bar - Desktop & Tablet */}

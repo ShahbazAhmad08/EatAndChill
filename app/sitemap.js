@@ -13,15 +13,21 @@ export default async function sitemap() {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/menu`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/delhi-specials`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/delhi-delivery`,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/#explore-menu`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
       priority: 0.9,
     },
     {

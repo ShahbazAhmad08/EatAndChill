@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/context/StoreContext";
-import { Plus, Minus, Star, Flame, Sparkles, AlertCircle, ShoppingBag } from "lucide-react";
+import { Plus, Minus, Star, Flame, Sparkles, AlertCircle, ShoppingBag, ArrowRight } from "lucide-react";
 
-export default function FoodDisplay() {
+export default function FoodDisplay({ isHome = false, limit = null }) {
   const {
     food_list,
     isLoading,
@@ -19,6 +19,8 @@ export default function FoodDisplay() {
     filterVeg,
     setFilterVeg,
   } = useStore();
+
+  const maxItems = limit || (isHome ? 3 : null);
 
   const filteredFoods = food_list.filter((item) => {
     // 1. Category Filter
@@ -46,14 +48,20 @@ export default function FoodDisplay() {
     return true;
   });
 
+  const displayFoods = maxItems ? filteredFoods.slice(0, maxItems) : filteredFoods;
+
   return (
     <section className="py-14 bg-slate-50/70" id="food-display">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header & Filter Pills */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
           <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-brand-700 text-xs font-black uppercase tracking-wider mb-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-brand-500" />
+              <span>{isHome ? "Chef's Featured Picks" : "Delhi NCR Selections"}</span>
+            </div>
             <h2 className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight flex items-center gap-2.5">
-              <span>Top Dishes in Delhi NCR</span>
+              <span>{isHome ? "Trending Dishes in Delhi NCR" : "Top Dishes in Delhi NCR"}</span>
               {category !== "All" && (
                 <span className="text-xs font-bold px-3 py-1 bg-gradient-to-r from-brand-500 to-orange-500 text-white rounded-full shadow-xs">
                   {category}
@@ -61,11 +69,13 @@ export default function FoodDisplay() {
               )}
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1 font-medium">
-              Showing {filteredFoods.length} fresh culinary preparations across Delhi
+              {isHome
+                ? `Showing top 3 trending preparations • 24+ more available in full menu`
+                : `Showing ${filteredFoods.length} fresh culinary preparations across Delhi`}
             </p>
           </div>
 
-          {/* Quick Dietary Filters */}
+          {/* Quick Dietary Filters (Shown on full menu or home) */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
             <button
               onClick={() => setFilterVeg("all")}
@@ -104,37 +114,32 @@ export default function FoodDisplay() {
 
         {/* Loading Skeletons */}
         {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <div className={`grid grid-cols-1 ${isHome ? "md:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4"} gap-6`}>
+            {[1, 2, 3].map((n) => (
               <div
                 key={n}
                 className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm p-4 space-y-4"
               >
-                <div className="w-full h-44 rounded-2xl shimmer" />
+                <div className="w-full h-48 rounded-2xl shimmer" />
                 <div className="space-y-2">
                   <div className="h-4 w-3/4 rounded-md shimmer" />
                   <div className="h-3 w-full rounded-md shimmer" />
-                  <div className="h-3 w-2/3 rounded-md shimmer" />
-                </div>
-                <div className="pt-2 flex justify-between items-center">
-                  <div className="h-5 w-16 rounded-md shimmer" />
-                  <div className="h-8 w-20 rounded-full shimmer" />
                 </div>
               </div>
             ))}
           </div>
-        ) : filteredFoods.length === 0 ? (
+        ) : displayFoods.length === 0 ? (
           <div className="bg-white rounded-3xl p-12 text-center border border-gray-200 shadow-sm max-w-md mx-auto">
             <div className="w-16 h-16 mx-auto mb-4 bg-orange-100 rounded-full flex items-center justify-center text-3xl">
               🍲
             </div>
             <h3 className="text-lg font-bold text-gray-900">No dishes found</h3>
             <p className="text-xs text-gray-500 mt-1">
-              Try adjusting your search query or selecting &quot;All&quot; categories to see our complete menu.
+              Try adjusting your dietary filter or category selection.
             </p>
           </div>
         ) : (
-          /* Food Grid with Staggered Entrance */
+          /* Food Grid (3 columns on Home, 4 columns on Menu page) */
           <motion.div
             initial="hidden"
             animate="show"
@@ -142,12 +147,14 @@ export default function FoodDisplay() {
               hidden: { opacity: 0 },
               show: {
                 opacity: 1,
-                transition: { staggerChildren: 0.05 },
+                transition: { staggerChildren: 0.08 },
               },
             }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            className={`grid grid-cols-1 ${
+              isHome ? "sm:grid-cols-2 lg:grid-cols-3 gap-8" : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            }`}
           >
-            {filteredFoods.map((food) => {
+            {displayFoods.map((food) => {
               const itemId = food._id || food.id;
               const count = cartItems[itemId] || 0;
               const isAvailable = food.available !== false;
@@ -171,7 +178,7 @@ export default function FoodDisplay() {
                   }`}
                 >
                   {/* Image Container */}
-                  <div className="relative w-full h-52 bg-gray-100 overflow-hidden">
+                  <div className={`relative w-full ${isHome ? "h-56" : "h-52"} bg-gray-100 overflow-hidden`}>
                     <Link href={`/dish/${itemId}`} className="block w-full h-full">
                       <Image
                         src={imgSrc}
@@ -180,7 +187,7 @@ export default function FoodDisplay() {
                         className={`object-cover transition-transform duration-500 ${
                           !isAvailable ? "grayscale contrast-125" : "group-hover:scale-108"
                         }`}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>
@@ -290,6 +297,26 @@ export default function FoodDisplay() {
               );
             })}
           </motion.div>
+        )}
+
+        {/* View Full Menu CTA (When on Home page showing 3 cards) */}
+        {isHome && (
+          <div className="mt-12 text-center flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/menu"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-black text-sm shadow-xl shadow-brand-500/25 active:scale-95 transition-all"
+            >
+              <span>Explore Complete Menu (24+ Dishes)</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/delhi-specials"
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl bg-white hover:bg-orange-50 text-gray-900 hover:text-brand-600 font-black text-sm border border-gray-200 shadow-sm transition-all"
+            >
+              <Flame className="w-4 h-4 text-brand-500 fill-brand-500" />
+              <span>Dilli Specials Menu</span>
+            </Link>
+          </div>
         )}
       </div>
     </section>

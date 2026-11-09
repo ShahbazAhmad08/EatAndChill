@@ -57,8 +57,8 @@ export default function HomePage() {
       {/* Menu Categories */}
       <ExploreMenu />
 
-      {/* Food Display Grid */}
-      <FoodDisplay />
+      {/* Food Display Grid: 3 Trending Cards on Home */}
+      <FoodDisplay isHome={true} limit={3} />
 
       {/* Delhi SEO Foodies Guide, Testimonials & FAQs */}
       <DelhiFoodiesGuide />

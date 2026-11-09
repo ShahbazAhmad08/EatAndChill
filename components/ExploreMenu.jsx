@@ -2,9 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useStore } from "@/context/StoreContext";
-import { Sparkles, Utensils } from "lucide-react";
+import { Sparkles, Utensils, ArrowRight } from "lucide-react";
 
 export const menu_categories = [
   { name: "All", image: "/assets/menu_1.png", tag: "All Flavours" },
@@ -40,54 +41,67 @@ export default function ExploreMenu() {
             Explore Our Delicious Menu
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            Handcrafted with authentic Delhi spices, farm-fresh ingredients, and delivered hot in 30 minutes. Select a category below to filter.
+            Handcrafted with authentic Delhi spices, farm-fresh ingredients, and delivered hot in 30 minutes. Select a category below or visit our dedicated menu page.
           </p>
         </motion.div>
 
-        {/* Categories Horizontal Carousel */}
-        <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto pb-4 no-scrollbar justify-start md:justify-center px-2">
-          {menu_categories.map((item, index) => {
-            const isActive = category === item.name;
-            return (
-              <motion.button
-                key={index}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setCategory(item.name)}
-                className={`flex flex-col items-center shrink-0 p-3.5 rounded-3xl transition-all duration-300 group focus:outline-none ${
-                  isActive
-                    ? "bg-gradient-to-b from-brand-500 to-orange-500 text-white shadow-xl shadow-brand-500/25 scale-105"
-                    : "bg-gray-50/80 hover:bg-orange-50/60 text-gray-800 hover:text-brand-600 border border-gray-200/70"
-                }`}
-              >
-                <div
-                  className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full p-1.5 mb-2 transition-all duration-300 overflow-hidden ${
+        {/* Categories Horizontal Carousel (Fixed Left-clipping bug by using clean padding & safe scroll) */}
+        <div className="relative">
+          <div className="flex items-center gap-4 sm:gap-6 overflow-x-auto py-3 px-4 no-scrollbar justify-start">
+            {menu_categories.map((item, index) => {
+              const isActive = category === item.name;
+              return (
+                <motion.button
+                  key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setCategory(item.name)}
+                  className={`flex flex-col items-center shrink-0 p-3.5 rounded-3xl transition-all duration-300 group focus:outline-none ${
                     isActive
-                      ? "ring-4 ring-white/60 bg-white shadow-md"
-                      : "bg-white border border-gray-100 shadow-sm group-hover:shadow"
+                      ? "bg-gradient-to-b from-brand-500 to-orange-500 text-white shadow-xl shadow-brand-500/25 scale-105"
+                      : "bg-gray-50/90 hover:bg-orange-50/70 text-gray-800 hover:text-brand-600 border border-gray-200/70"
                   }`}
                 >
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={80}
-                    height={80}
-                    className="object-cover w-full h-full rounded-full group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <span className="text-xs sm:text-sm font-extrabold truncate max-w-[95px]">
-                  {item.name}
-                </span>
-                <span
-                  className={`text-[10px] hidden sm:block font-medium ${
-                    isActive ? "text-orange-100" : "text-gray-400"
-                  }`}
-                >
-                  {item.tag}
-                </span>
-              </motion.button>
-            );
-          })}
+                  <div
+                    className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-full p-1.5 mb-2 transition-all duration-300 overflow-hidden ${
+                      isActive
+                        ? "ring-4 ring-white/60 bg-white shadow-md"
+                        : "bg-white border border-gray-100 shadow-sm group-hover:shadow"
+                    }`}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={80}
+                      height={80}
+                      className="object-cover w-full h-full rounded-full group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <span className="text-xs sm:text-sm font-extrabold truncate max-w-[95px]">
+                    {item.name}
+                  </span>
+                  <span
+                    className={`text-[10px] hidden sm:block font-medium ${
+                      isActive ? "text-orange-100" : "text-gray-400"
+                    }`}
+                  >
+                    {item.tag}
+                  </span>
+                </motion.button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Link to dedicated menu page */}
+        <div className="mt-8 text-center">
+          <Link
+            href="/menu"
+            className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-brand-600 hover:text-brand-700 transition-colors"
+          >
+            <span>View Full Catalog with Filters &amp; Sorting</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </section>
