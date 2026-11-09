@@ -208,12 +208,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Credits & Academic Project Info */}
+        {/* Bottom Credits */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} Eat &amp; Chill Delhi. All rights reserved.</p>
-          <p className="text-center md:text-right">
-            Designed &amp; Developed with <Heart className="w-3 h-3 text-red-500 inline fill-red-500" /> by{" "}
-            <span className="text-slate-300 font-semibold">Shahbaz Ahmad</span> | MCA Capstone, Uttaranchal University
+          <p className="text-center md:text-right text-slate-400 font-medium">
+            FSSAI Certified Cloud Kitchen • Express 30-Min Delivery Across Delhi NCR
           </p>
         </div>
       </div>

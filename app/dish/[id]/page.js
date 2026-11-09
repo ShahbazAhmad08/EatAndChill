@@ -4,8 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import connectDB from "@/lib/db";
 import Food from "@/lib/models/Food";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import DishAddToCart from "@/components/DishAddToCart";
 import {
   Star,
@@ -131,16 +129,13 @@ export default async function DishDetailPage({ params }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
-
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <main className="flex-1 py-8 sm:py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-6 overflow-x-auto">
             <Link href="/" className="hover:text-brand-600 transition-colors">
@@ -340,9 +335,6 @@ export default async function DishDetailPage({ params }) {
             </div>
           )}
         </div>
-      </main>
-
-      <Footer />
     </div>
   );
 }

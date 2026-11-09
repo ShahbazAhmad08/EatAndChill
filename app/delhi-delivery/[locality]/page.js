@@ -5,8 +5,6 @@ import { notFound } from "next/navigation";
 import { DELHI_LOCALITIES, getLocalityBySlug } from "@/lib/delhiLocalities";
 import connectDB from "@/lib/db";
 import Food from "@/lib/models/Food";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import DishAddToCart from "@/components/DishAddToCart";
 import {
   MapPin,
@@ -125,9 +123,7 @@ export default async function LocalityDeliveryPage({ params }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
-
+    <div className="min-h-screen bg-gray-50 pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
@@ -137,8 +133,7 @@ export default async function LocalityDeliveryPage({ params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      <main className="flex-1">
-        {/* Localized Hero Banner */}
+      {/* Localized Hero Banner */}
         <div className="relative bg-gradient-to-br from-brand-600 via-orange-600 to-amber-700 text-white py-12 sm:py-16 overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
@@ -360,9 +355,6 @@ export default async function LocalityDeliveryPage({ params }) {
             ))}
           </div>
         </div>
-      </main>
-
-      <Footer />
     </div>
   );
 }
