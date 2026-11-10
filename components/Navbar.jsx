@@ -72,7 +72,7 @@ export default function Navbar() {
   const navLinks = [
     { name: "Home", href: homeHref },
     { name: "Menu", href: "/menu" },
-    { name: "Delhi Specials", href: "/delhi-specials" },
+    { name: "Specials", href: "/specials" },
     { name: "Combos & Offers", href: "/offers", isSpecial: true },
     { name: "About Us", href: "/about-us" },
     { name: "Contact", href: "/contact" },

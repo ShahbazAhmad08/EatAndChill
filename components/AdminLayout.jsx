@@ -21,6 +21,7 @@ import {
   MapPin,
   Tag,
   Sparkles,
+  Globe,
 } from "lucide-react";
 
 export default function AdminLayout({ children }) {
@@ -93,6 +94,7 @@ export default function AdminLayout({ children }) {
     { name: "Orders Manager", href: "/admin/orders", icon: ShoppingBag },
     { name: "Combos & Offers", href: "/admin/offers", icon: Sparkles },
     { name: "Promo Coupons", href: "/admin/coupons", icon: Tag },
+    { name: "SEO & Content", href: "/admin/seo", icon: Globe },
     { name: "Payment & Settings", href: "/admin/settings", icon: Sliders },
     { name: "Categories", href: "/admin/categories", icon: FolderTree },
   ];

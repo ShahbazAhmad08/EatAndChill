@@ -138,8 +138,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/delhi-specials" className="hover:text-white transition-colors">
-                  Delhi Specials Menu
+                <Link href="/specials" className="hover:text-white transition-colors">
+                  Specials Menu
                 </Link>
               </li>
               <li>

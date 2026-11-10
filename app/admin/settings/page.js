@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 import {
   CreditCard,
@@ -16,14 +17,15 @@ import {
   Globe,
   Sliders,
   Cloud,
-  Search,
-  FileText,
-  Type,
+  Store,
+  ArrowRight,
+  RotateCw,
 } from "lucide-react";
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState("payment"); // 'payment', 'store', 'delivery', 'cloudinary'
 
   const [settings, setSettings] = useState({
     storeName: "Eat & Chill - Delhi",
@@ -50,26 +52,6 @@ export default function AdminSettingsPage() {
     deliveryFee: 50,
     freeDeliveryThreshold: 499,
     taxPercent: 5,
-
-    // Banner & SEO
-    bannerNotice:
-      "⚡ Delhi NCR Fast 30-Min Delivery | Free Delivery on Orders Above ₹499 | Authentic Dilli Street Delights!",
-    delhiDeliveryAreas:
-      "Connaught Place, South Delhi, Hauz Khas, Saket, Greater Kailash, Dwarka, Rohini, Karol Bagh",
-    metaTitle: "Eat & Chill | Best Online Food Delivery in Delhi NCR",
-    metaDescription:
-      "Order online from Eat & Chill in Delhi. Authentic butter chicken, kathi rolls, pasta, momos & shakes. Fast 30-min late night delivery with COD & UPI.",
-    metaKeywords:
-      "food delivery delhi, online food order delhi, best rolls in delhi, late night food delivery delhi, south delhi food delivery, connaught place food order, eat and chill delhi",
-    googleSiteVerification: "",
-
-    // Homepage Content
-    heroTag: "Delhi NCR's #1 Food Ordering Hub",
-    heroHeading: "Order Delicious Food Online in Delhi NCR",
-    heroSubheading:
-      "Satisfy your cravings with Delhi's best Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!",
-    aboutText:
-      "Eat & Chill is Delhi NCR's fastest-growing cloud kitchen delivering authentic street recipes, rich Mughlai gravies, artisan pizzas, and refreshing chilled beverages straight to your doorstep in 30 minutes.",
   });
 
   const fetchSettings = async () => {
@@ -108,9 +90,8 @@ export default function AdminSettingsPage() {
       });
 
       const data = await res.json();
-
       if (data.success) {
-        toast.success("SEO, Homepage Content & Settings saved successfully!");
+        toast.success("Settings saved successfully!");
       } else {
         toast.error(data.message || "Failed to update settings");
       }
@@ -132,334 +113,386 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <form onSubmit={handleSave} className="max-w-4xl space-y-8">
+    <form onSubmit={handleSave} className="max-w-5xl space-y-6">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-brand-400">
-            Control Center
+          <span className="text-xs font-bold uppercase tracking-wider text-orange-400 flex items-center gap-1.5">
+            <Sliders className="w-3.5 h-3.5" />
+            <span>Store Operations &amp; Gateways</span>
           </span>
           <h1 className="text-2xl sm:text-3xl font-black text-white mt-1">
-            Store Content &amp; SEO Settings
+            Payment &amp; Operations Settings
           </h1>
           <p className="text-xs text-slate-400">
-            Update Google SEO meta tags, homepage text, payment gateways, and delivery rules
+            Manage payment gateways, store timings, delivery pricing thresholds, and Cloudinary media.
           </p>
         </div>
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs shadow-lg transition-all disabled:opacity-50"
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={fetchSettings}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 transition-colors"
+          >
+            <RotateCw className="w-3.5 h-3.5" />
+            <span>Refresh</span>
+          </button>
+          <button
+            type="submit"
+            disabled={saving}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-xs shadow-lg transition-all disabled:opacity-50"
+          >
+            <Save className="w-4 h-4" />
+            <span>{saving ? "Saving Changes..." : "Save Settings"}</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Redirect Banner to Dedicated SEO & Content Tab */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-500/10 via-amber-500/10 to-transparent border border-orange-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+            <Globe className="w-4 h-4" />
+          </div>
+          <div>
+            <h3 className="text-xs sm:text-sm font-bold text-white">
+              Looking for SEO, Meta Tags &amp; Page Content?
+            </h3>
+            <p className="text-[11px] text-slate-400">
+              Page titles, Google search previews, and homepage banner text are now organized in their dedicated tab.
+            </p>
+          </div>
+        </div>
+        <Link
+          href="/admin/seo"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-xs transition-all shadow-sm shrink-0"
         >
-          <Save className="w-4 h-4" />
-          <span>{saving ? "Saving Changes..." : "Save All Changes"}</span>
-        </button>
+          <span>Open SEO &amp; Content Tab</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
 
-      {/* SECTION 1: GOOGLE SEO & META TAGS MANAGER */}
-      <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
-        <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Search className="w-5 h-5 text-brand-400" />
-            <h2 className="text-lg font-bold text-white">
-              Google SEO &amp; Meta Tags Manager
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950 px-2.5 py-1 rounded-full border border-emerald-800">
-            Dynamic SEO
-          </span>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Homepage Meta Title (Appears in Google Search &amp; Browser Tab)
-          </label>
-          <input
-            type="text"
-            value={settings.metaTitle || ""}
-            onChange={(e) => handleChange("metaTitle", e.target.value)}
-            placeholder="Eat &amp; Chill | Best Online Food Delivery in Delhi NCR"
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-          <span className="text-[10px] text-slate-500 mt-1 block">
-            Recommended length: 50-60 characters for best Google click-through rate
-          </span>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Homepage Meta Description (Google Search Snippet Text)
-          </label>
-          <textarea
-            rows={3}
-            value={settings.metaDescription || ""}
-            onChange={(e) => handleChange("metaDescription", e.target.value)}
-            placeholder="Order online from Eat &amp; Chill in Delhi. Authentic butter chicken, kathi rolls, pasta, momos &amp; shakes. Fast 30-min late night delivery with COD &amp; UPI."
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          ></textarea>
-          <span className="text-[10px] text-slate-500 mt-1 block">
-            Recommended length: 140-160 characters describing your Delhi cloud kitchen
-          </span>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Target SEO Keywords (Comma separated)
-          </label>
-          <input
-            type="text"
-            value={settings.metaKeywords || ""}
-            onChange={(e) => handleChange("metaKeywords", e.target.value)}
-            placeholder="food delivery delhi, online food order delhi, best rolls in delhi, late night food delivery delhi"
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Google Search Console Verification Token (Optional)
-          </label>
-          <input
-            type="text"
-            value={settings.googleSiteVerification || ""}
-            onChange={(e) => handleChange("googleSiteVerification", e.target.value)}
-            placeholder="e.g. AbC123XyZ456..."
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-          <span className="text-[10px] text-slate-500 mt-1 block">
-            Enter your Google site verification code to prove ownership in Google Search Console
-          </span>
-        </div>
+      {/* Sub-Tabs Navigation */}
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto no-scrollbar">
+        {[
+          { id: "payment", label: "Payment Gateways & Methods", icon: CreditCard },
+          { id: "store", label: "Store Profile & Hours", icon: Store },
+          { id: "delivery", label: "Delivery & Taxes", icon: Truck },
+          { id: "cloudinary", label: "Cloudinary Media CDN", icon: Cloud },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              type="button"
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 ${
+                isActive
+                  ? "bg-orange-500 text-white shadow-md shadow-orange-500/25"
+                  : "bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* SECTION 2: HOMEPAGE & BANNER CONTENT MANAGER */}
-      <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
-        <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <Type className="w-5 h-5 text-brand-400" />
-            <h2 className="text-lg font-bold text-white">
-              Homepage Text &amp; Banner Content
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-brand-400 bg-orange-950 px-2.5 py-1 rounded-full border border-orange-800">
-            Live Page Content
-          </span>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Top Announcement Bar Ticker (Visible on Navbar to all visitors)
-          </label>
-          <input
-            type="text"
-            value={settings.bannerNotice || ""}
-            onChange={(e) => handleChange("bannerNotice", e.target.value)}
-            placeholder="⚡ Delhi NCR Fast 30-Min Delivery | Free Delivery on Orders Above ₹499"
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Hero Section Badge / Pill Tag
-            </label>
-            <input
-              type="text"
-              value={settings.heroTag || ""}
-              onChange={(e) => handleChange("heroTag", e.target.value)}
-              placeholder="Delhi NCR's #1 Food Ordering Hub"
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Hero Main Heading
-            </label>
-            <input
-              type="text"
-              value={settings.heroHeading || ""}
-              onChange={(e) => handleChange("heroHeading", e.target.value)}
-              placeholder="Order Delicious Food Online in Delhi NCR"
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Hero Subheading / Story Paragraph
-          </label>
-          <textarea
-            rows={3}
-            value={settings.heroSubheading || ""}
-            onChange={(e) => handleChange("heroSubheading", e.target.value)}
-            placeholder="Satisfy your cravings with Delhi's best Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts..."
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          ></textarea>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            About Us Story / Kitchen Mission (Shown on /about-us page)
-          </label>
-          <textarea
-            rows={3}
-            value={settings.aboutText || ""}
-            onChange={(e) => handleChange("aboutText", e.target.value)}
-            placeholder="Eat &amp; Chill is Delhi NCR's fastest-growing cloud kitchen delivering authentic street recipes..."
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          ></textarea>
-        </div>
-      </div>
-
-      {/* SECTION 3: PAYMENT GATEWAYS CONTROL */}
-      <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
-        <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <CreditCard className="w-5 h-5 text-brand-400" />
-            <h2 className="text-lg font-bold text-white">
-              Payment Gateways &amp; Methods Control
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950 px-2.5 py-1 rounded-full border border-emerald-800">
-            Live Gateway Switcher
-          </span>
-        </div>
-
-        {/* 1. Stripe Gateway Control */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-bold text-white text-sm">
-                Stripe Card Checkout Gateway
-              </h3>
-              <p className="text-xs text-slate-400">
-                Accept Visa, Mastercard, RuPay &amp; Netbanking
-              </p>
+      {/* TAB 1: PAYMENT GATEWAYS CONTROL */}
+      {activeTab === "payment" && (
+        <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
+          <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <CreditCard className="w-5 h-5 text-orange-400" />
+              <h2 className="text-base font-bold text-white">
+                Payment Gateways &amp; Methods Control
+              </h2>
             </div>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={settings.stripeEnabled}
-                onChange={(e) => handleChange("stripeEnabled", e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
-            </label>
+            <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-950 px-2.5 py-0.5 rounded-full border border-emerald-800">
+              Live Gateway Switcher
+            </span>
           </div>
 
-          {settings.stripeEnabled && (
-            <div className="space-y-3 pt-2 border-t border-slate-800/80">
+          {/* 1. Stripe Gateway Control */}
+          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+            <div className="flex items-center justify-between">
               <div>
-                <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                  Stripe Secret Key
-                </label>
-                <input
-                  type="password"
-                  placeholder="sk_live_... or sk_test_..."
-                  value={settings.stripeSecretKey || ""}
-                  onChange={(e) => handleChange("stripeSecretKey", e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"
-                />
-                <span className="text-[10px] text-slate-500">
-                  Leave blank to use default configured environment key
-                </span>
+                <h3 className="font-bold text-white text-sm">
+                  Stripe Card Checkout Gateway
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Accept Visa, Mastercard, RuPay &amp; Netbanking
+                </p>
               </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.stripeEnabled}
+                  onChange={(e) => handleChange("stripeEnabled", e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange-500"></div>
+              </label>
             </div>
-          )}
-        </div>
 
-        {/* 2. Cash on Delivery (COD) Control */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Banknote className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-bold text-white text-sm">
-                Cash On Delivery (COD)
-              </h3>
-              <p className="text-xs text-slate-400">
-                Allow customers across Delhi to pay in cash upon doorstep arrival
-              </p>
-            </div>
+            {settings.stripeEnabled && (
+              <div className="space-y-3 pt-2 border-t border-slate-800/80">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+                    Stripe Secret Key
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="sk_live_... or sk_test_..."
+                    value={settings.stripeSecretKey || ""}
+                    onChange={(e) => handleChange("stripeSecretKey", e.target.value)}
+                    className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-orange-500"
+                  />
+                  <span className="text-[10px] text-slate-500">
+                    Leave blank to use default configured environment key
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
-          <label className="relative inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              checked={settings.codEnabled}
-              onChange={(e) => handleChange("codEnabled", e.target.checked)}
-              className="sr-only peer"
-            />
-            <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-          </label>
-        </div>
 
-        {/* 3. UPI / QR Payment Control */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between">
+          {/* 2. Cash on Delivery (COD) Control */}
+          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
-                <QrCode className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                <Banknote className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-bold text-white text-sm">
-                  Direct UPI / QR Code Payment
+                  Cash On Delivery (COD)
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Customers pay via Google Pay, PhonePe, Paytm, or BHIM
+                  Allow customers across Delhi NCR to pay in cash upon doorstep delivery
                 </p>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
                 type="checkbox"
-                checked={settings.upiEnabled}
-                onChange={(e) => handleChange("upiEnabled", e.target.checked)}
+                checked={settings.codEnabled}
+                onChange={(e) => handleChange("codEnabled", e.target.checked)}
                 className="sr-only peer"
               />
-              <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
+              <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
             </label>
           </div>
 
-          {settings.upiEnabled && (
-            <div className="pt-2 border-t border-slate-800/80">
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
-                Store UPI ID (VPA)
+          {/* 3. UPI / QR Payment Control */}
+          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                  <QrCode className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-sm">
+                    Direct UPI / QR Code Payment
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Customers pay via Google Pay, PhonePe, Paytm, or BHIM
+                  </p>
+                </div>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={settings.upiEnabled}
+                  onChange={(e) => handleChange("upiEnabled", e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
               </label>
-              <input
-                type="text"
-                placeholder="e.g. eatandchill@okhdfcbank"
-                value={settings.upiId || ""}
-                onChange={(e) => handleChange("upiId", e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"
-              />
             </div>
-          )}
-        </div>
 
-        {/* 4. Cloudinary Image Storage Control */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center">
-              <Cloud className="w-5 h-5" />
+            {settings.upiEnabled && (
+              <div className="pt-2 border-t border-slate-800/80">
+                <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+                  Store UPI ID (VPA)
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. eatandchill@okhdfcbank"
+                  value={settings.upiId || ""}
+                  onChange={(e) => handleChange("upiId", e.target.value)}
+                  className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-orange-500"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* TAB 2: STORE PROFILE & TIMINGS */}
+      {activeTab === "store" && (
+        <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-5 shadow-sm">
+          <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <Store className="w-5 h-5 text-orange-400" />
+              <h2 className="text-base font-bold text-white">
+                Store Identity &amp; Operating Hours
+              </h2>
             </div>
-            <div>
-              <h3 className="font-bold text-white text-sm">
-                Cloudinary Media Storage CDN
-              </h3>
-              <p className="text-xs text-slate-400">
-                Uploaded food photos are automatically served via high-speed Cloudinary CDN
-              </p>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-bold text-slate-400">Store Status:</span>
+              <button
+                type="button"
+                onClick={() => handleChange("isStoreOpen", !settings.isStoreOpen)}
+                className={`px-3 py-1 rounded-full text-xs font-black transition-colors ${
+                  settings.isStoreOpen
+                    ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                    : "bg-red-500/20 text-red-400 border border-red-500/30"
+                }`}
+              >
+                {settings.isStoreOpen ? "🟢 OPEN NOW" : "🔴 CLOSED"}
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t border-slate-800/80">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Store Brand Name
+              </label>
+              <input
+                type="text"
+                value={settings.storeName}
+                onChange={(e) => handleChange("storeName", e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Support Helpline Phone
+              </label>
+              <input
+                type="text"
+                value={settings.storePhone}
+                onChange={(e) => handleChange("storePhone", e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Support Email
+              </label>
+              <input
+                type="email"
+                value={settings.storeEmail}
+                onChange={(e) => handleChange("storeEmail", e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Operating Hours Display
+              </label>
+              <input
+                type="text"
+                value={settings.storeTimings}
+                onChange={(e) => handleChange("storeTimings", e.target.value)}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-slate-300 mb-1">
+              Central Kitchen Address
+            </label>
+            <input
+              type="text"
+              value={settings.storeAddress}
+              onChange={(e) => handleChange("storeAddress", e.target.value)}
+              className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500"
+            />
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: DELIVERY & PRICING */}
+      {activeTab === "delivery" && (
+        <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-5 shadow-sm">
+          <div className="border-b border-slate-800 pb-4">
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <Truck className="w-5 h-5 text-orange-400" />
+              <span>Delivery Fee &amp; Order Value Thresholds</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Base Delivery Fee (₹)
+              </label>
+              <input
+                type="number"
+                value={settings.deliveryFee}
+                onChange={(e) => handleChange("deliveryFee", Number(e.target.value))}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
+              />
+              <span className="text-[10px] text-slate-500">Charged on orders below free threshold</span>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                Free Delivery Above (₹)
+              </label>
+              <input
+                type="number"
+                value={settings.freeDeliveryThreshold}
+                onChange={(e) => handleChange("freeDeliveryThreshold", Number(e.target.value))}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
+              />
+              <span className="text-[10px] text-slate-500">Default: ₹499 for free delivery</span>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
+                GST / Service Tax (%)
+              </label>
+              <input
+                type="number"
+                value={settings.taxPercent}
+                onChange={(e) => handleChange("taxPercent", Number(e.target.value))}
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
+              />
+              <span className="text-[10px] text-slate-500">Included in menu item prices</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 4: CLOUDINARY STORAGE */}
+      {activeTab === "cloudinary" && (
+        <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-5 shadow-sm">
+          <div className="border-b border-slate-800 pb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Cloud className="w-5 h-5 text-sky-400" />
+              <h2 className="text-base font-bold text-white">
+                Cloudinary Media Storage CDN
+              </h2>
+            </div>
+            <span className="text-[11px] text-sky-400 bg-sky-950 px-2.5 py-0.5 rounded-full border border-sky-800 font-mono">
+              CDN Storage
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
                 Cloud Name
               </label>
               <input
@@ -467,12 +500,12 @@ export default function AdminSettingsPage() {
                 placeholder="e.g. dxyz123"
                 value={settings.cloudinaryCloudName || ""}
                 onChange={(e) => handleChange("cloudinaryCloudName", e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-orange-500"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
                 API Key
               </label>
               <input
@@ -480,12 +513,12 @@ export default function AdminSettingsPage() {
                 placeholder="e.g. 1234567890"
                 value={settings.cloudinaryApiKey || ""}
                 onChange={(e) => handleChange("cloudinaryApiKey", e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-orange-500"
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-300 mb-1">
                 API Secret
               </label>
               <input
@@ -493,143 +526,25 @@ export default function AdminSettingsPage() {
                 placeholder="Cloudinary API Secret"
                 value={settings.cloudinaryApiSecret || ""}
                 onChange={(e) => handleChange("cloudinaryApiSecret", e.target.value)}
-                className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-800 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white font-mono focus:outline-none focus:border-orange-500"
               />
             </div>
           </div>
           <p className="text-[10px] text-slate-500">
-            If left blank, uploaded dish photos will be stored locally in public/uploads.
+            Note: If left blank, the server uses existing environment variables from <code className="text-orange-400">.env</code>.
           </p>
         </div>
-      </div>
-
-      {/* SECTION 4: DELIVERY & PRICING RULES */}
-      <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
-        <div className="border-b border-slate-800 pb-4 flex items-center gap-2.5">
-          <Truck className="w-5 h-5 text-brand-400" />
-          <h2 className="text-lg font-bold text-white">
-            Delivery Fees &amp; Order Thresholds
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Standard Delhi Delivery Fee (₹)
-            </label>
-            <input
-              type="number"
-              min={0}
-              value={settings.deliveryFee}
-              onChange={(e) => handleChange("deliveryFee", Number(e.target.value))}
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-            <span className="text-[10px] text-slate-500">Default is ₹50 in Delhi</span>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Free Delivery Minimum Cart Value (₹)
-            </label>
-            <input
-              type="number"
-              min={0}
-              value={settings.freeDeliveryThreshold}
-              onChange={(e) =>
-                handleChange("freeDeliveryThreshold", Number(e.target.value))
-              }
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white font-bold focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-            <span className="text-[10px] text-slate-500">
-              Orders equal to or above this amount get free delivery (e.g. ₹499)
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* SECTION 5: STORE INFO & CONTACT DETAILS */}
-      <div className="bg-slate-950 rounded-2xl border border-slate-800 p-6 sm:p-8 space-y-6 shadow-sm">
-        <div className="border-b border-slate-800 pb-4 flex items-center gap-2.5">
-          <Globe className="w-5 h-5 text-brand-400" />
-          <h2 className="text-lg font-bold text-white">
-            Delhi Store Info &amp; Hotline Contact
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Store / Kitchen Brand Name
-            </label>
-            <input
-              type="text"
-              value={settings.storeName || ""}
-              onChange={(e) => handleChange("storeName", e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Delhi Hotline Phone / WhatsApp
-            </label>
-            <input
-              type="text"
-              value={settings.storePhone || ""}
-              onChange={(e) => handleChange("storePhone", e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Support Email
-            </label>
-            <input
-              type="email"
-              value={settings.storeEmail || ""}
-              onChange={(e) => handleChange("storeEmail", e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-              Operating Hours
-            </label>
-            <input
-              type="text"
-              value={settings.storeTimings || ""}
-              onChange={(e) => handleChange("storeTimings", e.target.value)}
-              className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Physical Kitchen Address
-          </label>
-          <input
-            type="text"
-            value={settings.storeAddress || ""}
-            onChange={(e) => handleChange("storeAddress", e.target.value)}
-            className="w-full px-3 py-2 text-sm bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
-          />
-        </div>
-      </div>
+      )}
 
       {/* Save Button */}
-      <div className="flex justify-end">
+      <div className="flex justify-end pt-2">
         <button
           type="submit"
           disabled={saving}
-          className="px-8 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-sm shadow-xl transition-all flex items-center gap-2 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs shadow-lg transition-all disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
-          <span>{saving ? "Saving All Settings..." : "Save All Settings"}</span>
+          <span>{saving ? "Saving Changes..." : "Save Settings"}</span>
         </button>
       </div>
     </form>

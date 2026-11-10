@@ -20,7 +20,7 @@ export default async function sitemap() {
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/delhi-specials`,
+      url: `${baseUrl}/specials`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.95,
