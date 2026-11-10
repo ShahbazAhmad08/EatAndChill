@@ -20,6 +20,7 @@ import {
   CreditCard,
   MapPin,
   Tag,
+  Sparkles,
 } from "lucide-react";
 
 export default function AdminLayout({ children }) {
@@ -90,6 +91,7 @@ export default function AdminLayout({ children }) {
     { name: "Food Menu Items", href: "/admin/items", icon: UtensilsCrossed },
     { name: "Add Food Item", href: "/admin/add", icon: PlusCircle },
     { name: "Orders Manager", href: "/admin/orders", icon: ShoppingBag },
+    { name: "Combos & Offers", href: "/admin/offers", icon: Sparkles },
     { name: "Promo Coupons", href: "/admin/coupons", icon: Tag },
     { name: "Payment & Settings", href: "/admin/settings", icon: Sliders },
     { name: "Categories", href: "/admin/categories", icon: FolderTree },

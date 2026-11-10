@@ -26,16 +26,16 @@ export default async function sitemap() {
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/market-area`,
+      url: `${baseUrl}/offers`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/delhi-delivery`,
+      url: `${baseUrl}/market-area`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/about-us`,
@@ -48,6 +48,12 @@ export default async function sitemap() {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/cart`,
@@ -63,20 +69,20 @@ export default async function sitemap() {
     },
   ];
 
-  // Programmatic SEO Market Area Dynamic Routes (22+ locations)
+  // Dynamic Root Location Routes (e.g. /connaught-place, /hauz-khas, /noida-sector-18)
+  const rootLocationRoutes = MARKET_LOCATIONS.map((loc) => ({
+    url: `${baseUrl}/${loc.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.95,
+  }));
+
+  // Market Area Catalog Routes
   const marketAreaRoutes = MARKET_LOCATIONS.map((loc) => ({
     url: `${baseUrl}/market-area/${loc.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",
-    priority: 0.9,
-  }));
-
-  // Legacy Delhi Delivery Localities dynamic routes for backward compatibility
-  const legacyLocalityRoutes = DELHI_LOCALITIES.map((loc) => ({
-    url: `${baseUrl}/delhi-delivery/${loc.slug}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.7,
+    priority: 0.85,
   }));
 
   // Dishes dynamic routes from DB
@@ -98,8 +104,8 @@ export default async function sitemap() {
 
   return [
     ...staticRoutes,
+    ...rootLocationRoutes,
     ...marketAreaRoutes,
-    ...legacyLocalityRoutes,
     ...dishRoutes,
   ];
 }

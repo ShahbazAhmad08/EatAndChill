@@ -107,7 +107,7 @@ export default function Footer() {
               {deliveryZones.map((zone, idx) => (
                 <li key={idx}>
                   <Link
-                    href={`/market-area/${zone.slug}`}
+                    href={`/${zone.slug}`}
                     className="hover:text-white transition-colors flex items-center gap-1.5"
                   >
                     <span className="text-brand-500">•</span>
@@ -143,8 +143,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/market-area" className="hover:text-white transition-colors">
-                  Market Delivery Hubs
+                <Link href="/offers" className="hover:text-white transition-colors text-amber-400 font-semibold">
+                  Combos &amp; Discount Deals
                 </Link>
               </li>
               <li>
@@ -155,6 +155,11 @@ export default function Footer() {
               <li>
                 <Link href="/myorders" className="hover:text-white transition-colors">
                   Track Live Orders
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy-policy" className="hover:text-white transition-colors">
+                  Privacy Policy &amp; Security
                 </Link>
               </li>
               <li>

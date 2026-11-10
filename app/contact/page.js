@@ -175,6 +175,31 @@ export default function ContactPage() {
             </form>
           </div>
         </div>
+
+        {/* Quick Contact FAQs & Hub Links */}
+        <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4">
+          <h2 className="text-base font-black text-gray-900">
+            Frequently Asked Questions
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-gray-600">
+            <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100">
+              <strong className="text-gray-900 block mb-1">
+                How do I track my active live order?
+              </strong>
+              <span>
+                Go to &ldquo;Track Live Orders&rdquo; from the top user profile menu or visit <a href="/myorders" className="text-brand-600 font-bold underline">/myorders</a> anytime.
+              </span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100">
+              <strong className="text-gray-900 block mb-1">
+                Do you accept bulk party orders and corporate catering?
+              </strong>
+              <span>
+                Yes! Call our central hub directly at +91 7755013772 for bulk pricing, customized meal boxes, and GST invoices.
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

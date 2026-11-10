@@ -99,6 +99,57 @@ export default async function AboutPage() {
             </p>
           </div>
         </div>
+
+        {/* Quick About FAQs */}
+        <div className="bg-gray-50/70 rounded-3xl p-6 sm:p-8 border border-gray-200/80">
+          <h2 className="text-lg font-black text-gray-900 mb-4 text-center">
+            About Eat &amp; Chill FAQs
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-gray-600">
+            <div className="p-4 rounded-xl bg-white border border-gray-100">
+              <strong className="text-gray-900 block mb-1">
+                Where are your cloud kitchens located?
+              </strong>
+              <span>
+                We operate multiple delivery kitchens across Delhi NCR including Central Delhi (CP), South Delhi (Green Park &amp; Saket), West Delhi, Noida, and Gurugram.
+              </span>
+            </div>
+            <div className="p-4 rounded-xl bg-white border border-gray-100">
+              <strong className="text-gray-900 block mb-1">
+                Is your food 100% prepared fresh on order?
+              </strong>
+              <span>
+                Yes! Every curry, roll, pizza, and shake is prepared fresh only after you place your order with 0 artificial preservatives.
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Internal Links to Popular Localities */}
+        <div className="pt-4 text-center space-y-3">
+          <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">
+            Delivering Across Popular Delhi NCR Hubs:
+          </span>
+          <div className="flex flex-wrap justify-center gap-2 text-xs">
+            {[
+              { name: "Connaught Place", slug: "connaught-place" },
+              { name: "Hauz Khas", slug: "hauz-khas" },
+              { name: "Saket", slug: "saket" },
+              { name: "Dwarka", slug: "dwarka" },
+              { name: "Rohini", slug: "rohini" },
+              { name: "Noida Hub", slug: "noida-sector-18" },
+              { name: "Gurugram Cyber City", slug: "gurugram-cyber-city" },
+            ].map((hub) => (
+              <Link
+                key={hub.slug}
+                href={`/${hub.slug}`}
+                className="bg-orange-50 text-brand-700 hover:bg-orange-100 px-3 py-1 rounded-full border border-orange-200/60 font-semibold transition-colors"
+              >
+                📍 {hub.name}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
