@@ -418,7 +418,7 @@ export default function LocalizedHomePage({
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
           <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200/80 shadow-sm">
             <h2 className="text-lg font-black text-gray-950 mb-4">
-              Explore Nearby Delhi NCR Delivery Areas
+              Explore Nearby Delivery Areas in {location.zone || "the Region"}
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
               {nearbyLocations.map((nearby) => (

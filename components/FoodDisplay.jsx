@@ -18,6 +18,7 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
     removeFromCart,
     filterVeg,
     setFilterVeg,
+    selectedLocation,
   } = useStore();
 
   const maxItems = limit || (isHome ? 3 : null);
@@ -25,7 +26,7 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
   const filteredFoods = food_list.filter((item) => {
     // 1. Category Filter
     if (category !== "All") {
-      if (category === "Delhi Specials") {
+      if (category === "Specials" || category === "Delhi Specials") {
         if (!item.isDelhiSpecial) return false;
       } else if (item.category !== category) {
         return false;
@@ -50,6 +51,9 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
 
   const displayFoods = maxItems ? filteredFoods.slice(0, maxItems) : filteredFoods;
 
+  const locationName = selectedLocation ? selectedLocation.name : "";
+  const locationShort = selectedLocation ? (selectedLocation.shortName || selectedLocation.name) : "";
+
   return (
     <section className="py-14 bg-slate-50/70" id="food-display">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,10 +62,22 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-brand-700 text-xs font-black uppercase tracking-wider mb-1.5">
               <Sparkles className="w-3.5 h-3.5 text-brand-500" />
-              <span>{isHome ? "Chef's Featured Picks" : "Delhi NCR Selections"}</span>
+              <span>
+                {selectedLocation
+                  ? `${locationShort} Selections`
+                  : isHome
+                  ? "Chef's Featured Picks"
+                  : "All Selections"}
+              </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-gray-950 tracking-tight flex items-center gap-2.5">
-              <span>{isHome ? "Trending Dishes in Delhi NCR" : "Top Dishes in Delhi NCR"}</span>
+              <span>
+                {selectedLocation
+                  ? `Trending Dishes in ${locationName}`
+                  : isHome
+                  ? "Trending Dishes"
+                  : "Top Dishes to Order"}
+              </span>
               {category !== "All" && (
                 <span className="text-xs font-bold px-3 py-1 bg-gradient-to-r from-brand-500 to-orange-500 text-white rounded-full shadow-xs">
                   {category}
@@ -69,9 +85,11 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
               )}
             </h2>
             <p className="text-xs sm:text-sm text-gray-500 mt-1 font-medium">
-              {isHome
+              {selectedLocation
+                ? `Showing fresh culinary preparations delivered hot in ${selectedLocation.avgDeliveryMinutes} mins to ${locationName}`
+                : isHome
                 ? `Showing top 3 trending preparations • 24+ more available in full menu`
-                : `Showing ${filteredFoods.length} fresh culinary preparations across Delhi`}
+                : `Showing ${filteredFoods.length} fresh culinary preparations delivered hot to your doorstep`}
             </p>
           </div>
 
@@ -107,7 +125,7 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
               }`}
             >
               <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
-              Delhi Specials
+              {selectedLocation ? `${locationShort} Specials` : "Chef's Specials"}
             </button>
           </div>
         </div>
@@ -201,11 +219,11 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
                       </div>
                     )}
 
-                    {/* Badge: Delhi Special */}
+                    {/* Badge: Speciality */}
                     {isAvailable && food.isDelhiSpecial && (
                       <div className="absolute top-3 left-3 bg-gradient-to-r from-brand-600 to-orange-600 backdrop-blur-sm text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
                         <Flame className="w-3 h-3 fill-white" />
-                        <span>Delhi Special</span>
+                        <span>{selectedLocation ? `${locationShort} Special` : "Special"}</span>
                       </div>
                     )}
 
@@ -310,11 +328,11 @@ export default function FoodDisplay({ isHome = false, limit = null }) {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/delhi-specials"
+              href="/specials"
               className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl bg-white hover:bg-orange-50 text-gray-900 hover:text-brand-600 font-black text-sm border border-gray-200 shadow-sm transition-all"
             >
               <Flame className="w-4 h-4 text-brand-500 fill-brand-500" />
-              <span>Dilli Specials Menu</span>
+              <span>{selectedLocation ? `${locationShort} Specials` : "Chef's Specials"} Menu</span>
             </Link>
           </div>
         )}

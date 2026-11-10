@@ -9,10 +9,10 @@ export async function generateMetadata() {
   await connectDB();
   const settings = await Settings.findOne({}).lean();
   return {
-    title: `About Us | ${settings?.storeName || "Eat & Chill Delhi"} Story & Mission`,
+    title: `About Us | ${settings?.storeName || "Eat & Chill"} Story & Mission`,
     description:
       settings?.metaDescription ||
-      "Discover the story behind Eat & Chill, Delhi's trusted food brand combining traditional Dilli recipes with modern cloud kitchen hygiene.",
+      "Discover the story behind Eat & Chill, your trusted food brand combining traditional recipes with modern cloud kitchen hygiene and express 30-min delivery.",
   };
 }
 
@@ -25,13 +25,13 @@ export default async function AboutPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-600 bg-orange-100/70 px-3.5 py-1.5 rounded-full">
-            Our Delhi Culinary Journey
+            Our Culinary Journey
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
             About {settings.storeName || "Eat & Chill"}
           </h1>
-          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Crafting memorable food moments with fresh ingredients, signature spices, and 30-minute delivery across Delhi NCR.
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed font-medium">
+            Crafting memorable food moments with fresh ingredients, signature spices, and 30-minute express delivery to your doorstep.
           </p>
         </div>
 
@@ -46,18 +46,18 @@ export default async function AboutPage() {
           </div>
           <div className="space-y-4">
             <h2 className="text-2xl font-black text-gray-900">
-              Rooted in Delhi&apos;s Rich Flavors
+              Rooted in Authentic Flavors
             </h2>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
               {settings.aboutText ||
-                "Eat & Chill was founded with a single mission: to bring authentic Delhi cuisine and contemporary global favorites to food lovers with restaurant-grade quality and fast, dependable delivery."}
+                "Eat & Chill was founded with a single mission: to bring authentic regional cuisine and contemporary global favorites to food lovers with restaurant-grade quality and fast, dependable delivery."}
             </p>
             <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-              Serving with pride from our central hubs in {settings.storeAddress || "Connaught Place & South Delhi"}. Operating daily: {settings.storeTimings || "11:00 AM - 3:00 AM"}.
+              Serving with pride from our network of express cloud kitchen hubs across major cities. Operating daily: {settings.storeTimings || "11:00 AM - 3:00 AM"}.
             </p>
             <div className="pt-2">
               <Link
-                href="/#explore-menu"
+                href="/menu"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold text-xs shadow-md transition-all"
               >
                 <span>View Full Menu</span>
@@ -73,9 +73,9 @@ export default async function AboutPage() {
             <div className="w-10 h-10 rounded-xl bg-orange-100 text-brand-600 flex items-center justify-center font-bold">
               <Award className="w-5 h-5" />
             </div>
-            <h3 className="font-bold text-gray-900 text-sm">Signature Delhi Spices</h3>
+            <h3 className="font-bold text-gray-900 text-sm">Authentic Signature Spices</h3>
             <p className="text-xs text-gray-500 leading-relaxed">
-              Hand-ground masalas sourced directly from Khari Baoli, roasted fresh to deliver unforgettable aromas.
+              Hand-ground aromatic spices sourced from origin, roasted fresh daily to deliver unforgettable flavors.
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export default async function AboutPage() {
                 Where are your cloud kitchens located?
               </strong>
               <span>
-                We operate multiple delivery kitchens across Delhi NCR including Central Delhi (CP), South Delhi (Green Park &amp; Saket), West Delhi, Noida, and Gurugram.
+                We operate multiple delivery kitchen hubs across Uttar Pradesh (Allahabad, Soraon, Mau Aima, Lucknow), Delhi NCR (Connaught Place, Saket, Dwarka), Maharashtra, and Karnataka.
               </span>
             </div>
             <div className="p-4 rounded-xl bg-white border border-gray-100">
@@ -128,17 +128,18 @@ export default async function AboutPage() {
         {/* Internal Links to Popular Localities */}
         <div className="pt-4 text-center space-y-3">
           <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">
-            Delivering Across Popular Delhi NCR Hubs:
+            Delivering Across Popular Delivery Hubs:
           </span>
           <div className="flex flex-wrap justify-center gap-2 text-xs">
             {[
+              { name: "Allahabad", slug: "allahabad" },
+              { name: "Soraon", slug: "soraon" },
+              { name: "Mau Aima", slug: "mau-aima" },
+              { name: "Lucknow", slug: "lucknow" },
               { name: "Connaught Place", slug: "connaught-place" },
               { name: "Hauz Khas", slug: "hauz-khas" },
               { name: "Saket", slug: "saket" },
               { name: "Dwarka", slug: "dwarka" },
-              { name: "Rohini", slug: "rohini" },
-              { name: "Noida Hub", slug: "noida-sector-18" },
-              { name: "Gurugram Cyber City", slug: "gurugram-cyber-city" },
             ].map((hub) => (
               <Link
                 key={hub.slug}
@@ -150,6 +151,10 @@ export default async function AboutPage() {
             ))}
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
       </div>
     </div>
   );

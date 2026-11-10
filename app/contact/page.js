@@ -17,7 +17,7 @@ export default function ContactPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSent(true);
-    toast.success("Thank you! Your inquiry has been sent to our Delhi support team.");
+    toast.success("Thank you! Your inquiry has been sent to our support team.");
     setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
   };
 
@@ -28,11 +28,11 @@ export default function ContactPage() {
           <span className="text-xs font-bold uppercase tracking-wider text-brand-600 bg-orange-100/70 px-3.5 py-1.5 rounded-full">
             We are here for you
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-gray-900 tracking-tight">
-            Contact Eat &amp; Chill Delhi
+          <h1 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
+            Contact Eat &amp; Chill
           </h1>
-          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Have questions about your Delhi delivery, bulk catering, party orders, or feedback? Get in touch with our team anytime.
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto leading-relaxed font-medium">
+            Have questions about your food delivery, bulk catering, party orders, or feedback? Get in touch with our team anytime.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export default function ContactPage() {
           {/* Left: Contact Info */}
           <div className="md:col-span-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-6">
             <h2 className="text-lg font-bold text-gray-900 border-b border-gray-100 pb-3">
-              Delhi Delivery Headquarters
+              Delivery Operations &amp; Support
             </h2>
 
             <div className="space-y-4 text-sm text-gray-600">
@@ -49,7 +49,7 @@ export default function ContactPage() {
                 <div>
                   <p className="font-bold text-gray-900 text-xs">Primary Cloud Kitchen</p>
                   <p className="text-xs text-gray-600">
-                    Connaught Place Central Hub, Barakhamba Road, New Delhi, Delhi 110001
+                    Central Cloud Kitchen Hubs &amp; Express Delivery Centers
                   </p>
                 </div>
               </div>

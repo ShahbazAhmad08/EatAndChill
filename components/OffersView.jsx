@@ -79,7 +79,7 @@ export default function OffersView({ initialOffers = [] }) {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white max-w-3xl mx-auto leading-tight">
-            Exclusive <span className="text-brand-500">Combos &amp; Deals</span> Across Delhi NCR
+            Exclusive <span className="text-brand-500">Combos &amp; Deals</span> Across Your City
           </h1>
 
           <p className="mt-3 text-xs sm:text-sm text-gray-300 max-w-2xl mx-auto">
@@ -97,7 +97,7 @@ export default function OffersView({ initialOffers = [] }) {
               onChange={(e) => handleFilterChange(e.target.value)}
               className="bg-gray-900/90 text-white text-xs font-bold px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
-              <option value="all">🌟 All Delhi NCR (All Deals)</option>
+              <option value="all">🌟 All Locations (Universal Deals)</option>
               {MARKET_LOCATIONS.map((loc) => (
                 <option key={loc.slug} value={loc.slug}>
                   📍 {loc.name}
@@ -243,10 +243,10 @@ export default function OffersView({ initialOffers = [] }) {
             </div>
             <div className="p-3.5 rounded-xl bg-gray-50 border border-gray-100">
               <strong className="text-gray-900 block mb-1">
-                Can I order a combo from any area in Delhi NCR?
+                Can I order a combo from any delivery area?
               </strong>
               <span>
-                Universal combos are delivered across all 22 covered Delhi NCR hubs. Area-specific combos are freshly dispatched from that locality's nearest cloud hub.
+                Universal combos are delivered across all covered cities and market areas. Area-specific combos are freshly dispatched from that locality&apos;s nearest cloud hub.
               </span>
             </div>
           </div>

@@ -24,14 +24,14 @@ export default function Footer() {
   }
 
   const deliveryZones = [
-    { name: "Connaught Place (110001)", slug: "connaught-place" },
-    { name: "Hauz Khas & Green Park (110016)", slug: "hauz-khas" },
-    { name: "Saket & Malviya Nagar (110017)", slug: "saket" },
-    { name: "Greater Kailash & GK-2 (110048)", slug: "greater-kailash" },
-    { name: "Dwarka Sub-City (110075)", slug: "dwarka" },
-    { name: "Rohini (110085)", slug: "rohini" },
-    { name: "Noida Sector 18 & 62 (201301)", slug: "noida-sector-18" },
-    { name: "Gurugram CyberHub (122002)", slug: "gurugram-cyber-city" },
+    { name: "Allahabad (Prayagraj)", slug: "allahabad" },
+    { name: "Soraon (Allahabad)", slug: "soraon" },
+    { name: "Mau Aima (Allahabad)", slug: "mau-aima" },
+    { name: "Lucknow Gomti Nagar", slug: "lucknow" },
+    { name: "Connaught Place (Delhi)", slug: "connaught-place" },
+    { name: "Saket & South Delhi", slug: "saket" },
+    { name: "Mumbai Bandra", slug: "mumbai-bandra" },
+    { name: "Bengaluru Koramangala", slug: "bengaluru-koramangala" },
   ];
 
   return (
@@ -44,7 +44,7 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-orange-500/20 p-1.5 flex items-center justify-center border border-orange-500/30">
                 <Image
                   src="/assets/eat.png"
-                  alt="Eat & Chill Delhi"
+                  alt="Eat & Chill"
                   width={40}
                   height={40}
                   className="object-contain"
@@ -55,7 +55,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
-              Delhi NCR&apos;s premier food delivery experience. From sizzling Old Delhi paneer rolls and rich Dal Makhani to authentic Italian pastas and artisan desserts — prepared fresh, packaged hygienically, and delivered in 30 minutes.
+              Your premier food delivery experience. From sizzling gourmet rolls and rich Dal Makhani to authentic Italian pastas and artisan desserts — prepared fresh, packaged hygienically, and delivered in 30 minutes.
             </p>
             <div className="flex items-center gap-3 pt-2">
               <a
@@ -179,7 +179,7 @@ export default function Footer() {
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-brand-500 shrink-0 mt-0.5" />
                 <span className="text-xs">
-                  Connaught Place Delivery Kitchen, Central Delhi &amp; Saket Hub, New Delhi 110001
+                  Central Cloud Kitchen Hubs &amp; Express Delivery Centers
                 </span>
               </div>
               <div className="flex items-center gap-2">
@@ -200,7 +200,7 @@ export default function Footer() {
               </div>
               <div className="pt-2">
                 <a
-                  href="https://wa.me/917755013772?text=Hello%20Eat%20%26%20Chill%20Delhi%2C%20I%20have%20an%20inquiry%20about%20my%20food%20order."
+                  href="https://wa.me/917755013772?text=Hello%20Eat%20%26%20Chill%2C%20I%20have%20an%20inquiry%20about%20my%20food%20order."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition-colors shadow-sm"
@@ -215,9 +215,9 @@ export default function Footer() {
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <p>© {new Date().getFullYear()} Eat &amp; Chill Delhi. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Eat &amp; Chill. All rights reserved.</p>
           <p className="text-center md:text-right text-slate-400 font-medium">
-            FSSAI Certified Cloud Kitchen • Express 30-Min Delivery Across Delhi NCR
+            FSSAI Certified Cloud Kitchen • Express 30-Min Delivery
           </p>
         </div>
       </div>

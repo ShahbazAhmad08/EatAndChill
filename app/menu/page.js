@@ -32,6 +32,7 @@ function MenuContent() {
     removeFromCart,
     filterVeg,
     setFilterVeg,
+    selectedLocation,
   } = useStore();
 
   const [sortBy, setSortBy] = useState("recommended"); // 'recommended', 'price-low', 'price-high', 'rating'
@@ -40,7 +41,7 @@ function MenuContent() {
   let filtered = food_list.filter((item) => {
     // 1. Category Filter
     if (category !== "All") {
-      if (category === "Delhi Specials") {
+      if (category === "Specials" || category === "Delhi Specials") {
         if (!item.isDelhiSpecial) return false;
       } else if (item.category !== category) {
         return false;
@@ -78,7 +79,7 @@ function MenuContent() {
         {/* Page Header */}
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="text-xs font-black uppercase tracking-widest text-brand-600 bg-orange-100/70 px-4 py-1.5 rounded-full border border-orange-200">
-            Delhi NCR Cloud Menu
+            {selectedLocation ? `${selectedLocation.name} Menu` : "Full Cloud Menu"}
           </span>
           <h1 className="text-3xl sm:text-5xl font-black text-gray-950 tracking-tight">
             Our Complete Culinary Menu
@@ -143,7 +144,7 @@ function MenuContent() {
                 }`}
               >
                 <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
-                Delhi Specials
+                {selectedLocation ? `${selectedLocation.shortName} Specials` : "Chef's Specials"}
               </button>
 
               {/* Sort selector */}
@@ -294,11 +295,11 @@ function MenuContent() {
                       </div>
                     )}
 
-                    {/* Delhi Special Badge */}
+                    {/* Special Badge */}
                     {isAvailable && food.isDelhiSpecial && (
                       <div className="absolute top-3 left-3 bg-gradient-to-r from-brand-600 to-orange-600 backdrop-blur-sm text-white text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full flex items-center gap-1 shadow-md">
                         <Flame className="w-3 h-3 fill-white" />
-                        <span>Delhi Special</span>
+                        <span>{selectedLocation ? `${selectedLocation.shortName} Special` : "Special"}</span>
                       </div>
                     )}
 

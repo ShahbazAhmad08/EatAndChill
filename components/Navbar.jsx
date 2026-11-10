@@ -83,7 +83,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-xl shadow-xs border-b border-gray-100 transition-all">
-      {/* Top Delhi Delivery Banner Ticker */}
+      {/* Top Delivery Banner Ticker */}
       <div className="bg-gradient-to-r from-brand-600 via-orange-600 to-amber-600 text-white text-xs py-1.5 px-4 font-medium">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           <div className="flex items-center gap-2 truncate">
@@ -93,12 +93,12 @@ export default function Navbar() {
             >
               <span className="bg-white/20 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-orange-200" />
-                {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Delhi NCR"}
+                {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Select Location"}
               </span>
               <span className="truncate text-orange-50 font-semibold text-xs">
                 {selectedLocation
                   ? `⚡ Delivering in ${selectedLocation.avgDeliveryMinutes} mins to ${selectedLocation.name} · Free above ₹499`
-                  : (settings.bannerNotice || "⚡ 30-Min Fast Food Delivery across 22+ Delhi NCR Areas | Free above ₹499")}
+                  : (settings.bannerNotice || "⚡ Fast 30-Min Food Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals")}
               </span>
             </button>
           </div>
@@ -107,7 +107,7 @@ export default function Navbar() {
               onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
               className="text-[11px] font-bold text-orange-100 hover:text-white underline transition-colors"
             >
-              {selectedLocation ? "Switch Location ▾" : "Choose Location ▾"}
+              {selectedLocation ? "Switch Location ▾" : "Select Location ▾"}
             </button>
             <a
               href={`tel:${settings.storePhone || "+917755013772"}`}
@@ -136,7 +136,7 @@ export default function Navbar() {
               <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-100 to-orange-50 border border-orange-200/60 p-1.5 shadow-sm group-hover:scale-105 transition-transform">
                 <Image
                   src="/assets/eat.png"
-                  alt="Eat & Chill Delhi"
+                  alt="Eat & Chill"
                   width={44}
                   height={44}
                   className="object-contain"
@@ -150,7 +150,7 @@ export default function Navbar() {
                 <span className="text-[10px] font-extrabold uppercase tracking-wider text-brand-600 flex items-center gap-1">
                   <MapPin className="w-3 h-3 text-brand-500 animate-pulse" />
                   <span className="max-w-[120px] truncate">
-                    {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Delhi NCR Hub"}
+                    {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Select Location"}
                   </span>
                 </span>
               </div>
@@ -165,7 +165,7 @@ export default function Navbar() {
               >
                 <MapPin className="w-3.5 h-3.5 text-brand-500" />
                 <span className="max-w-[110px] truncate">
-                  {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Select Area"}
+                  {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Select Location"}
                 </span>
                 <ChevronDown className={`w-3 h-3 text-brand-600 transition-transform ${locationDropdownOpen ? "rotate-180" : ""}`} />
               </button>
@@ -182,13 +182,13 @@ export default function Navbar() {
                   >
                     <div className="p-2 border-b border-gray-100">
                       <span className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1.5">
-                        Select Delivery Market Area:
+                        Select Delivery Location:
                       </span>
                       <div className="relative">
                         <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                         <input
                           type="text"
-                          placeholder="Search 22+ areas or pincode..."
+                          placeholder="Search city, town (e.g. Allahabad, Soraon)..."
                           value={locationSearch}
                           onChange={(e) => setLocationSearch(e.target.value)}
                           className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold"
@@ -197,7 +197,7 @@ export default function Navbar() {
                     </div>
 
                     <div className="max-h-64 overflow-y-auto py-1 divide-y divide-gray-50">
-                      {/* Default All Delhi NCR */}
+                      {/* Default All Locations */}
                       <button
                         onClick={() => handleSelectLocation(null)}
                         className={`w-full p-2.5 rounded-xl text-left text-xs font-black flex items-center justify-between transition-colors ${
@@ -209,20 +209,21 @@ export default function Navbar() {
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-brand-500" />
                           <div>
-                            <span className="block font-bold">🌟 All Delhi NCR (Default)</span>
-                            <span className="text-[10px] text-gray-400 font-medium">Whole region express coverage</span>
+                            <span className="block font-bold">🌟 All Locations (Universal)</span>
+                            <span className="text-[10px] text-gray-400 font-medium">Browse standard menu without location filter</span>
                           </div>
                         </div>
                         {!selectedLocation && <Check className="w-4 h-4 text-brand-600" />}
                       </button>
 
-                      {/* 22 Locations */}
+                      {/* Multi-State Locations */}
                       {MARKET_LOCATIONS.filter((loc) => {
                         const q = locationSearch.toLowerCase().trim();
                         if (!q) return true;
                         return (
                           loc.name.toLowerCase().includes(q) ||
                           loc.zone.toLowerCase().includes(q) ||
+                          loc.state.toLowerCase().includes(q) ||
                           loc.pincodes.some((pin) => pin.includes(q))
                         );
                       }).map((loc) => {
@@ -242,7 +243,7 @@ export default function Navbar() {
                               <div className="truncate">
                                 <span className="block truncate">{loc.name}</span>
                                 <span className="text-[10px] text-gray-400 font-semibold block">
-                                  {loc.zone} · ⚡ {loc.avgDeliveryMinutes}m
+                                  {loc.zone} ({loc.state}) · ⚡ {loc.avgDeliveryMinutes}m
                                 </span>
                               </div>
                             </div>
@@ -365,12 +366,12 @@ export default function Navbar() {
                         <span>My Orders &amp; Track</span>
                       </Link>
                       <Link
-                        href="/delhi-delivery"
+                        href="/specials"
                         onClick={() => setUserDropdownOpen(false)}
                         className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand-600 font-bold transition-colors"
                       >
-                        <MapPin className="w-4 h-4 text-brand-500" />
-                        <span>Delhi Delivery Info</span>
+                        <Flame className="w-4 h-4 text-brand-500" />
+                        <span>Chef&apos;s Specials</span>
                       </Link>
                       <hr className="my-1 border-gray-100" />
                       <button
@@ -406,7 +407,7 @@ export default function Navbar() {
             <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search Delhi rolls, paneer, pasta..."
+              placeholder="Search momos, rolls, curries, pasta..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 text-xs bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
@@ -434,7 +435,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2 truncate">
                 <MapPin className="w-4 h-4 text-brand-500 shrink-0" />
                 <span className="truncate">
-                  {selectedLocation ? `Delivering to: ${selectedLocation.name}` : "Delivering to: All Delhi NCR"}
+                  {selectedLocation ? `Delivering to: ${selectedLocation.name}` : "Delivering to: All Locations (Select Area)"}
                 </span>
               </div>
               <span className="text-[10px] uppercase font-black text-brand-600 bg-white px-2 py-0.5 rounded-md shrink-0 shadow-2xs">

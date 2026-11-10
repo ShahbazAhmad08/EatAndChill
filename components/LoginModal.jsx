@@ -93,15 +93,15 @@ export default function LoginModal() {
             <X className="w-5 h-5" />
           </button>
           <span className="text-[10px] uppercase tracking-widest font-black text-orange-200 bg-white/10 px-2.5 py-0.5 rounded-full">
-            Eat &amp; Chill Delhi
+            Eat &amp; Chill
           </span>
           <h2 className="text-2xl font-black mt-2 tracking-tight">
-            {isLoginState ? "Welcome Back, Foodie!" : "Join Delhi's Foodies"}
+            {isLoginState ? "Welcome Back, Foodie!" : "Join Eat &amp; Chill"}
           </h2>
           <p className="text-xs text-orange-100 mt-1">
             {isLoginState
               ? "Sign in to track live orders & enjoy 30-min express delivery"
-              : "Create your account for special Delhi coupons & instant checkout"}
+              : "Create your account for exclusive coupons & instant checkout"}
           </p>
         </div>
 

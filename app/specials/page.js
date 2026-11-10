@@ -4,7 +4,7 @@ import SpecialsView from "@/components/SpecialsView";
 export const metadata = {
   title: "Specials Menu | Authentic Local Delicacies - Eat & Chill",
   description:
-    "Explore iconic specials and heritage dishes tailored to your Delhi NCR locality. Rich slow-cooked curries, tandoori platters, crispy rolls, and signature desserts delivered hot in 30 mins.",
+    "Explore iconic chef specials and handcrafted heritage dishes tailored to your locality. Rich slow-cooked curries, tandoori platters, crispy rolls, and signature desserts delivered hot in 30 mins.",
   alternates: {
     canonical: "/specials",
   },

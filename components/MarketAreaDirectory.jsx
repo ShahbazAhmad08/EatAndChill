@@ -67,11 +67,11 @@ export default function MarketAreaDirectory() {
             </div>
 
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white max-w-4xl mx-auto leading-tight">
-              Delhi NCR <span className="text-brand-500">Market Areas</span> &amp; Express Delivery Hubs
+              City <span className="text-brand-500">Market Areas</span> &amp; Express Delivery Hubs
             </h1>
 
             <p className="mt-4 text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed">
-              Order fresh, authentic food delivered steaming hot in 25 to 30 minutes from our network of 22+ cloud kitchen hubs across Delhi, Noida, and Gurugram.
+              Order fresh, authentic food delivered steaming hot in 25 to 30 minutes from our network of express cloud kitchen hubs across Uttar Pradesh, Delhi, and major hubs.
             </p>
           </motion.div>
 
@@ -103,7 +103,7 @@ export default function MarketAreaDirectory() {
               <Search className="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Search by area (e.g. Connaught Place, Rohini, Noida, Saket) or pincode..."
+                placeholder="Search by city or area (e.g. Allahabad, Soraon, Mau Aima, Lucknow, Connaught Place) or pincode..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-12 py-3.5 text-sm sm:text-base bg-white text-gray-900 rounded-2xl shadow-xl focus:outline-none focus:ring-4 focus:ring-brand-500/40 font-medium placeholder:text-gray-400"

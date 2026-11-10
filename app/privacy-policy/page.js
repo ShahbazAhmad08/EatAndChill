@@ -3,9 +3,9 @@ import Link from "next/link";
 import { ShieldCheck, Lock, Eye, FileText, ArrowRight, MapPin } from "lucide-react";
 
 export const metadata = {
-  title: "Privacy Policy | Eat & Chill Delhi NCR",
+  title: "Privacy Policy | Eat & Chill",
   description:
-    "Learn how Eat & Chill protects your personal information, order data, and payment privacy across our Delhi NCR food delivery platform.",
+    "Learn how Eat & Chill protects your personal information, order data, and payment privacy across our online food delivery platform.",
   alternates: {
     canonical: "/privacy-policy",
   },

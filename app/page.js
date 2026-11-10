@@ -15,26 +15,26 @@ export async function generateMetadata() {
       const keywords = settings.metaKeywords
         ? settings.metaKeywords.split(",").map((k) => k.trim())
         : [
-            "food delivery delhi",
-            "online food order delhi",
-            "best rolls in delhi",
-            "late night food delivery delhi",
+            "food delivery online",
+            "online food order",
+            "express food delivery",
+            "late night food delivery",
           ];
 
       return {
         title:
           settings.metaTitle ||
-          "Eat & Chill | Best Online Food Delivery in Delhi NCR - 30-Min Fast Delivery",
+          "Eat & Chill | Express Online Food Delivery - Hot & Fresh in 30 Mins",
         description:
           settings.metaDescription ||
-          "Craving delicious food in Delhi? Order online from Eat & Chill! Authentic Butter Chicken, Kathi Rolls, Momos, Shahi Paneer, Pastas, Sandwiches & Shakes.",
+          "Craving delicious food? Order online from Eat & Chill! Handcrafted Kathi Rolls, Momos, Shahi Paneer, Biryani, Pastas, Burgers & Shakes. Fast 30-minute delivery.",
         keywords,
         verification: settings.googleSiteVerification
           ? { google: settings.googleSiteVerification }
           : undefined,
         openGraph: {
-          title: settings.metaTitle,
-          description: settings.metaDescription,
+          title: settings.metaTitle || "Eat & Chill | Express Online Food Delivery",
+          description: settings.metaDescription || "Order delicious food online with fast 30-minute delivery.",
         },
       };
     }
@@ -43,8 +43,8 @@ export async function generateMetadata() {
   }
 
   return {
-    title: "Eat & Chill | Best Online Food Delivery in Delhi NCR",
-    description: "Order fresh food online across Delhi NCR.",
+    title: "Eat & Chill | Express Online Food Delivery - Hot & Fresh in 30 Mins",
+    description: "Order fresh food online with fast 30-minute delivery to your doorstep.",
   };
 }
 

@@ -15,7 +15,6 @@ import {
   ArrowRight,
   Star,
   Zap,
-  ShoppingBag,
 } from "lucide-react";
 
 export default function DelhiBanner() {
@@ -28,22 +27,15 @@ export default function DelhiBanner() {
     if (!pincode || pincode.length < 6) {
       setPincodeResult({
         success: false,
-        message: "Please enter a valid 6-digit Delhi pincode.",
+        message: "Please enter a valid 6-digit delivery pincode.",
       });
       return;
     }
 
-    if (pincode.startsWith("110")) {
-      setPincodeResult({
-        success: true,
-        message: `🎉 Fast 30-Min Delivery is ACTIVE in Pincode ${pincode}! Order hot food now.`,
-      });
-    } else {
-      setPincodeResult({
-        success: true,
-        message: `🚚 We deliver across Delhi NCR! Pincode ${pincode} is covered via our Express Courier Hub.`,
-      });
-    }
+    setPincodeResult({
+      success: true,
+      message: `🎉 Express 30-Min Delivery is ACTIVE in Pincode ${pincode}! Order hot food now.`,
+    });
   };
 
   return (
@@ -70,7 +62,7 @@ export default function DelhiBanner() {
             >
               <span className="w-2 h-2 rounded-full bg-brand-500 animate-ping" />
               <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
-              <span>{settings.heroTag || "Delhi NCR's #1 Cloud Kitchen Hub"}</span>
+              <span>{settings.heroTag || "Fast 30-Min Food Delivery Hub"}</span>
             </motion.div>
 
             {/* Main Headline */}
@@ -79,9 +71,9 @@ export default function DelhiBanner() {
                 settings.heroHeading
               ) : (
                 <>
-                  Order Delicious Food Online in{" "}
+                  Order Delicious Food Online{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-orange-500 to-amber-500">
-                    Delhi NCR
+                    Fast &amp; Fresh
                   </span>
                 </>
               )}
@@ -90,10 +82,10 @@ export default function DelhiBanner() {
             {/* Subheading */}
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0 font-medium">
               {settings.heroSubheading ||
-                "Satisfy your cravings with Delhi's best Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!"}
+                "Satisfy your cravings with handcrafted Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!"}
             </p>
 
-            {/* Interactive Delhi Pincode Checker */}
+            {/* Interactive Universal Pincode Checker */}
             <div className="bg-white/90 backdrop-blur-md p-3.5 sm:p-4 rounded-3xl shadow-xl shadow-orange-500/5 border border-orange-200/60 max-w-lg mx-auto lg:mx-0">
               <form onSubmit={checkPincode} className="flex flex-col sm:flex-row gap-2">
                 <div className="relative flex-1">
@@ -106,7 +98,7 @@ export default function DelhiBanner() {
                       setPincode(e.target.value.replace(/\D/g, ""));
                       setPincodeResult(null);
                     }}
-                    placeholder="Enter Delhi Pincode (e.g. 110001)"
+                    placeholder="Enter 6-digit Pincode (e.g. 211001, 110001)"
                     className="w-full pl-10 pr-3 py-3 text-sm bg-gray-50/80 border border-gray-200/80 rounded-2xl focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white font-medium transition-all"
                   />
                 </div>
@@ -137,12 +129,12 @@ export default function DelhiBanner() {
               </AnimatePresence>
 
               <div className="mt-2.5 flex items-center justify-between text-[11px] text-gray-500 font-semibold px-1">
-                <span>⚡ Express delivery across Delhi NCR</span>
+                <span>⚡ Express delivery to your doorstep</span>
                 <Link
                   href="/market-area"
                   className="text-brand-600 hover:text-brand-700 font-bold underline flex items-center gap-1"
                 >
-                  <span>Explore 22+ Market Areas</span>
+                  <span>Explore All Locations</span>
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
@@ -160,7 +152,7 @@ export default function DelhiBanner() {
               </div>
               <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-full border border-gray-200/60 shadow-xs">
                 <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                <span>4.8 / 5.0 Delhi Rating</span>
+                <span>4.9 / 5.0 Rating</span>
               </div>
             </div>
           </motion.div>
@@ -179,7 +171,7 @@ export default function DelhiBanner() {
               <div className="relative w-full h-full rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                 <Image
                   src="/assets/header_img.png"
-                  alt="Delicious food feast from Eat & Chill Delhi"
+                  alt="Delicious food feast from Eat & Chill"
                   fill
                   priority
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -189,31 +181,41 @@ export default function DelhiBanner() {
 
               {/* Floating Pill 1: Top Right */}
               <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="absolute -top-2 -right-2 sm:-right-4 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-orange-100 flex items-center gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm">
+                <div className="w-9 h-9 rounded-xl bg-orange-100 text-brand-600 flex items-center justify-center font-black text-sm">
                   ⚡
                 </div>
                 <div>
-                  <div className="text-[11px] font-black text-gray-900">28 Mins Avg</div>
-                  <div className="text-[10px] text-gray-500 font-semibold">Delhi NCR Delivery</div>
+                  <span className="text-[10px] text-gray-500 font-bold block uppercase tracking-wider">
+                    Average Speed
+                  </span>
+                  <span className="text-xs font-black text-gray-900">
+                    25-30 Mins Hot Drop
+                  </span>
                 </div>
               </motion.div>
 
               {/* Floating Pill 2: Bottom Left */}
               <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-4 -left-4 sm:-left-6 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-gray-100 flex items-center gap-2.5"
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.6 }}
+                className="absolute -bottom-3 -left-2 sm:-left-4 bg-white/95 backdrop-blur-md px-4 py-2.5 rounded-2xl shadow-xl border border-orange-100 flex items-center gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                  <Star className="w-5 h-5 fill-emerald-500 text-emerald-500" />
                 </div>
                 <div>
-                  <div className="text-[11px] font-black text-gray-900">18,500+ Orders</div>
-                  <div className="text-[10px] text-gray-500 font-semibold">Loved Across Dilli</div>
+                  <span className="text-[10px] text-gray-500 font-bold block uppercase tracking-wider">
+                    Customer Love
+                  </span>
+                  <span className="text-xs font-black text-gray-900">
+                    4.9 ★ (18,500+ Orders)
+                  </span>
                 </div>
               </motion.div>
             </div>

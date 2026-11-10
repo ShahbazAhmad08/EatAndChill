@@ -5,9 +5,9 @@ import { initialOffers } from "@/lib/seedOffers";
 import OffersView from "@/components/OffersView";
 
 export const metadata = {
-  title: "Food Combos, Deals & Discount Offers | Eat & Chill Delhi NCR",
+  title: "Food Combos, Deals & Discount Offers | Eat & Chill",
   description:
-    "Explore exclusive Delhi food combos, late-night snacks, student meal boxes, and corporate lunch trays. Save up to 40% with fast 30-min delivery.",
+    "Explore exclusive food combos, late-night snacks, student meal boxes, and corporate lunch trays. Save up to 40% with fast 30-min express delivery.",
   alternates: {
     canonical: "/offers",
   },

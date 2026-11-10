@@ -24,29 +24,29 @@ export async function generateMetadata({ params }) {
     const food = await Food.findById(params.id).lean();
     if (!food) {
       return {
-        title: "Dish Not Found | Eat & Chill Delhi",
-        description: "Delicious dishes freshly prepared in Delhi NCR.",
+        title: "Dish Not Found | Eat & Chill",
+        description: "Delicious dishes freshly prepared and delivered hot.",
       };
     }
 
     return {
-      title: `${food.name} | Order Online in Delhi NCR - Eat & Chill`,
-      description: `${food.description} Handcrafted fresh in Delhi. 30-40 mins express delivery across CP, Saket, Hauz Khas, Dwarka & Delhi NCR.`,
+      title: `${food.name} | Order Online - Eat & Chill`,
+      description: `${food.description} Handcrafted fresh. Express 30-min fast delivery right to your doorstep.`,
       keywords: [
         food.name,
-        `order ${food.name} delhi`,
-        `${food.category} delhi`,
-        "eat and chill delhi delivery",
-        "best food delivery delhi ncr",
+        `order ${food.name} online`,
+        `${food.category}`,
+        "eat and chill delivery",
+        "best food delivery online",
       ],
       openGraph: {
-        title: `${food.name} - ₹${food.price} | Eat & Chill Delhi`,
+        title: `${food.name} - ₹${food.price} | Eat & Chill`,
         description: food.description,
         images: [
           {
             url: food.image?.startsWith("http")
               ? food.image
-              : `https://eatandchill.delhi/uploads/${food.image}`,
+              : `https://eatandchill.onrender.com/uploads/${food.image}`,
             width: 800,
             height: 600,
             alt: food.name,
@@ -56,8 +56,8 @@ export async function generateMetadata({ params }) {
     };
   } catch (error) {
     return {
-      title: "Dish Details | Eat & Chill Delhi",
-      description: "Order fresh food in Delhi NCR.",
+      title: "Dish Details | Eat & Chill",
+      description: "Order fresh food online.",
     };
   }
 }
@@ -105,7 +105,7 @@ export default async function DishDetailPage({ params }) {
     description: food.description,
     brand: {
       "@type": "Brand",
-      name: "Eat & Chill Delhi",
+      name: "Eat & Chill",
     },
     category: food.category,
     offers: {
@@ -115,10 +115,10 @@ export default async function DishDetailPage({ params }) {
       availability: isAvailable
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `https://eatandchill.delhi/dish/${food._id}`,
+      url: `https://eatandchill.onrender.com/dish/${food._id}`,
       seller: {
         "@type": "Restaurant",
-        name: "Eat & Chill Cloud Kitchen Delhi",
+        name: "Eat & Chill Cloud Kitchen",
       },
     },
     aggregateRating: {
@@ -152,11 +152,11 @@ export default async function DishDetailPage({ params }) {
           </nav>
 
           <Link
-            href="/"
+            href="/menu"
             className="inline-flex items-center gap-2 text-sm font-bold text-gray-600 hover:text-brand-600 mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to All Delhi Delights</span>
+            <span>Back to Menu</span>
           </Link>
 
           {/* Main Product Card */}
@@ -178,7 +178,7 @@ export default async function DishDetailPage({ params }) {
                   {food.isDelhiSpecial && (
                     <span className="bg-brand-600/95 backdrop-blur text-white text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg">
                       <Flame className="w-3.5 h-3.5 fill-white" />
-                      Delhi Speciality
+                      Chef&apos;s Speciality
                     </span>
                   )}
                   {!isAvailable && (
@@ -220,7 +220,7 @@ export default async function DishDetailPage({ params }) {
                     </div>
                   </div>
 
-                  <h1 className="text-2xl sm:text-4xl font-black text-gray-900 tracking-tight mb-3">
+                  <h1 className="text-2xl sm:text-4xl font-black text-gray-950 tracking-tight mb-3">
                     {food.name}
                   </h1>
 
@@ -237,13 +237,13 @@ export default async function DishDetailPage({ params }) {
                   <div className="grid grid-cols-3 gap-3 p-4 bg-orange-50/50 rounded-2xl border border-orange-100 mb-8">
                     <div className="text-center">
                       <Clock className="w-5 h-5 text-brand-600 mx-auto mb-1" />
-                      <div className="text-xs font-bold text-gray-900">30-40 Mins</div>
+                      <div className="text-xs font-bold text-gray-900">25-30 Mins</div>
                       <div className="text-[11px] text-gray-500">Fast Delivery</div>
                     </div>
                     <div className="text-center border-x border-orange-100">
                       <Flame className="w-5 h-5 text-brand-600 mx-auto mb-1" />
                       <div className="text-xs font-bold text-gray-900">Authentic</div>
-                      <div className="text-[11px] text-gray-500">Delhi Masalas</div>
+                      <div className="text-[11px] text-gray-500">Signature Spices</div>
                     </div>
                     <div className="text-center">
                       <Users className="w-5 h-5 text-brand-600 mx-auto mb-1" />
@@ -275,14 +275,14 @@ export default async function DishDetailPage({ params }) {
               </div>
             </div>
 
-            {/* Kitchen Secrets & Delhi Speciality Story */}
+            {/* Kitchen Secrets Story */}
             <div className="border-t border-gray-100 p-6 sm:p-10 bg-gray-50/50">
               <h2 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
                 <Award className="w-5 h-5 text-brand-600" />
-                <span>The Eat & Chill Kitchen Craft</span>
+                <span>The Eat &amp; Chill Kitchen Craft</span>
               </h2>
               <p className="text-sm text-gray-600 leading-relaxed max-w-3xl">
-                Prepared daily at our Delhi hub using farm-fresh vegetables, premium grade aromatic spices, and traditional simmering methods. We never use artificial food dyes or MSG. Packed in microwave-safe, spill-proof tamper-evident food grade containers so that it reaches your dining table piping hot.
+                Prepared daily at our fresh cloud kitchens using farm-fresh vegetables, premium grade aromatic spices, and traditional simmering methods. We never use artificial food dyes or MSG. Packed in microwave-safe, spill-proof tamper-evident food grade containers so that it reaches your dining table piping hot.
               </p>
             </div>
           </div>

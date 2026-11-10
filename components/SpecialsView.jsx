@@ -37,10 +37,10 @@ export default function SpecialsView() {
   const [locationPickerOpen, setLocationPickerOpen] = useState(false);
 
   // Dynamic location-derived text
-  const currentAreaName = selectedLocation ? selectedLocation.name : "Delhi NCR";
+  const currentAreaName = selectedLocation ? selectedLocation.name : "All Locations";
   const currentHub = selectedLocation
     ? selectedLocation.hub
-    : "Central Delhi & South Delhi Cloud Kitchen Hubs";
+    : "Express Cloud Kitchen Hubs";
   const deliveryTime = selectedLocation ? selectedLocation.avgDeliveryMinutes : "25-30";
   const popularDishNames = selectedLocation ? selectedLocation.popularDishes : [];
 
@@ -100,7 +100,7 @@ export default function SpecialsView() {
                       }}
                       className="w-full text-left p-2 rounded-xl hover:bg-orange-50 text-brand-700 font-black"
                     >
-                      🌟 All Delhi NCR (Default)
+                      🌟 All Locations (Universal)
                     </button>
                     {MARKET_LOCATIONS.map((loc) => (
                       <button
@@ -125,14 +125,14 @@ export default function SpecialsView() {
 
             {/* Dynamic Title */}
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-              {currentAreaName} Specials
+              {selectedLocation ? `${currentAreaName} Specials` : "Chef's Signature Specials"}
             </h1>
 
             {/* Dynamic Tagline & Description */}
             <p className="text-sm sm:text-base text-orange-100 leading-relaxed font-medium">
               {selectedLocation
                 ? selectedLocation.description
-                : "Authentic culinary heritage recipes prepared fresh with signature Khari Baoli spices, pure desi ghee, and slow-charcoal simmering. Delivered steaming hot across Delhi NCR."}
+                : "Authentic culinary heritage recipes prepared fresh with signature spices, pure desi ghee, and slow-charcoal simmering. Delivered steaming hot to your doorstep."}
             </p>
 
             {/* Key Delivery & Hub Metrics */}

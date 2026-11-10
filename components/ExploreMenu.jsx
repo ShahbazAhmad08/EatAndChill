@@ -9,7 +9,7 @@ import { Sparkles, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 export const menu_categories = [
   { name: "All", image: "/assets/menu_1.png", tag: "All Flavours" },
-  { name: "Delhi Specials", image: "/assets/menu_6.png", tag: "Dilli Favourites" },
+  { name: "Specials", image: "/assets/menu_6.png", tag: "Chef's Picks" },
   { name: "Salad", image: "/assets/menu_1.png", tag: "Fresh Greens" },
   { name: "Rolls", image: "/assets/menu_2.png", tag: "Kathi & Spring" },
   { name: "Desert", image: "/assets/menu_3.png", tag: "Sweet Treats" },
@@ -51,13 +51,13 @@ export default function ExploreMenu() {
         >
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-orange-50 border border-orange-200/80 text-brand-700 text-xs font-black uppercase tracking-wider shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-brand-500" />
-            <span>Curated Delhi Categories</span>
+            <span>Fresh &amp; Delicious Categories</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-gray-950 tracking-tight">
             Explore Our Delicious Menu
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            Handcrafted with authentic Delhi spices, farm-fresh ingredients, and delivered hot in 30 minutes. Select a category below or visit our dedicated menu page.
+            Handcrafted with aromatic spices, farm-fresh ingredients, and delivered hot in 30 minutes. Select a category below or visit our dedicated menu page.
           </p>
         </motion.div>
 
