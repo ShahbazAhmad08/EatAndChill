@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -38,14 +38,31 @@ export default function Navbar() {
     setSearchQuery,
     settings,
     selectedLocation,
+    setSelectedLocation,
   } = useStore();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [locationDropdownOpen, setLocationDropdownOpen] = useState(false);
   const [locationSearch, setLocationSearch] = useState("");
+  const dropdownRef = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setLocationDropdownOpen(false);
+      }
+    };
+    if (locationDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [locationDropdownOpen]);
 
   // If in admin view, the admin layout provides its own navigation
   if (pathname.startsWith("/admin")) {
@@ -53,16 +70,13 @@ export default function Navbar() {
   }
 
   const handleSelectLocation = (loc) => {
+    setLocationDropdownOpen(false);
+    setMobileMenuOpen(false);
     if (!loc) {
-      // Revert to default home /
       setSelectedLocation(null);
-      setLocationDropdownOpen(false);
-      setMobileMenuOpen(false);
       router.push("/");
     } else {
       setSelectedLocation(loc);
-      setLocationDropdownOpen(false);
-      setMobileMenuOpen(false);
       router.push(`/${loc.slug}`);
     }
   };
@@ -98,7 +112,9 @@ export default function Navbar() {
               <span className="truncate text-orange-50 font-semibold text-xs">
                 {selectedLocation
                   ? `⚡ Delivering in ${selectedLocation.avgDeliveryMinutes} mins to ${selectedLocation.name} · Free above ₹499`
-                  : (settings.bannerNotice || "⚡ Fast 30-Min Food Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals")}
+                  : (settings.bannerNotice && !settings.bannerNotice.includes("Delhi")
+                      ? settings.bannerNotice
+                      : "⚡ Fast 30-Min Food Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals")}
               </span>
             </button>
           </div>
@@ -157,8 +173,9 @@ export default function Navbar() {
             </Link>
 
             {/* Location Selector Dropdown Button */}
-            <div className="relative hidden sm:block">
+            <div className="relative hidden sm:block" ref={dropdownRef}>
               <button
+                type="button"
                 onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100/80 border border-orange-200/70 text-brand-700 text-xs font-black transition-all shadow-2xs group"
                 title="Change delivery location"
@@ -185,7 +202,7 @@ export default function Navbar() {
                         Select Delivery Location:
                       </span>
                       <div className="relative">
-                        <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                        <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                         <input
                           type="text"
                           placeholder="Search city, town (e.g. Allahabad, Soraon)..."
@@ -198,7 +215,8 @@ export default function Navbar() {
 
                     <div className="max-h-64 overflow-y-auto py-1 divide-y divide-gray-50">
                       {/* Default All Locations */}
-                      <button
+                      <Link
+                        href="/"
                         onClick={() => handleSelectLocation(null)}
                         className={`w-full p-2.5 rounded-xl text-left text-xs font-black flex items-center justify-between transition-colors ${
                           !selectedLocation
@@ -214,7 +232,7 @@ export default function Navbar() {
                           </div>
                         </div>
                         {!selectedLocation && <Check className="w-4 h-4 text-brand-600" />}
-                      </button>
+                      </Link>
 
                       {/* Multi-State Locations */}
                       {MARKET_LOCATIONS.filter((loc) => {
@@ -229,8 +247,9 @@ export default function Navbar() {
                       }).map((loc) => {
                         const isCurrent = selectedLocation?.slug === loc.slug;
                         return (
-                          <button
+                          <Link
                             key={loc.slug}
+                            href={`/${loc.slug}`}
                             onClick={() => handleSelectLocation(loc)}
                             className={`w-full p-2.5 rounded-xl text-left text-xs flex items-center justify-between transition-colors ${
                               isCurrent
@@ -248,7 +267,7 @@ export default function Navbar() {
                               </div>
                             </div>
                             {isCurrent && <Check className="w-4 h-4 text-brand-600 shrink-0" />}
-                          </button>
+                          </Link>
                         );
                       })}
                     </div>
@@ -439,9 +458,37 @@ export default function Navbar() {
                 </span>
               </div>
               <span className="text-[10px] uppercase font-black text-brand-600 bg-white px-2 py-0.5 rounded-md shrink-0 shadow-2xs">
-                Switch ▾
+                {locationDropdownOpen ? "Close ▴" : "Switch ▾"}
               </span>
             </button>
+
+            {locationDropdownOpen && (
+              <div className="p-2 mb-3 bg-gray-50 rounded-2xl border border-gray-200 max-h-60 overflow-y-auto space-y-1">
+                <Link
+                  href="/"
+                  onClick={() => handleSelectLocation(null)}
+                  className={`block p-2 rounded-xl text-xs font-bold ${
+                    !selectedLocation ? "bg-brand-50 text-brand-700" : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  🌟 All Locations (Universal)
+                </Link>
+                {MARKET_LOCATIONS.map((loc) => (
+                  <Link
+                    key={loc.slug}
+                    href={`/${loc.slug}`}
+                    onClick={() => handleSelectLocation(loc)}
+                    className={`block p-2 rounded-xl text-xs font-bold ${
+                      selectedLocation?.slug === loc.slug
+                        ? "bg-brand-50 text-brand-700"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    📍 {loc.name} ({loc.state})
+                  </Link>
+                ))}
+              </div>
+            )}
             {navLinks.map((link) => (
               <Link
                 key={link.name}

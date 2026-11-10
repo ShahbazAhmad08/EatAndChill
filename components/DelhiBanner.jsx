@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 
 export default function DelhiBanner() {
-  const { settings } = useStore();
+  const { settings, selectedLocation } = useStore();
   const [pincode, setPincode] = useState("");
   const [pincodeResult, setPincodeResult] = useState(null);
 
@@ -62,12 +62,25 @@ export default function DelhiBanner() {
             >
               <span className="w-2 h-2 rounded-full bg-brand-500 animate-ping" />
               <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />
-              <span>{settings.heroTag || "Fast 30-Min Food Delivery Hub"}</span>
+              <span>
+                {selectedLocation
+                  ? `⚡ 30-Min Delivery in ${selectedLocation.shortName || selectedLocation.name}`
+                  : settings.heroTag && !settings.heroTag.toUpperCase().includes("DELHI")
+                  ? settings.heroTag
+                  : "Fast 30-Min Food Delivery Hub"}
+              </span>
             </motion.div>
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-950 tracking-tight leading-[1.12]">
-              {settings.heroHeading ? (
+              {selectedLocation ? (
+                <>
+                  Order Delicious Food Online in{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-orange-500 to-amber-500">
+                    {selectedLocation.name}
+                  </span>
+                </>
+              ) : settings.heroHeading && !settings.heroHeading.includes("Delhi") ? (
                 settings.heroHeading
               ) : (
                 <>
@@ -81,8 +94,11 @@ export default function DelhiBanner() {
 
             {/* Subheading */}
             <p className="text-base sm:text-lg text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0 font-medium">
-              {settings.heroSubheading ||
-                "Satisfy your cravings with handcrafted Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!"}
+              {selectedLocation
+                ? selectedLocation.description
+                : settings.heroSubheading && !settings.heroSubheading.includes("Delhi")
+                ? settings.heroSubheading
+                : "Satisfy your cravings with handcrafted Rolls, rich Butter Paneer, crispy Momos, fresh Sandwiches, Italian Pastas and chill Desserts. Fast 30-minute delivery to your doorstep, piping hot and fresh!"}
             </p>
 
             {/* Interactive Universal Pincode Checker */}
