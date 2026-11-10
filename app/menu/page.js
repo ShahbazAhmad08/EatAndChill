@@ -162,7 +162,7 @@ function MenuContent() {
             </div>
           </div>
 
-          {/* Category Horizontal Pills */}
+          {/* Category Horizontal Pills with Sticky "All" */}
           <div className="pt-2 border-t border-gray-100 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             {menu_categories.map((cat, idx) => (
               <button
@@ -172,6 +172,10 @@ function MenuContent() {
                   category === cat.name
                     ? "bg-gradient-to-r from-brand-500 to-orange-500 text-white shadow-md shadow-brand-500/20"
                     : "bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200/60"
+                } ${
+                  idx === 0
+                    ? "sticky left-0 z-10 shadow-[4px_0_12px_-2px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+                    : ""
                 }`}
               >
                 {cat.name}
