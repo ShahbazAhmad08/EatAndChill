@@ -5,6 +5,8 @@ import Footer from "@/components/Footer";
 import LoginModal from "@/components/LoginModal";
 import WhatsAppOrderFloating from "@/components/WhatsAppOrderFloating";
 import PageTransition from "@/components/PageTransition";
+import CinematicLoader from "@/components/CinematicLoader";
+import RouteProgressBar from "@/components/RouteProgressBar";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
@@ -127,6 +129,8 @@ export default function RootLayout({ children }) {
       </head>
       <body className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col justify-between bg-white text-gray-900 font-sans">
         <StoreContextProvider>
+          <CinematicLoader />
+          <RouteProgressBar />
           <Toaster position="top-center" reverseOrder={false} />
           <Navbar />
           <LoginModal />
