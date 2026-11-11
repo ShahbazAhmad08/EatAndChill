@@ -199,12 +199,21 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        {/* Bottom Credits with Staff/Admin Link moved from header ribbon */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4 border-t border-slate-900 mt-4">
           <p>© {new Date().getFullYear()} {settings.storeName || "REAL BROTHER'S RESTAURANT"}. All rights reserved.</p>
-          <p className="text-center md:text-right text-slate-400 font-medium">
-            Ghar Jaisa Swad • Sarfabad, Sector 73 Noida • Express 30-Min Delivery
-          </p>
+          <div className="flex items-center gap-6">
+            <p className="text-center md:text-right text-slate-400 font-medium">
+              Ghar Jaisa Swad • Sarfabad, Sector 73 Noida • Express 30-Min Delivery
+            </p>
+            <Link
+              href="/admin/login"
+              className="text-slate-400 hover:text-amber-400 text-xs font-bold flex items-center gap-1.5 transition-colors px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+              <span>Admin Portal</span>
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

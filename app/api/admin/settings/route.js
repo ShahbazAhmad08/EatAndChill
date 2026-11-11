@@ -32,16 +32,16 @@ export async function GET() {
       {
         success: true,
         data: {
-          storeName: "Eat & Chill",
-          storePhone: "+91 7755013772",
-          storeEmail: "sa798027@gmail.com",
+          storeName: "REAL BROTHER'S RESTAURANT",
+          storePhone: "+91 78271 18412",
+          storeEmail: "contact@realbrothersrestaurant.com",
           stripeEnabled: true,
           codEnabled: true,
           upiEnabled: true,
-          upiId: "7755013772@ybl",
-          deliveryFee: 50,
+          upiId: "7827118412@ybl",
+          deliveryFee: 40,
           freeDeliveryThreshold: 499,
-          bannerNotice: "⚡ Fast 30-Min Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals!",
+          bannerNotice: "⚡ Real Brother's Restaurant · Sarfabad Sector 73 Noida | Free Delivery on Orders Above ₹499 | Authentic Ghar Jaisa Swad!",
         },
       },
       {

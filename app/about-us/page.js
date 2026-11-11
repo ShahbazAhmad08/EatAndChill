@@ -21,7 +21,7 @@ export default async function AboutPage() {
   const settings = (await Settings.findOne({}).lean()) || {};
 
   return (
-    <div className="py-12 bg-white min-h-screen">
+    <div className="py-12 bg-white min-h-screen w-full max-w-full overflow-x-hidden">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="text-center space-y-3">
           <span className="text-xs font-bold uppercase tracking-wider text-amber-700 bg-amber-100/70 px-3.5 py-1.5 rounded-full border border-amber-300">

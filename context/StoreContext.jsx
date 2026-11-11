@@ -152,7 +152,14 @@ export const StoreContextProvider = ({ children }) => {
       });
       const data = await res.json();
       if (data.success && data.data) {
-        setSettings(data.data);
+        const cleanSettings = { ...data.data };
+        if (!cleanSettings.storeName || cleanSettings.storeName.includes("Eat & Chill")) {
+          cleanSettings.storeName = "REAL BROTHER'S RESTAURANT";
+        }
+        if (!cleanSettings.storePhone || cleanSettings.storePhone.includes("7755013772")) {
+          cleanSettings.storePhone = "+91 78271 18412";
+        }
+        setSettings(cleanSettings);
       }
     } catch (err) {
       console.error("Failed to load settings:", err);

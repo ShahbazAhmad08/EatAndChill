@@ -55,7 +55,7 @@ export async function generateMetadata() {
 
 export default function HomePage() {
   return (
-    <div>
+    <div className="w-full max-w-full overflow-x-hidden">
       {/* Hero Section */}
       <DelhiBanner />
 

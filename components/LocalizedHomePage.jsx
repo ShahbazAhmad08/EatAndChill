@@ -49,7 +49,7 @@ export default function LocalizedHomePage({
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/70 pb-20">
+    <div className="min-h-screen bg-gray-50/70 pb-20 w-full max-w-full overflow-x-hidden">
       {/* Localized Hero Banner */}
       <section className="relative overflow-hidden bg-gradient-to-b from-orange-50/80 via-white to-slate-50/50 py-14 sm:py-20 border-b border-orange-100/60">
         <div className="absolute top-10 left-1/4 w-96 h-96 bg-orange-400/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />

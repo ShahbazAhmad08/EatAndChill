@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoginModal from "@/components/LoginModal";
 import WhatsAppOrderFloating from "@/components/WhatsAppOrderFloating";
+import PageTransition from "@/components/PageTransition";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
@@ -124,12 +125,14 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col justify-between bg-white text-gray-900 font-sans">
+      <body className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col justify-between bg-white text-gray-900 font-sans">
         <StoreContextProvider>
           <Toaster position="top-center" reverseOrder={false} />
           <Navbar />
           <LoginModal />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 w-full max-w-full overflow-x-hidden">
+            <PageTransition>{children}</PageTransition>
+          </main>
           <Footer />
           <WhatsAppOrderFloating />
         </StoreContextProvider>

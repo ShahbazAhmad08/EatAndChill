@@ -28,11 +28,11 @@ export default function AdminSettingsPage() {
   const [activeTab, setActiveTab] = useState("payment"); // 'payment', 'store', 'delivery', 'cloudinary'
 
   const [settings, setSettings] = useState({
-    storeName: "Eat & Chill - Delhi",
-    storePhone: "+91 7755013772",
-    storeEmail: "contact@eatandchill.com",
-    storeAddress: "Connaught Place & South Delhi Hub, New Delhi 110001",
-    storeTimings: "11:00 AM - 03:00 AM (Late Night Express Active)",
+    storeName: "REAL BROTHER'S RESTAURANT",
+    storePhone: "+91 78271 18412",
+    storeEmail: "contact@realbrothersrestaurant.com",
+    storeAddress: "Gali Number 5, Vishal, Sarfabad Village, Sector 73, Noida - 201301",
+    storeTimings: "08:00 AM - 12:00 AM Midnight (Open Daily)",
     isStoreOpen: true,
 
     // Payment controls
@@ -41,7 +41,7 @@ export default function AdminSettingsPage() {
     stripePublishableKey: "",
     codEnabled: true,
     upiEnabled: true,
-    upiId: "eatandchill@okhdfcbank",
+    upiId: "7827118412@ybl",
 
     // Cloudinary Storage
     cloudinaryCloudName: "",
