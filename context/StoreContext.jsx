@@ -29,11 +29,19 @@ export const StoreContextProvider = ({ children }) => {
   const [filterVeg, setFilterVeg] = useState("all"); // 'all', 'veg', 'delhi'
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [availableLocations, setAvailableLocations] = useState([]);
+  const [userCoords, setUserCoords] = useState(null);
+  const [userDistanceKm, setUserDistanceKm] = useState(null);
+  const [isCheckingDistance, setIsCheckingDistance] = useState(false);
+  const [distanceError, setDistanceError] = useState(null);
+
   const [settings, setSettings] = useState({
     storeName: "REAL BROTHER'S RESTAURANT",
     storePhone: "+91 78271 18412",
     deliveryFee: 40,
     freeDeliveryThreshold: 499,
+    maxDeliveryDistanceKm: 3,
+    restaurantLat: 28.583,
+    restaurantLng: 77.388,
     stripeEnabled: true,
     codEnabled: true,
     upiEnabled: true,
@@ -43,6 +51,69 @@ export const StoreContextProvider = ({ children }) => {
   });
 
   const toggleLoginPopup = () => setLoginPopup((prev) => !prev);
+
+  // Helper to calculate distance in KM between 2 coordinates (Haversine Formula)
+  const calculateDistanceInKm = (lat1, lon1, lat2, lon2) => {
+    if (!lat1 || !lon1 || !lat2 || !lon2) return 0;
+    const R = 6371; // Earth's radius in KM
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLon = ((lon2 - lon1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return Number((R * c).toFixed(1));
+  };
+
+  // Check User Geolocation & Compute Distance from Kitchen
+  const checkUserDistance = () => {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      setDistanceError("Geolocation is not supported by your device");
+      toast.error("Geolocation is not supported by your browser");
+      return;
+    }
+
+    setIsCheckingDistance(true);
+    setDistanceError(null);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const uLat = position.coords.latitude;
+        const uLng = position.coords.longitude;
+        setUserCoords({ lat: uLat, lng: uLng });
+
+        const rLat = settings.restaurantLat !== undefined ? settings.restaurantLat : 28.583;
+        const rLng = settings.restaurantLng !== undefined ? settings.restaurantLng : 77.388;
+        const dist = calculateDistanceInKm(uLat, uLng, rLat, rLng);
+        setUserDistanceKm(dist);
+        setIsCheckingDistance(false);
+
+        const maxRadius =
+          settings.maxDeliveryDistanceKm !== undefined ? settings.maxDeliveryDistanceKm : 3;
+
+        if (dist > maxRadius) {
+          toast(
+            `📍 You are ${dist} km away (Covered radius is ${maxRadius} km). Please message on WhatsApp for custom distance delivery!`,
+            { icon: "⚠️", duration: 5500 }
+          );
+        } else {
+          toast.success(
+            `🎉 You are ${dist} km away from our Sarfabad kitchen — Inside express delivery radius!`
+          );
+        }
+      },
+      (err) => {
+        console.warn("Geolocation permission error:", err.message);
+        setIsCheckingDistance(false);
+        setDistanceError("Please allow location access to calculate delivery distance");
+        toast.error("Location permission denied. Please allow access or order via WhatsApp.");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  };
 
   // Fetch Available Locations (dynamic from API / DB)
   const fetchAvailableLocations = async () => {
@@ -251,6 +322,12 @@ export const StoreContextProvider = ({ children }) => {
     setSelectedLocation: updateSelectedLocation,
     availableLocations,
     fetchAvailableLocations,
+    userCoords,
+    userDistanceKm,
+    isCheckingDistance,
+    distanceError,
+    checkUserDistance,
+    calculateDistanceInKm,
     token,
     setToken,
     user,

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/context/StoreContext";
 import toast from "react-hot-toast";
+import DistanceDeliveryAlert from "@/components/DistanceDeliveryAlert";
 import {
   Trash2,
   Plus,
@@ -276,6 +277,9 @@ export default function CartPage() {
 
             {/* Right: Order Summary & Coupon */}
             <div className="lg:col-span-4 space-y-5">
+              {/* Kitchen Distance Checker & WhatsApp Alert */}
+              <DistanceDeliveryAlert />
+
               {/* Promo Code Box */}
               <div className="bg-white rounded-3xl p-6 shadow-card border border-gray-100 space-y-3">
                 <div className="flex items-center gap-1.5 text-xs font-black text-gray-900 uppercase tracking-wider">

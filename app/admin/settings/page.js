@@ -49,9 +49,14 @@ export default function AdminSettingsPage() {
     cloudinaryApiSecret: "",
 
     // Pricing & Delivery
-    deliveryFee: 50,
+    deliveryFee: 40,
     freeDeliveryThreshold: 499,
     taxPercent: 5,
+
+    // Distance & Coverage Radius
+    maxDeliveryDistanceKm: 3,
+    restaurantLat: 28.583,
+    restaurantLng: 77.388,
   });
 
   const fetchSettings = async () => {
@@ -475,6 +480,64 @@ export default function AdminSettingsPage() {
                 className="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-orange-500 font-bold"
               />
               <span className="text-[10px] text-slate-500">Included in menu item prices</span>
+            </div>
+          </div>
+
+          {/* Real-time Distance & Kitchen Geolocation Settings */}
+          <div className="pt-6 border-t border-slate-800 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-amber-400" />
+                <span>Delivery Radius &amp; Geolocation Control</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Calculate customer distance from restaurant in real-time. If distance exceeds the maximum limit, customers are routed to WhatsApp for custom distance delivery.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                <label className="block text-xs font-bold text-amber-400 mb-1">
+                  Max Delivery Distance (KM) *
+                </label>
+                <input
+                  type="number"
+                  step="0.5"
+                  min="0.5"
+                  value={settings.maxDeliveryDistanceKm !== undefined ? settings.maxDeliveryDistanceKm : 3}
+                  onChange={(e) => handleChange("maxDeliveryDistanceKm", Number(e.target.value))}
+                  className="w-full px-3 py-2 text-sm bg-slate-950 border border-slate-700 rounded-lg text-white font-black focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+                <span className="text-[10px] text-slate-400 mt-1 block">Default: 3 KM (Standard automated delivery radius)</span>
+              </div>
+
+              <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Kitchen Latitude
+                </label>
+                <input
+                  type="number"
+                  step="0.0001"
+                  value={settings.restaurantLat !== undefined ? settings.restaurantLat : 28.583}
+                  onChange={(e) => handleChange("restaurantLat", Number(e.target.value))}
+                  className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+                <span className="text-[10px] text-slate-400 mt-1 block">Sarfabad Sector 73: 28.5830</span>
+              </div>
+
+              <div className="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  Kitchen Longitude
+                </label>
+                <input
+                  type="number"
+                  step="0.0001"
+                  value={settings.restaurantLng !== undefined ? settings.restaurantLng : 77.388}
+                  onChange={(e) => handleChange("restaurantLng", Number(e.target.value))}
+                  className="w-full px-3 py-2 text-xs bg-slate-950 border border-slate-700 rounded-lg text-white font-mono focus:outline-none focus:ring-1 focus:ring-amber-500"
+                />
+                <span className="text-[10px] text-slate-400 mt-1 block">Sarfabad Sector 73: 77.3880</span>
+              </div>
             </div>
           </div>
         </div>

@@ -25,6 +25,7 @@ import {
   Lock,
   MessageCircle,
 } from "lucide-react";
+import DistanceDeliveryAlert from "@/components/DistanceDeliveryAlert";
 
 export default function PlaceOrderPage() {
   const router = useRouter();
@@ -755,6 +756,9 @@ export default function PlaceOrderPage() {
                 )}
               </div>
             </div>
+
+            {/* Real-time Distance & Radius Checker */}
+            <DistanceDeliveryAlert />
 
             {/* Bill & Submit */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 space-y-4">
