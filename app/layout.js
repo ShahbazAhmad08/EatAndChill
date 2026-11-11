@@ -3,6 +3,7 @@ import { StoreContextProvider } from "@/context/StoreContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoginModal from "@/components/LoginModal";
+import WhatsAppOrderFloating from "@/components/WhatsAppOrderFloating";
 import { Toaster } from "react-hot-toast";
 
 export const metadata = {
@@ -130,6 +131,7 @@ export default function RootLayout({ children }) {
           <LoginModal />
           <main className="flex-1">{children}</main>
           <Footer />
+          <WhatsAppOrderFloating />
         </StoreContextProvider>
       </body>
     </html>

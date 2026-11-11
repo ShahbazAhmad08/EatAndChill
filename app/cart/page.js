@@ -18,6 +18,7 @@ import {
   ShieldCheck,
   MapPin,
   CheckCircle2,
+  MessageCircle,
 } from "lucide-react";
 
 export default function CartPage() {
@@ -31,6 +32,7 @@ export default function CartPage() {
     settings,
     token,
     toggleLoginPopup,
+    selectedLocation,
   } = useStore();
 
   const router = useRouter();
@@ -84,6 +86,39 @@ export default function CartPage() {
       return;
     }
     router.push("/place-order");
+  };
+
+  const handleWhatsAppOrder = () => {
+    if (cartList.length === 0) {
+      toast.error("Your cart is empty!");
+      return;
+    }
+
+    const itemsText = cartList
+      .map((item) => {
+        const id = item._id || item.id;
+        const qty = cartItems[id];
+        return `• ${item.name} x ${qty} = ₹${item.price * qty}`;
+      })
+      .join("\n");
+
+    const locText = selectedLocation ? selectedLocation.name : "Sarfabad (Sector 73 Noida)";
+    const storePhone = (settings.storePhone || "+91 78271 18412").replace(/[^0-9]/g, "");
+
+    const message =
+      `*🛒 NEW FOOD ORDER - REAL BROTHER'S RESTAURANT*\n` +
+      `--------------------------------\n` +
+      `*Items Ordered:*\n${itemsText}\n` +
+      `--------------------------------\n` +
+      `*Item Subtotal:* ₹${subtotal}\n` +
+      `*Delivery Fee:* ${deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}\n` +
+      (discount > 0 ? `*Promo Discount:* -₹${discount}\n` : "") +
+      `*Grand Total:* ₹${total}\n` +
+      `--------------------------------\n` +
+      `*Delivery Location:* ${locText}\n` +
+      `*Please confirm my order & share delivery time!*`;
+
+    window.open(`https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   // Filter items in cart
@@ -317,10 +352,21 @@ export default function CartPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleCheckout}
-                  className="w-full py-4 px-4 rounded-2xl bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-black text-sm shadow-xl shadow-brand-500/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 px-4 rounded-2xl bg-gradient-to-r from-brand-600 to-amber-600 hover:from-brand-700 hover:to-amber-700 text-white font-black text-sm shadow-xl shadow-brand-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>Proceed to Checkout</span>
+                  <span>Proceed to Website Checkout</span>
                   <ArrowRight className="w-4 h-4" />
+                </motion.button>
+
+                {/* Direct Order on WhatsApp Button */}
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleWhatsAppOrder}
+                  className="w-full py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40"
+                >
+                  <MessageCircle className="w-4 h-4 fill-white" />
+                  <span>Order on WhatsApp (Instant Confirm)</span>
                 </motion.button>
 
                 <div className="pt-2 flex items-center justify-center gap-2 text-[11px] text-gray-400 font-medium">

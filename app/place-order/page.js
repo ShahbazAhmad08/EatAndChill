@@ -23,6 +23,7 @@ import {
   ExternalLink,
   Sparkles,
   Lock,
+  MessageCircle,
 } from "lucide-react";
 
 export default function PlaceOrderPage() {
@@ -276,6 +277,45 @@ export default function PlaceOrderPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleWhatsAppCheckout = () => {
+    // Gather ordered items with quantity
+    const orderItems = [];
+    food_list.forEach((item) => {
+      const id = item._id || item.id;
+      if (cartItems[id] && cartItems[id] > 0) {
+        orderItems.push(`• ${item.name} x ${cartItems[id]} = ₹${item.price * cartItems[id]}`);
+      }
+    });
+
+    if (orderItems.length === 0) {
+      toast.error("Your cart is empty.");
+      return;
+    }
+
+    const customerName = formData.firstName ? `${formData.firstName} ${formData.lastName}`.trim() : "Valued Customer";
+    const addressStr = `${formData.address || ""}, ${formData.city || "Noida"}, Pincode: ${formData.pincode || ""}`.trim();
+    const phoneStr = formData.phone || "Not specified";
+    const storePhone = (storeSettings?.storePhone || "+91 78271 18412").replace(/[^0-9]/g, "");
+
+    const message =
+      `*🛒 NEW DIRECT ORDER - REAL BROTHER'S RESTAURANT*\n` +
+      `--------------------------------\n` +
+      `*Customer:* ${customerName}\n` +
+      `*Phone:* ${phoneStr}\n` +
+      `*Delivery Address:* ${addressStr}\n` +
+      (formData.deliveryNotes ? `*Notes:* ${formData.deliveryNotes}\n` : "") +
+      `--------------------------------\n` +
+      `*Items:*\n${orderItems.join("\n")}\n` +
+      `--------------------------------\n` +
+      `*Delivery Fee:* ${deliveryFee === 0 ? "FREE" : `₹${deliveryFee}`}\n` +
+      `*Total Amount:* ₹${grandTotal}\n` +
+      `*Preferred Payment:* ${paymentMethod.toUpperCase()}\n` +
+      `--------------------------------\n` +
+      `Please confirm order and dispatch!`;
+
+    window.open(`https://wa.me/${storePhone}?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   // Wait until client mounted to prevent SSR hydration mismatch
@@ -747,7 +787,7 @@ export default function PlaceOrderPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 px-4 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-black text-sm shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="w-full py-4 px-4 rounded-xl bg-gradient-to-r from-brand-600 to-amber-600 hover:from-brand-700 hover:to-amber-700 text-white font-black text-sm shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
               >
                 {loading ? (
                   <div className="flex items-center gap-2">
@@ -764,6 +804,16 @@ export default function PlaceOrderPage() {
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
+              </button>
+
+              {/* Direct WhatsApp Order Button */}
+              <button
+                type="button"
+                onClick={handleWhatsAppCheckout}
+                className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-xs sm:text-sm shadow-md shadow-emerald-600/25 transition-all flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/40"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Send Order Directly on WhatsApp</span>
               </button>
 
               <div className="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
