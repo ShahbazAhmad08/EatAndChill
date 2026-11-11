@@ -23,32 +23,48 @@ import {
 } from "lucide-react";
 
 export default function MarketAreaDirectory() {
-  const { selectedLocation, setSelectedLocation } = useStore();
+  const { selectedLocation, setSelectedLocation, availableLocations } = useStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeZone, setActiveZone] = useState("All Zones");
 
-  const zones = useMemo(() => getAllZones(), []);
+  const displayLocations =
+    availableLocations && availableLocations.length > 0
+      ? availableLocations
+      : MARKET_LOCATIONS;
+
+  const zones = useMemo(() => {
+    if (typeof getAllZones === "function") {
+      try {
+        return getAllZones();
+      } catch (e) {
+        // fallback
+      }
+    }
+    return ["All Zones", "Uttar Pradesh"];
+  }, []);
 
   // Filter locations based on search and zone
   const filteredLocations = useMemo(() => {
-    return MARKET_LOCATIONS.filter((loc) => {
+    return displayLocations.filter((loc) => {
       const matchesZone =
         activeZone === "All Zones" || loc.zone === activeZone;
       const q = searchQuery.toLowerCase().trim();
       if (!q) return matchesZone;
 
+      const pincodesArr = Array.isArray(loc.pincodes) ? loc.pincodes : [loc.pincodes || ""];
+
       const matchesSearch =
-        loc.name.toLowerCase().includes(q) ||
-        loc.zone.toLowerCase().includes(q) ||
-        loc.city.toLowerCase().includes(q) ||
-        loc.hub.toLowerCase().includes(q) ||
-        loc.pincodes.some((pin) => pin.includes(q)) ||
-        (loc.landmarks && loc.landmarks.some((lm) => lm.toLowerCase().includes(q))) ||
-        (loc.popularDishes && loc.popularDishes.some((dish) => dish.toLowerCase().includes(q)));
+        (loc.name && loc.name.toLowerCase().includes(q)) ||
+        (loc.zone && loc.zone.toLowerCase().includes(q)) ||
+        (loc.city && loc.city.toLowerCase().includes(q)) ||
+        (loc.hub && loc.hub.toLowerCase().includes(q)) ||
+        pincodesArr.some((pin) => pin && pin.includes(q)) ||
+        (loc.landmarks && loc.landmarks.some((lm) => lm && lm.toLowerCase().includes(q))) ||
+        (loc.popularDishes && loc.popularDishes.some((dish) => dish && dish.toLowerCase().includes(q)));
 
       return matchesZone && matchesSearch;
     });
-  }, [searchQuery, activeZone]);
+  }, [displayLocations, activeZone, searchQuery]);
 
   return (
     <div className="min-h-screen bg-gray-50/60 pb-20">

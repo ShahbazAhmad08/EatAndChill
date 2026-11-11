@@ -39,6 +39,7 @@ export default function Navbar() {
     settings,
     selectedLocation,
     setSelectedLocation,
+    availableLocations,
   } = useStore();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -48,6 +49,11 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  const displayLocations =
+    availableLocations && availableLocations.length > 0
+      ? availableLocations
+      : MARKET_LOCATIONS;
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -118,7 +124,17 @@ export default function Navbar() {
               </span>
             </button>
           </div>
-          <div className="hidden md:flex items-center gap-4 shrink-0 text-white/90">
+          <div className="hidden md:flex items-center gap-3 shrink-0 text-white/90">
+            <a
+              href={settings.googleBusinessUrl || "https://share.google/UPOhBCowyPZ07exvK"}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 text-[11px] font-bold text-amber-200 transition-colors"
+              title="View Real Brother's Restaurant on Google Business Profile"
+            >
+              <Sparkles className="w-3 h-3 text-amber-300" />
+              <span>Google Profile (⭐ 4.9)</span>
+            </a>
             <button
               onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
               className="text-[11px] font-bold text-orange-100 hover:text-white underline transition-colors"
@@ -126,11 +142,11 @@ export default function Navbar() {
               {selectedLocation ? "Switch Location ▾" : "Select Location ▾"}
             </button>
             <a
-              href={`tel:${settings.storePhone || "+917755013772"}`}
+              href={`tel:${settings.storePhone || "+917827118412"}`}
               className="flex items-center gap-1.5 hover:text-white transition-colors font-bold text-xs"
             >
               <Phone className="w-3.5 h-3.5" />
-              <span>{settings.storePhone || "+91 7755013772"}</span>
+              <span>{settings.storePhone || "+91 78271 18412"}</span>
             </a>
             <Link
               href="/admin/login"
@@ -148,25 +164,27 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-20 gap-4">
           {/* Logo & City Badge */}
           <div className="flex items-center gap-3 shrink-0">
-            <Link href={homeHref} className="flex items-center gap-2.5 group">
-              <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-100 to-orange-50 border border-orange-200/60 p-1.5 shadow-sm group-hover:scale-105 transition-transform">
+            <Link href={homeHref} className="flex items-center gap-3 group">
+              <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-100 to-amber-50 border border-amber-300/70 p-0.5 shadow-sm group-hover:scale-105 transition-transform overflow-hidden">
                 <Image
-                  src="/assets/eat.png"
-                  alt="Eat & Chill"
-                  width={44}
-                  height={44}
-                  className="object-contain"
+                  src="/images/logo-square.jpg"
+                  alt="Real Brother's Restaurant"
+                  width={48}
+                  height={48}
+                  className="object-cover rounded-xl w-full h-full"
                   priority
                 />
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-black tracking-tight text-gray-950 group-hover:text-brand-600 transition-colors">
-                  Eat &amp; Chill
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-gray-950 group-hover:text-brand-600 transition-colors uppercase">
+                  {settings.storeName || "REAL BROTHER'S"}
                 </span>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-brand-600 flex items-center gap-1">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-700 flex items-center gap-1">
+                  <span className="bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded font-black text-[9px]">GHAR JAISA SWAD</span>
+                  <span className="text-gray-400">·</span>
                   <MapPin className="w-3 h-3 text-brand-500 animate-pulse" />
-                  <span className="max-w-[120px] truncate">
-                    {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Select Location"}
+                  <span className="max-w-[130px] truncate">
+                    {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Sarfabad (Noida)"}
                   </span>
                 </span>
               </div>
@@ -234,15 +252,16 @@ export default function Navbar() {
                         {!selectedLocation && <Check className="w-4 h-4 text-brand-600" />}
                       </Link>
 
-                      {/* Multi-State Locations */}
-                      {MARKET_LOCATIONS.filter((loc) => {
+                      {/* Dynamic Locations (Database & Config) */}
+                      {displayLocations.filter((loc) => {
                         const q = locationSearch.toLowerCase().trim();
                         if (!q) return true;
                         return (
                           loc.name.toLowerCase().includes(q) ||
-                          loc.zone.toLowerCase().includes(q) ||
-                          loc.state.toLowerCase().includes(q) ||
-                          loc.pincodes.some((pin) => pin.includes(q))
+                          (loc.zone && loc.zone.toLowerCase().includes(q)) ||
+                          (loc.city && loc.city.toLowerCase().includes(q)) ||
+                          (loc.state && loc.state.toLowerCase().includes(q)) ||
+                          (loc.pincodes && (Array.isArray(loc.pincodes) ? loc.pincodes : [loc.pincodes]).some((pin) => pin.includes(q)))
                         );
                       }).map((loc) => {
                         const isCurrent = selectedLocation?.slug === loc.slug;
@@ -473,18 +492,18 @@ export default function Navbar() {
                 >
                   🌟 All Locations (Universal)
                 </Link>
-                {MARKET_LOCATIONS.map((loc) => (
+                {displayLocations.map((loc) => (
                   <Link
                     key={loc.slug}
                     href={`/${loc.slug}`}
                     onClick={() => handleSelectLocation(loc)}
                     className={`block p-2 rounded-xl text-xs font-bold ${
                       selectedLocation?.slug === loc.slug
-                        ? "bg-brand-50 text-brand-700"
+                        ? "bg-brand-50 text-brand-700 font-black"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
-                    📍 {loc.name} ({loc.state})
+                    📍 {loc.name} {loc.state ? `(${loc.state})` : ""}
                   </Link>
                 ))}
               </div>

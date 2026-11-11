@@ -138,16 +138,18 @@ export default function LocalizedHomePage({
               className="lg:col-span-5 relative flex justify-center items-center"
             >
               <div className="relative w-64 sm:w-80 h-64 sm:h-80">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-orange-400/20 to-brand-500/30 blur-2xl animate-pulse-glow" />
-                <div className="relative w-full h-full rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
-                  <Image
-                    src="/assets/header_img.png"
-                    alt={`Delicious food in ${location.name}`}
-                    fill
-                    priority
-                    className="object-cover hover:scale-105 transition-transform duration-700"
-                    sizes="(max-width: 768px) 100vw, 360px"
-                  />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400/25 to-brand-600/30 blur-2xl animate-pulse-glow" />
+                <div className="relative w-full h-full rounded-full border-4 border-amber-400/80 shadow-2xl overflow-hidden bg-stone-950 p-1 group">
+                  <div className="relative w-full h-full rounded-full overflow-hidden">
+                    <Image
+                      src="/images/logo-square.jpg"
+                      alt={`Real Brother's Restaurant in ${location.name}`}
+                      fill
+                      priority
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                      sizes="(max-width: 768px) 100vw, 360px"
+                    />
+                  </div>
                 </div>
 
                 {/* Floating Metric Pill */}
@@ -155,9 +157,9 @@ export default function LocalizedHomePage({
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="absolute -bottom-3 -left-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-xl border border-orange-100 flex items-center gap-2"
+                  className="absolute -bottom-3 -left-3 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl shadow-xl border border-amber-200 flex items-center gap-2 z-20"
                 >
-                  <div className="w-8 h-8 rounded-xl bg-orange-100 text-brand-600 flex items-center justify-center font-black text-xs">
+                  <div className="w-8 h-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-black text-xs">
                     ⚡
                   </div>
                   <div>

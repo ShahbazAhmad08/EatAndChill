@@ -28,18 +28,34 @@ export const StoreContextProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterVeg, setFilterVeg] = useState("all"); // 'all', 'veg', 'delhi'
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [availableLocations, setAvailableLocations] = useState([]);
   const [settings, setSettings] = useState({
-    deliveryFee: 50,
+    storeName: "REAL BROTHER'S RESTAURANT",
+    storePhone: "+91 78271 18412",
+    deliveryFee: 40,
     freeDeliveryThreshold: 499,
     stripeEnabled: true,
     codEnabled: true,
     upiEnabled: true,
-    upiId: "7755013772@ybl",
-    bannerNotice: "⚡ Fast 30-Min Food Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals!",
-    storePhone: "+91 7755013772",
+    upiId: "7827118412@ybl",
+    bannerNotice: "⚡ Real Brother's Restaurant · Sarfabad Sector 73 Noida | Free Delivery Above ₹499 | Authentic Ghar Jaisa Swad!",
+    googleBusinessUrl: "https://share.google/UPOhBCowyPZ07exvK",
   });
 
   const toggleLoginPopup = () => setLoginPopup((prev) => !prev);
+
+  // Fetch Available Locations (dynamic from API / DB)
+  const fetchAvailableLocations = async () => {
+    try {
+      const res = await fetch(`/api/locations?t=${Date.now()}`, { cache: "no-store" });
+      const data = await res.json();
+      if (data.success && Array.isArray(data.data)) {
+        setAvailableLocations(data.data);
+      }
+    } catch (err) {
+      console.error("Failed to load available locations:", err);
+    }
+  };
 
   // Fetch Food List
   const fetchFoodList = async () => {
@@ -197,6 +213,7 @@ export const StoreContextProvider = ({ children }) => {
   useEffect(() => {
     fetchFoodList();
     fetchSettings();
+    fetchAvailableLocations();
 
     const storedToken = localStorage.getItem("token");
     const storedName = localStorage.getItem("userName");
@@ -232,6 +249,8 @@ export const StoreContextProvider = ({ children }) => {
     getDeliveryFee,
     selectedLocation,
     setSelectedLocation: updateSelectedLocation,
+    availableLocations,
+    fetchAvailableLocations,
     token,
     setToken,
     user,

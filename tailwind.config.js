@@ -10,23 +10,37 @@ module.exports = {
     extend: {
       colors: {
         brand: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#ff4c24', // primary vibrant warm tomato red/orange
-          600: '#ea3a12',
-          700: '#c22d0c',
-          800: '#9a240c',
-          900: '#7c1e0a',
+          50: '#fef2f2',
+          100: '#fee2e2',
+          200: '#fecaca',
+          300: '#fca5a5',
+          400: '#f87171',
+          500: '#dc2626', // royal crimson red matching logo
+          600: '#b91c1c',
+          700: '#991b1b',
+          800: '#7f1d1d',
+          900: '#600e12',
+          950: '#450a0a',
+        },
+        gold: {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b', // vibrant golden yellow from logo
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
         },
       },
       boxShadow: {
-        'premium': '0 20px 40px -15px rgba(255, 76, 36, 0.15), 0 0 20px -5px rgba(0, 0, 0, 0.05)',
+        'premium': '0 20px 40px -15px rgba(185, 28, 28, 0.15), 0 0 20px -5px rgba(245, 158, 11, 0.1)',
         'card': '0 10px 30px -10px rgba(0, 0, 0, 0.07)',
-        'card-hover': '0 25px 50px -12px rgba(255, 76, 36, 0.2), 0 0 1px 1px rgba(255, 76, 36, 0.1)',
-        'glow': '0 0 35px rgba(255, 76, 36, 0.35)',
+        'card-hover': '0 25px 50px -12px rgba(185, 28, 28, 0.2), 0 0 1px 1px rgba(245, 158, 11, 0.2)',
+        'glow': '0 0 35px rgba(220, 38, 38, 0.35)',
+        'glow-gold': '0 0 35px rgba(245, 158, 11, 0.4)',
         'glow-emerald': '0 0 35px rgba(16, 185, 129, 0.35)',
       },
       animation: {

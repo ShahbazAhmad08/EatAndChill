@@ -1,10 +1,10 @@
 import connectDB from "@/lib/db";
 import Food from "@/lib/models/Food";
+import Location from "@/lib/models/Location";
 import { MARKET_LOCATIONS } from "@/lib/marketLocations";
-import { DELHI_LOCALITIES } from "@/lib/delhiLocalities";
 
 export default async function sitemap() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://eatandchill.onrender.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
   const staticRoutes = [
     {
@@ -69,16 +69,26 @@ export default async function sitemap() {
     },
   ];
 
-  // Dynamic Root Location Routes (e.g. /connaught-place, /hauz-khas, /noida-sector-18)
-  const rootLocationRoutes = MARKET_LOCATIONS.map((loc) => ({
+  // Locations dynamic routes
+  let locationList = MARKET_LOCATIONS;
+  try {
+    await connectDB();
+    const dbLocs = await Location.find({ isActive: true }).lean();
+    if (dbLocs && dbLocs.length > 0) {
+      locationList = dbLocs;
+    }
+  } catch (err) {
+    // fallback
+  }
+
+  const rootLocationRoutes = locationList.map((loc) => ({
     url: `${baseUrl}/${loc.slug}`,
     lastModified: new Date(),
     changeFrequency: "daily",
     priority: 0.95,
   }));
 
-  // Market Area Catalog Routes
-  const marketAreaRoutes = MARKET_LOCATIONS.map((loc) => ({
+  const marketAreaRoutes = locationList.map((loc) => ({
     url: `${baseUrl}/market-area/${loc.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly",

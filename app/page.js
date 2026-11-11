@@ -1,6 +1,7 @@
 import DelhiBanner from "@/components/DelhiBanner";
 import ExploreMenu from "@/components/ExploreMenu";
 import FoodDisplay from "@/components/FoodDisplay";
+import RestaurantGallery from "@/components/RestaurantGallery";
 import DelhiFoodiesGuide from "@/components/DelhiFoodiesGuide";
 import connectDB from "@/lib/db";
 import Settings from "@/lib/models/Settings";
@@ -15,26 +16,30 @@ export async function generateMetadata() {
       const keywords = settings.metaKeywords
         ? settings.metaKeywords.split(",").map((k) => k.trim())
         : [
-            "food delivery online",
-            "online food order",
-            "express food delivery",
-            "late night food delivery",
+            "real brothers restaurant",
+            "food delivery sector 73 noida",
+            "online food order sarfabad",
+            "ghar jaisa swad",
+            "best rolls in noida",
           ];
 
       return {
         title:
           settings.metaTitle ||
-          "Eat & Chill | Express Online Food Delivery - Hot & Fresh in 30 Mins",
+          "REAL BROTHER'S RESTAURANT | Ghar Jaisa Swad - Sector 73, Sarfabad, Noida",
         description:
           settings.metaDescription ||
-          "Craving delicious food? Order online from Eat & Chill! Handcrafted Kathi Rolls, Momos, Shahi Paneer, Biryani, Pastas, Burgers & Shakes. Fast 30-minute delivery.",
+          "Craving delicious food? Order online from Real Brother's Restaurant in Sarfabad, Sector 73 Noida! Handcrafted Kathi Rolls, Momos, Shahi Paneer, Dal Makhani, Biryani & Thalis. Fast 25-30 min delivery.",
         keywords,
         verification: settings.googleSiteVerification
           ? { google: settings.googleSiteVerification }
           : undefined,
         openGraph: {
-          title: settings.metaTitle || "Eat & Chill | Express Online Food Delivery",
-          description: settings.metaDescription || "Order delicious food online with fast 30-minute delivery.",
+          title: settings.metaTitle || "REAL BROTHER'S RESTAURANT | Ghar Jaisa Swad",
+          description:
+            settings.metaDescription ||
+            "Order delicious food online with fast 30-minute delivery in Sarfabad & Sector 73 Noida.",
+          images: ["/images/logo-square.jpg"],
         },
       };
     }
@@ -43,15 +48,15 @@ export async function generateMetadata() {
   }
 
   return {
-    title: "Eat & Chill | Express Online Food Delivery - Hot & Fresh in 30 Mins",
-    description: "Order fresh food online with fast 30-minute delivery to your doorstep.",
+    title: "REAL BROTHER'S RESTAURANT | Ghar Jaisa Swad - Sector 73, Sarfabad, Noida",
+    description: "Order fresh home-style food online with fast 30-minute delivery in Sarfabad & Sector 73 Noida.",
   };
 }
 
 export default function HomePage() {
   return (
     <div>
-      {/* Delhi Hero Section */}
+      {/* Hero Section */}
       <DelhiBanner />
 
       {/* Menu Categories */}
@@ -60,7 +65,10 @@ export default function HomePage() {
       {/* Food Display Grid: 3 Trending Cards on Home */}
       <FoodDisplay isHome={true} limit={3} />
 
-      {/* Delhi SEO Foodies Guide, Testimonials & FAQs */}
+      {/* Restaurant Story & Ambience Gallery */}
+      <RestaurantGallery />
+
+      {/* Standards, Google Reviews & FAQs */}
       <DelhiFoodiesGuide />
     </div>
   );

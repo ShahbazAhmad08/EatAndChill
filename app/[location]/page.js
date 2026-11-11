@@ -6,12 +6,51 @@ import {
   getNearbyMarketLocations,
 } from "@/lib/marketLocations";
 import connectDB from "@/lib/db";
+import Location from "@/lib/models/Location";
 import Offer from "@/lib/models/Offer";
 import { initialOffers } from "@/lib/seedOffers";
 import LocalizedHomePage from "@/components/LocalizedHomePage";
 
-// Programmatic SEO: Generate static params for all 22 locations at root /[location]
+// Helper to resolve location from database or static fallback
+async function resolveLocation(slug) {
+  if (!slug) return null;
+  const cleanSlug = slug.toLowerCase().trim();
+
+  try {
+    await connectDB();
+    const dbLoc = await Location.findOne({ slug: cleanSlug, isActive: true }).lean();
+    if (dbLoc) {
+      return {
+        ...dbLoc,
+        _id: dbLoc._id.toString(),
+        pincodes: Array.isArray(dbLoc.pincodes) ? dbLoc.pincodes : [dbLoc.pincodes || "201301"],
+        popularDishes: Array.isArray(dbLoc.popularDishes)
+          ? dbLoc.popularDishes
+          : ["Shahi Paneer", "Kathi Roll", "Momos"],
+        geo: dbLoc.geo || { lat: 28.583, lng: 77.388 },
+        faqs: dbLoc.faqs || [],
+        reviews: dbLoc.reviews || [],
+      };
+    }
+  } catch (err) {
+    console.error("resolveLocation DB error:", err);
+  }
+
+  return getMarketLocationBySlug(cleanSlug);
+}
+
+// Programmatic SEO: Generate static params for active locations
 export async function generateStaticParams() {
+  try {
+    await connectDB();
+    const dbLocs = await Location.find({ isActive: true }).select("slug").lean();
+    if (dbLocs && dbLocs.length > 0) {
+      return dbLocs.map((loc) => ({ location: loc.slug }));
+    }
+  } catch (err) {
+    // fallback
+  }
+
   return MARKET_LOCATIONS.map((loc) => ({
     location: loc.slug,
   }));
@@ -19,46 +58,48 @@ export async function generateStaticParams() {
 
 // Dynamic SEO Metadata for /{location}
 export async function generateMetadata({ params }) {
-  const loc = getMarketLocationBySlug(params.location);
+  const loc = await resolveLocation(params.location);
   if (!loc) {
     return {
-      title: "Delivery Area Not Found | Eat & Chill",
-      description: "Delhi NCR fast food delivery.",
+      title: "Delivery Area Not Found | REAL BROTHER'S RESTAURANT",
+      description: "Fast food delivery.",
     };
   }
 
-  const dishesText = loc.popularDishes.slice(0, 3).join(", ");
-  const pincodesText = loc.pincodes.join(", ");
+  const dishesText = (loc.popularDishes || []).slice(0, 3).join(", ");
+  const pincodesText = (loc.pincodes || []).join(", ");
 
   return {
-    title: `Best Food Delivery in ${loc.name} | Express 30 Mins - Eat & Chill`,
-    description: `Order hot & fresh food online in ${loc.name}. Authentic ${dishesText} delivered in ${loc.avgDeliveryMinutes} mins to ${pincodesText} from our ${loc.hub}. Free delivery above ₹499!`,
+    title: `Best Food Delivery in ${loc.name} | Ghar Jaisa Swad - REAL BROTHER'S RESTAURANT`,
+    description: `Order hot & fresh food online in ${loc.name}. Authentic ${dishesText} delivered in ${loc.avgDeliveryMinutes || "25-30"} mins to ${pincodesText} from Real Brother's Restaurant. Free delivery above ₹499!`,
     keywords: [
       `food delivery in ${loc.name}`,
       `best food in ${loc.name}`,
       `order food online ${loc.name}`,
+      `real brothers restaurant ${loc.name}`,
+      `ghar jaisa swad ${loc.name}`,
       `restaurants in ${loc.name}`,
-      `cloud kitchen in ${loc.name}`,
       `late night food delivery ${loc.name}`,
-      ...loc.pincodes.map((pin) => `food delivery ${pin}`),
+      ...(loc.pincodes || []).map((pin) => `food delivery ${pin}`),
       ...(loc.landmarks || []).map((lm) => `food delivery near ${lm}`),
     ],
     alternates: {
       canonical: `/${loc.slug}`,
     },
     openGraph: {
-      title: `Best Food Delivery in ${loc.name} | 30 Mins Express - Eat & Chill`,
+      title: `Best Food Delivery in ${loc.name} | Ghar Jaisa Swad - REAL BROTHER'S RESTAURANT`,
       description: loc.description,
       url: `/${loc.slug}`,
-      siteName: "Eat & Chill Delhi NCR",
+      siteName: "REAL BROTHER'S RESTAURANT",
       locale: "en_IN",
       type: "website",
+      images: ["/images/logo-square.jpg"],
     },
   };
 }
 
 export default async function LocationHomePage({ params }) {
-  const loc = getMarketLocationBySlug(params.location);
+  const loc = await resolveLocation(params.location);
   if (!loc) {
     notFound();
   }
@@ -88,30 +129,32 @@ export default async function LocationHomePage({ params }) {
     );
   }
 
-  const nearbyLocations = getNearbyMarketLocations(loc.slug, 6);
+  const nearbyLocations = getNearbyMarketLocations(loc.slug, 4);
 
   // Structured Data Schemas
   const schemas = [
     {
       "@context": "https://schema.org",
       "@type": "Restaurant",
-      name: `Eat & Chill - ${loc.name} Hub`,
+      name: `REAL BROTHER'S RESTAURANT - ${loc.name}`,
       description: loc.description,
-      url: `https://eatandchill.onrender.com/${loc.slug}`,
-      telephone: "+917755013772",
-      servesCuisine: ["North Indian", "Mughlai", "Street Food", "Rolls", "Fast Food"],
+      url: `http://localhost:3000/${loc.slug}`,
+      telephone: loc.phone || "+91-7827118412",
+      servesCuisine: ["North Indian", "Chinese", "Mughlai", "Rolls", "Fast Food"],
       priceRange: "₹₹",
+      image: "http://localhost:3000/images/logo-square.jpg",
       address: {
         "@type": "PostalAddress",
-        addressLocality: loc.name,
-        addressRegion: loc.state || "Delhi",
-        postalCode: loc.pincodes[0],
+        streetAddress: loc.address || "Gali Number 5, Vishal, Sarfabad Village, Sector 73",
+        addressLocality: loc.city || "Noida",
+        addressRegion: loc.state || "Uttar Pradesh",
+        postalCode: loc.pincodes && loc.pincodes[0] ? loc.pincodes[0] : "201301",
         addressCountry: "IN",
       },
       geo: {
         "@type": "GeoCoordinates",
-        latitude: loc.geo.lat,
-        longitude: loc.geo.lng,
+        latitude: loc.geo?.lat || 28.583,
+        longitude: loc.geo?.lng || 77.388,
       },
       openingHoursSpecification: [
         {
@@ -125,10 +168,11 @@ export default async function LocationHomePage({ params }) {
             "Saturday",
             "Sunday",
           ],
-          opens: "11:00",
-          closes: "03:00",
+          opens: "08:00",
+          closes: "24:00",
         },
       ],
+      sameAs: [loc.googleBusinessUrl || "https://share.google/UPOhBCowyPZ07exvK"],
     },
     {
       "@context": "https://schema.org",
@@ -138,45 +182,44 @@ export default async function LocationHomePage({ params }) {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://eatandchill.onrender.com/",
+          item: "http://localhost:3000",
         },
         {
           "@type": "ListItem",
           position: 2,
           name: loc.name,
-          item: `https://eatandchill.onrender.com/${loc.slug}`,
+          item: `http://localhost:3000/${loc.slug}`,
         },
       ],
     },
-    {
+  ];
+
+  if (loc.faqs && loc.faqs.length > 0) {
+    schemas.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
-      mainEntity: loc.faqs.map((faq) => ({
+      mainEntity: loc.faqs.map((f) => ({
         "@type": "Question",
-        name: faq.q,
+        name: f.q,
         acceptedAnswer: {
           "@type": "Answer",
-          text: faq.a,
+          text: f.a,
         },
       })),
-    },
-  ];
+    });
+  }
 
   return (
     <>
-      {schemas.map((schema, idx) => (
-        <script
-          key={idx}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-        />
-      ))}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemas) }}
+      />
       <LocalizedHomePage
         location={loc}
-        nearbyLocations={nearbyLocations}
         offers={offers}
+        nearbyLocations={nearbyLocations}
       />
     </>
   );
 }
-

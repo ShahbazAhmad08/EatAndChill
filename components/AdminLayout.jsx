@@ -93,6 +93,7 @@ export default function AdminLayout({ children }) {
     { name: "Add Food Item", href: "/admin/add", icon: PlusCircle },
     { name: "Orders Manager", href: "/admin/orders", icon: ShoppingBag },
     { name: "Combos & Offers", href: "/admin/offers", icon: Sparkles },
+    { name: "Locations (SEO)", href: "/admin/locations", icon: MapPin },
     { name: "Promo Coupons", href: "/admin/coupons", icon: Tag },
     { name: "SEO & Content", href: "/admin/seo", icon: Globe },
     { name: "Payment & Settings", href: "/admin/settings", icon: Sliders },
@@ -104,10 +105,10 @@ export default function AdminLayout({ children }) {
       {/* Mobile Top Header */}
       <div className="lg:hidden bg-slate-950 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-orange-500/20 p-1 flex items-center justify-center border border-orange-500/30">
-            <Image src="/assets/eat.png" alt="Admin" width={28} height={28} />
+          <div className="w-8 h-8 rounded-lg bg-brand-500/20 p-0.5 flex items-center justify-center border border-amber-500/30 overflow-hidden">
+            <Image src="/images/logo-square.jpg" alt="Real Brother's Restaurant" width={32} height={32} className="object-cover" />
           </div>
-          <span className="font-black text-white text-base">Eat &amp; Chill Admin</span>
+          <span className="font-black text-white text-base">Real Brother&apos;s</span>
         </div>
         <button
           onClick={() => setMobileNavOpen(!mobileNavOpen)}
@@ -126,14 +127,12 @@ export default function AdminLayout({ children }) {
         <div className="space-y-6">
           {/* Admin Header */}
           <div className="hidden lg:flex items-center gap-3 px-2 py-3 border-b border-slate-800/80">
-            <div className="w-10 h-10 rounded-xl bg-orange-500/20 p-1.5 flex items-center justify-center border border-orange-500/30 shrink-0">
-              <Image src="/assets/eat.png" alt="Admin" width={36} height={36} />
+            <div className="w-11 h-11 rounded-xl bg-brand-500/20 p-1 flex items-center justify-center border border-amber-500/40 shrink-0 overflow-hidden shadow-sm">
+              <Image src="/images/logo-square.jpg" alt="Real Brother's Restaurant" width={40} height={40} className="object-cover rounded-lg" />
             </div>
             <div>
-              <h1 className="font-black text-base text-white tracking-tight">Eat &amp; Chill</h1>
-              <p className="text-[11px] font-semibold text-brand-400 flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> Super Admin Control
-              </p>
+              <h1 className="font-black text-sm text-white tracking-tight uppercase">Real Brother&apos;s</h1>
+              <p className="text-[10px] font-bold text-amber-400">Ghar Jaisa Swad • Admin</p>
             </div>
           </div>
 
