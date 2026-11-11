@@ -22,12 +22,23 @@ import {
 } from "lucide-react";
 
 export default function OffersView({ initialOffers = [] }) {
-  const { selectedLocation, setSelectedLocation, addToCart } = useStore();
+  const { selectedLocation, setSelectedLocation, addToCart, food_list } = useStore();
   const [offers, setOffers] = useState(initialOffers);
   const [loading, setLoading] = useState(false);
   const [activeLocationFilter, setActiveLocationFilter] = useState(
     selectedLocation ? selectedLocation.slug : "all"
   );
+
+  const handleOrderCombo = (off) => {
+    const matchingFood = food_list?.find(
+      (f) => f.name?.toLowerCase() === off.title?.toLowerCase()
+    );
+    if (matchingFood) {
+      addToCart(matchingFood._id || matchingFood.id);
+    } else {
+      toast.success(`Combo "${off.title}" selected! Check out our menu.`);
+    }
+  };
 
   useEffect(() => {
     if (selectedLocation) {
@@ -214,13 +225,23 @@ export default function OffersView({ initialOffers = [] }) {
                     </span>
                   </div>
 
-                  <Link
-                    href="/menu"
-                    className="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-black text-xs transition-all shadow-sm active:scale-95 flex items-center gap-1"
-                  >
-                    <span>Order Now</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleOrderCombo(off)}
+                      className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-black text-xs transition-all shadow-sm active:scale-95 flex items-center gap-1.5"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" />
+                      <span>Add Combo</span>
+                    </button>
+                    <Link
+                      href="/menu"
+                      className="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold text-xs transition-all active:scale-95 flex items-center gap-1"
+                    >
+                      <span>Menu</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             ))}

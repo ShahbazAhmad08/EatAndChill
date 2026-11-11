@@ -57,7 +57,9 @@ export default function AdminSettingsPage() {
   const fetchSettings = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/settings");
+      const res = await fetch(`/api/admin/settings?t=${Date.now()}`, {
+        cache: "no-store",
+      });
       const data = await res.json();
       if (data.success && data.data) {
         setSettings((prev) => ({ ...prev, ...data.data }));
@@ -92,6 +94,9 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (data.success) {
         toast.success("Settings saved successfully!");
+        if (data.data) {
+          setSettings((prev) => ({ ...prev, ...data.data }));
+        }
       } else {
         toast.error(data.message || "Failed to update settings");
       }

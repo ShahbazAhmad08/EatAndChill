@@ -75,8 +75,11 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    if (!token) {
-      toast.error("Please sign in to place your Delhi delivery order");
+    const effectiveToken =
+      token || (typeof window !== "undefined" ? localStorage.getItem("token") : "");
+
+    if (!effectiveToken) {
+      toast.error("Please sign in to place your order");
       toggleLoginPopup();
       return;
     }
@@ -316,7 +319,7 @@ export default function CartPage() {
                   onClick={handleCheckout}
                   className="w-full py-4 px-4 rounded-2xl bg-gradient-to-r from-brand-500 to-orange-500 hover:from-brand-600 hover:to-orange-600 text-white font-black text-sm shadow-xl shadow-brand-500/25 transition-all flex items-center justify-center gap-2"
                 >
-                  <span>Proceed to Delhi Delivery</span>
+                  <span>Proceed to Checkout</span>
                   <ArrowRight className="w-4 h-4" />
                 </motion.button>
 

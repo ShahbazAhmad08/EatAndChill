@@ -3,39 +3,53 @@ import { connectDB } from "@/lib/db";
 import Settings from "@/lib/models/Settings";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET() {
   try {
     await connectDB();
-    let settings = await Settings.findOne({});
+    let settings = await Settings.findOne({}).lean();
 
     if (!settings) {
-      settings = await Settings.create({});
+      const created = await Settings.create({});
+      settings = created.toObject();
     }
 
-    return NextResponse.json({
-      success: true,
-      data: settings,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: settings,
+      },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error fetching settings:", error);
-    // Return sensible fallback
-    return NextResponse.json({
-      success: true,
-      data: {
-        storeName: "Eat & Chill - Delhi",
-        storePhone: "+91 7755013772",
-        storeEmail: "contact@eatandchill.com",
-        stripeEnabled: true,
-        codEnabled: true,
-        upiEnabled: true,
-        upiId: "eatandchill@okhdfcbank",
-        deliveryFee: 50,
-        freeDeliveryThreshold: 499,
-        bannerNotice: "⚡ Delhi NCR Fast 30-Min Delivery | Free Delivery on Orders Above ₹499 | Authentic Dilli Street Delights & Modern Bites!",
-        delhiDeliveryAreas: "Connaught Place, South Delhi, Hauz Khas, Saket, Greater Kailash, Dwarka, Rohini, Karol Bagh, Vasant Kunj",
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          storeName: "Eat & Chill",
+          storePhone: "+91 7755013772",
+          storeEmail: "sa798027@gmail.com",
+          stripeEnabled: true,
+          codEnabled: true,
+          upiEnabled: true,
+          upiId: "7755013772@ybl",
+          deliveryFee: 50,
+          freeDeliveryThreshold: 499,
+          bannerNotice: "⚡ Fast 30-Min Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals!",
+        },
       },
-    });
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        },
+      }
+    );
   }
 }
 
@@ -44,20 +58,29 @@ export async function POST(req) {
     await connectDB();
     const body = await req.json();
 
-    let settings = await Settings.findOne({});
-    if (!settings) {
-      settings = new Settings(body);
-    } else {
-      Object.assign(settings, body);
-    }
+    // Clean up any empty ID fields
+    delete body._id;
+    delete body.__v;
 
-    await settings.save();
+    // Use atomic findOneAndUpdate with upsert to guarantee updating the single settings document
+    const updated = await Settings.findOneAndUpdate(
+      {},
+      { $set: body },
+      { new: true, upsert: true }
+    );
 
-    return NextResponse.json({
-      success: true,
-      message: "Admin settings updated successfully!",
-      data: settings,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Admin settings updated successfully!",
+        data: updated,
+      },
+      {
+        headers: {
+          "Cache-Control": "no-store, no-cache, must-revalidate",
+        },
+      }
+    );
   } catch (error) {
     console.error("Error updating settings:", error);
     return NextResponse.json(

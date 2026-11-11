@@ -363,9 +363,33 @@ export default function AdminOrdersPage() {
                   <p className="text-sm font-black text-white pt-1">
                     Total Amount: <span className="text-brand-400">₹{order.amount}</span>{" "}
                     <span className="text-xs font-normal text-slate-400">
-                      via {order.paymentMethod || "Stripe"}
+                      via {order.paymentMethod ? order.paymentMethod.toUpperCase() : "STRIPE"}
                     </span>
                   </p>
+
+                  {order.paymentMethod === "upi" && (
+                    <div className="mt-2 p-2 rounded-xl bg-orange-950/50 border border-orange-800/80 flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-1.5 text-xs text-orange-200">
+                        <QrCode className="w-3.5 h-3.5 text-brand-400 shrink-0" />
+                        <span>UPI UTR:</span>
+                        <strong className="font-mono text-white text-xs bg-slate-900 px-2 py-0.5 rounded border border-orange-800/60 select-all">
+                          {order.transactionId || "Pending"}
+                        </strong>
+                      </div>
+                      {order.transactionId && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(order.transactionId);
+                            toast.success("UTR copied to clipboard!");
+                          }}
+                          className="text-[10px] bg-slate-800 hover:bg-slate-700 text-orange-300 px-2.5 py-1 rounded-md font-bold transition-colors"
+                        >
+                          Copy
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -448,6 +472,12 @@ export default function AdminOrdersPage() {
                   <span>Payment Mode:</span>
                   <span className="uppercase">{activeKOT.paymentMethod || "Prepaid"}</span>
                 </div>
+                {activeKOT.transactionId && (
+                  <div className="flex justify-between font-bold text-emerald-800">
+                    <span>UPI UTR / Ref:</span>
+                    <span className="font-mono">{activeKOT.transactionId}</span>
+                  </div>
+                )}
                 <div className="flex justify-between font-bold text-gray-700">
                   <span>Payment Status:</span>
                   <span className={activeKOT.payment ? "text-emerald-700" : "text-amber-700"}>

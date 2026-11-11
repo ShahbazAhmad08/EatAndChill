@@ -15,6 +15,7 @@ import {
   Flame,
   RotateCw,
   FolderTree,
+  Star,
 } from "lucide-react";
 
 function ItemsContent() {
@@ -106,6 +107,30 @@ function ItemsContent() {
     }
   };
 
+  const handleToggleSpecial = async (id, currentStatus) => {
+    try {
+      const res = await fetch("/api/food/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, isDelhiSpecial: !currentStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(
+          !currentStatus
+            ? "🌟 Marked as Chef's Special / Featured Dish!"
+            : "Removed from Chef's Specials"
+        );
+        fetchFoodsAndCats();
+      } else {
+        toast.error("Failed to update special status");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Server error");
+    }
+  };
+
   const handleSavePrice = async (id) => {
     if (!editPrice || isNaN(editPrice)) {
       toast.error("Enter a valid price");
@@ -135,7 +160,11 @@ function ItemsContent() {
   const filteredFoods = foods.filter((f) => {
     // Category filter
     if (selectedCategory !== "All") {
-      if (selectedCategory === "Delhi Specials") {
+      if (
+        selectedCategory === "Delhi Specials" ||
+        selectedCategory === "Specials" ||
+        selectedCategory === "Chef's Specials"
+      ) {
         if (!f.isDelhiSpecial) return false;
       } else if (f.category?.toLowerCase() !== selectedCategory.toLowerCase()) {
         return false;
@@ -272,6 +301,7 @@ function ItemsContent() {
                   <th className="py-3 px-4">Dish Name &amp; Description</th>
                   <th className="py-3 px-4">Category</th>
                   <th className="py-3 px-4">Type</th>
+                  <th className="py-3 px-4">Chef's Special</th>
                   <th className="py-3 px-4">Price (₹)</th>
                   <th className="py-3 px-4">Availability</th>
                   <th className="py-3 px-4 text-right">Actions</th>
@@ -328,6 +358,27 @@ function ItemsContent() {
                         >
                           {item.isVeg ? "Veg" : "Non-Veg"}
                         </span>
+                      </td>
+                      <td className="py-3 px-4">
+                        <button
+                          type="button"
+                          onClick={() => handleToggleSpecial(id, item.isDelhiSpecial)}
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-[10px] font-bold transition-all border ${
+                            item.isDelhiSpecial
+                              ? "bg-amber-950/80 text-amber-300 border-amber-600/80 hover:bg-amber-900 shadow-sm"
+                              : "bg-slate-900 text-slate-500 border-slate-800 hover:text-slate-300 hover:border-slate-700"
+                          }`}
+                          title="Click to toggle Chef's Special / Featured Dish"
+                        >
+                          <Star
+                            className={`w-3 h-3 ${
+                              item.isDelhiSpecial
+                                ? "fill-amber-400 text-amber-400"
+                                : "text-slate-500"
+                            }`}
+                          />
+                          <span>{item.isDelhiSpecial ? "⭐ Special" : "☆ Regular"}</span>
+                        </button>
                       </td>
                       <td className="py-3 px-4 font-black text-sm text-brand-400">
                         {isEditing ? (

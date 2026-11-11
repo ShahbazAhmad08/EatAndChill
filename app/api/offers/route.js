@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Offer from "@/lib/models/Offer";
+import Food from "@/lib/models/Food";
+import Category from "@/lib/models/Category";
 import { initialOffers } from "@/lib/seedOffers";
 
 // GET /api/offers?location=connaught-place
@@ -63,13 +65,38 @@ export async function POST(req) {
       discountPercent: discount,
       image: body.image || "/assets/food_1.png",
       locationSlug: body.locationSlug || "all",
-      locationName: body.locationName || "All Delhi NCR",
+      locationName: body.locationName || "All Locations",
       couponCode: body.couponCode || "",
       items: Array.isArray(body.items) ? body.items : (body.items ? body.items.split(",").map(i => i.trim()) : []),
       badge: body.badge || "⚡ 30-Min Fast Delivery",
       isPureVeg: Boolean(body.isPureVeg),
       isActive: body.isActive !== undefined ? Boolean(body.isActive) : true,
     });
+
+    // If enabled, also add/update as orderable food item under "Combos"
+    if (body.addToMenu !== false) {
+      try {
+        const dishDesc = body.description || (Array.isArray(body.items) && body.items.length > 0 ? `Includes: ${body.items.join(", ")}` : "Special Chef Combo");
+        await Food.create({
+          name: body.title,
+          description: dishDesc,
+          price: offer,
+          image: body.image || "1748855584283-food_1.png",
+          category: "Combos",
+          isVeg: Boolean(body.isPureVeg),
+          isDelhiSpecial: false,
+          available: true,
+        });
+
+        // Ensure "Combos" category exists
+        const catExists = await Category.findOne({ name: "Combos" });
+        if (!catExists) {
+          await Category.create({ name: "Combos", icon: "🍱" });
+        }
+      } catch (foodErr) {
+        console.warn("Could not auto-add combo to food menu:", foodErr);
+      }
+    }
 
     return NextResponse.json({
       success: true,

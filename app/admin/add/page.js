@@ -284,11 +284,11 @@ function AddDishContent() {
               className="rounded text-brand-600 focus:ring-brand-500 w-4 h-4"
             />
             <div>
-              <p className="text-xs font-bold text-brand-400 flex items-center gap-1">
-                <Flame className="w-3.5 h-3.5 fill-brand-400" />
-                Delhi Special Dish
+              <p className="text-xs font-bold text-amber-400 flex items-center gap-1">
+                <Flame className="w-3.5 h-3.5 fill-amber-400" />
+                🌟 Chef&apos;s Special / Featured Dish
               </p>
-              <p className="text-[11px] text-slate-400">Featured on Delhi homepage</p>
+              <p className="text-[11px] text-slate-400">Featured in Specials section &amp; Homepage picks</p>
             </div>
           </label>
         </div>
@@ -307,7 +307,7 @@ function AddDishContent() {
             className="px-6 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-xs font-bold text-white shadow-lg transition-all flex items-center gap-2 disabled:opacity-50"
           >
             <PlusCircle className="w-4 h-4" />
-            <span>{loading ? "Adding Dish..." : "Save to Delhi Menu"}</span>
+            <span>{loading ? "Adding Dish..." : "Save Dish to Menu"}</span>
           </button>
         </div>
       </form>

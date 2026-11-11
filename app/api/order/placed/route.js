@@ -80,8 +80,10 @@ export async function POST(req) {
         items,
         amount,
         address,
-        payment: false,
+        payment: Boolean(body.transactionId),
         paymentMethod: "upi",
+        transactionId: body.transactionId || "",
+        deliveryNotes: body.deliveryNotes || address?.deliveryNotes || "",
         status: "Food processing",
       });
       await newOrder.save();
@@ -93,7 +95,7 @@ export async function POST(req) {
         success: true,
         method: "upi",
         orderId: newOrder._id,
-        message: "Order placed! Scan UPI QR or Pay via UPI ID.",
+        message: "UPI Payment received! Order placed successfully.",
         redirectUrl: `/myorders?orderPlaced=true&orderId=${newOrder._id}`,
       });
     }

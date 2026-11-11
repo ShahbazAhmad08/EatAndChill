@@ -8,8 +8,20 @@ export const StoreContext = createContext(null);
 export const StoreContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [food_list, setFoodList] = useState([]);
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("token") || "";
+    }
+    return "";
+  });
+  const [user, setUser] = useState(() => {
+    if (typeof window !== "undefined") {
+      const name = localStorage.getItem("userName");
+      const id = localStorage.getItem("userId");
+      if (name || id) return { name: name || "Foodie", id };
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [loginPopup, setLoginPopup] = useState(false);
   const [category, setCategory] = useState("All");
@@ -22,8 +34,8 @@ export const StoreContextProvider = ({ children }) => {
     stripeEnabled: true,
     codEnabled: true,
     upiEnabled: true,
-    upiId: "eatandchill@okhdfcbank",
-    bannerNotice: "⚡ Delhi NCR Fast 30-Min Delivery | Free Delivery on Orders Above ₹499 | Authentic Dilli Delights!",
+    upiId: "7755013772@ybl",
+    bannerNotice: "⚡ Fast 30-Min Food Delivery | Free Delivery on Orders Above ₹499 | Fresh & Handcrafted Meals!",
     storePhone: "+91 7755013772",
   });
 
@@ -33,7 +45,7 @@ export const StoreContextProvider = ({ children }) => {
   const fetchFoodList = async () => {
     try {
       setIsLoading(true);
-      const res = await fetch("/api/food/list");
+      const res = await fetch(`/api/food/list?t=${Date.now()}`, { cache: "no-store" });
       const data = await res.json();
       if (data.success && Array.isArray(data.data)) {
         setFoodList(data.data);
@@ -48,7 +60,9 @@ export const StoreContextProvider = ({ children }) => {
   // Fetch Store & Payment Settings
   const fetchSettings = async () => {
     try {
-      const res = await fetch("/api/admin/settings");
+      const res = await fetch(`/api/admin/settings?t=${Date.now()}`, {
+        cache: "no-store",
+      });
       const data = await res.json();
       if (data.success && data.data) {
         setSettings(data.data);
