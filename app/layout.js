@@ -127,14 +127,14 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen w-full max-w-full overflow-x-hidden flex flex-col justify-between bg-white text-gray-900 font-sans">
+      <body className="min-h-screen w-full max-w-full overflow-x-clip flex flex-col justify-between bg-white text-gray-900 font-sans">
         <StoreContextProvider>
           <CinematicLoader />
           <RouteProgressBar />
           <Toaster position="top-center" reverseOrder={false} />
           <Navbar />
           <LoginModal />
-          <main className="flex-1 w-full max-w-full overflow-x-hidden">
+          <main className="flex-1 w-full max-w-full overflow-x-clip">
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
