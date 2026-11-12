@@ -52,10 +52,10 @@ export default function Navbar() {
       ? availableLocations
       : MARKET_LOCATIONS;
 
-  // Track window scroll for sticky navbar background transition
+  // Track window scroll for elevated shadow on scroll
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      if (window.scrollY > 15) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -118,21 +118,21 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled
-          ? "bg-stone-950/98 backdrop-blur-2xl shadow-2xl shadow-black/50 border-b border-amber-500/30"
-          : "bg-stone-950/90 backdrop-blur-xl border-b border-stone-800/80 shadow-md"
+          ? "bg-white/98 backdrop-blur-xl shadow-lg shadow-amber-950/5 border-b border-amber-200/90"
+          : "bg-white/95 backdrop-blur-md border-b border-amber-100 shadow-xs"
       }`}
     >
-      {/* Top Announcement Ribbon - Royal Dark Crimson & Gold */}
-      <div className="bg-gradient-to-r from-red-950 via-stone-900 to-amber-950 text-white text-xs py-1.5 px-4 font-medium border-b border-amber-500/20 overflow-hidden">
+      {/* Top Announcement Ribbon - Vibrant Red-to-Amber Theme */}
+      <div className="bg-gradient-to-r from-brand-700 via-orange-600 to-amber-600 text-white text-xs py-1.5 px-4 font-medium overflow-hidden">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 min-w-0">
           <div className="flex items-center gap-2 min-w-0 truncate">
-            <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-amber-400" />
+            <span className="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider shrink-0 flex items-center gap-1 text-white shadow-2xs">
+              <Sparkles className="w-3 h-3 text-amber-200" />
               <span>OFFER</span>
             </span>
-            <span className="truncate text-stone-200 font-semibold text-xs">
+            <span className="truncate text-orange-50 font-semibold text-xs">
               ⚡ Fast 30-Min Delivery | Free Delivery Above ₹499 | Authentic Ghar Jaisa Swad
             </span>
           </div>
@@ -142,7 +142,7 @@ export default function Navbar() {
               href={settings.googleBusinessUrl || "https://share.google/UPOhBCowyPZ07exvK"}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-[11px] font-bold text-amber-300 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 hover:bg-white/30 border border-white/30 text-[11px] font-bold text-amber-100 transition-colors"
               title="View Real Brother's Restaurant on Google Business Profile"
             >
               <Sparkles className="w-3 h-3 text-amber-300" />
@@ -150,23 +150,23 @@ export default function Navbar() {
             </a>
             <a
               href={`tel:${cleanPhone}`}
-              className="flex items-center gap-1.5 text-stone-300 hover:text-amber-300 transition-colors font-bold text-xs"
+              className="flex items-center gap-1 hover:text-white transition-colors font-bold text-xs"
             >
-              <Phone className="w-3.5 h-3.5 text-amber-400" />
+              <Phone className="w-3.5 h-3.5" />
               <span>{storePhone}</span>
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main Navbar */}
+      {/* Main Navbar - Clean, High-Contrast Light Theme */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="flex items-center justify-between h-20 gap-4">
           {/* Logo & Brand Name with Location Dropdown SHIFTED UNDERNEATH */}
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href={homeHref}
-              className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/30 to-amber-300/10 border-2 border-amber-400/80 p-0.5 shadow-lg shadow-amber-500/20 hover:scale-105 transition-transform overflow-hidden shrink-0"
+              className="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-100 to-amber-50 border-2 border-amber-300 p-0.5 shadow-sm hover:scale-105 transition-transform overflow-hidden shrink-0"
             >
               <Image
                 src="/images/logo-square.jpg"
@@ -181,7 +181,7 @@ export default function Navbar() {
             <div className="flex flex-col relative" ref={dropdownRef}>
               <Link
                 href={homeHref}
-                className="text-base sm:text-lg font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-100 hover:opacity-90 transition-opacity uppercase leading-none"
+                className="text-base sm:text-lg font-black tracking-tight text-gray-950 hover:text-brand-600 transition-colors uppercase leading-none"
               >
                 REAL BROTHER&apos;S
               </Link>
@@ -191,15 +191,15 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-                  className="inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-400 hover:text-amber-200 transition-colors py-0.5 group"
+                  className="inline-flex items-center gap-1 text-[11px] font-extrabold text-amber-800 hover:text-brand-600 transition-colors py-0.5 group"
                   title="Change delivery location"
                 >
-                  <MapPin className="w-3 h-3 text-red-500 shrink-0 animate-pulse" />
-                  <span className="truncate max-w-[130px] sm:max-w-[170px] border-b border-amber-400/40 pb-0.5 text-stone-200 group-hover:text-amber-200">
+                  <MapPin className="w-3 h-3 text-brand-600 shrink-0 animate-pulse" />
+                  <span className="truncate max-w-[130px] sm:max-w-[170px] border-b border-amber-300 pb-0.5 text-gray-700 group-hover:text-brand-600">
                     {selectedLocation ? selectedLocation.shortName || selectedLocation.name : "Sarfabad (Noida)"}
                   </span>
                   <ChevronDown
-                    className={`w-3 h-3 text-amber-400 transition-transform duration-200 ${
+                    className={`w-3 h-3 text-amber-700 transition-transform duration-200 ${
                       locationDropdownOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -213,45 +213,45 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute left-0 top-full mt-2 w-76 sm:w-80 bg-stone-900 rounded-2xl shadow-2xl border border-amber-500/30 p-3 z-50 overflow-hidden text-white"
+                      className="absolute left-0 top-full mt-2 w-76 sm:w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 z-50 overflow-hidden text-gray-900"
                     >
-                      <div className="p-2 border-b border-stone-800">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 block mb-1.5">
+                      <div className="p-2 border-b border-gray-100">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-amber-800 block mb-1.5">
                           Select Delivery Location:
                         </span>
                         <div className="relative">
-                          <Search className="w-3.5 h-3.5 text-stone-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                           <input
                             type="text"
                             placeholder="Search area (e.g. Sarfabad, Sector 73)..."
                             value={locationSearch}
                             onChange={(e) => setLocationSearch(e.target.value)}
-                            className="w-full pl-8 pr-3 py-1.5 text-xs bg-stone-950 border border-stone-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 font-semibold text-white placeholder-stone-500"
+                            className="w-full pl-8 pr-3 py-1.5 text-xs bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 font-semibold text-gray-900"
                           />
                         </div>
                       </div>
 
-                      <div className="max-h-64 overflow-y-auto py-1 divide-y divide-stone-800">
+                      <div className="max-h-64 overflow-y-auto py-1 divide-y divide-gray-50">
                         {/* Default All Locations */}
                         <Link
                           href="/"
                           onClick={() => handleSelectLocation(null)}
                           className={`w-full p-2.5 rounded-xl text-left text-xs font-black flex items-center justify-between transition-colors ${
                             !selectedLocation
-                              ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                              : "hover:bg-stone-800 text-stone-300"
+                              ? "bg-amber-50 text-brand-700 border border-amber-200/60"
+                              : "hover:bg-gray-50 text-gray-800"
                           }`}
                         >
                           <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-amber-400" />
+                            <span className="w-2 h-2 rounded-full bg-brand-500" />
                             <div>
                               <span className="block font-bold">🌟 All Locations (Universal)</span>
-                              <span className="text-[10px] text-stone-400 font-medium">
+                              <span className="text-[10px] text-gray-400 font-medium">
                                 Browse standard menu
                               </span>
                             </div>
                           </div>
-                          {!selectedLocation && <Check className="w-4 h-4 text-amber-400" />}
+                          {!selectedLocation && <Check className="w-4 h-4 text-brand-600" />}
                         </Link>
 
                         {/* Dynamic Locations (Database & Config) */}
@@ -275,20 +275,20 @@ export default function Navbar() {
                                 onClick={() => handleSelectLocation(loc)}
                                 className={`w-full p-2.5 rounded-xl text-left text-xs flex items-center justify-between transition-colors ${
                                   isCurrent
-                                    ? "bg-amber-500/20 text-amber-300 font-black border border-amber-500/40"
-                                    : "hover:bg-stone-800 text-stone-300 font-bold"
+                                    ? "bg-amber-50 text-brand-700 font-black border border-amber-200/60"
+                                    : "hover:bg-gray-50 text-gray-800 font-bold"
                                 }`}
                               >
                                 <div className="flex items-start gap-2 truncate">
-                                  <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                                  <MapPin className="w-3.5 h-3.5 text-brand-500 shrink-0 mt-0.5" />
                                   <div className="truncate">
                                     <span className="block truncate">{loc.name}</span>
-                                    <span className="text-[10px] text-stone-400 font-semibold block">
+                                    <span className="text-[10px] text-gray-400 font-semibold block">
                                       {loc.zone || loc.city || "Hub"} · ⚡ {loc.avgDeliveryMinutes || 30}m
                                     </span>
                                   </div>
                                 </div>
-                                {isCurrent && <Check className="w-4 h-4 text-amber-400 shrink-0" />}
+                                {isCurrent && <Check className="w-4 h-4 text-brand-600 shrink-0" />}
                               </Link>
                             );
                           })}
@@ -300,7 +300,7 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Navigation Links - Royal Stone & Amber Glow */}
+          {/* Navigation Links - Crisp High-Contrast Bold Text */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
@@ -310,11 +310,11 @@ export default function Navbar() {
                   href={link.href}
                   className={`text-xs font-black px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     isActive
-                      ? "bg-amber-500/20 text-amber-300 shadow-sm border border-amber-400/40"
-                      : "text-stone-300 hover:text-amber-300 hover:bg-stone-900/80"
+                      ? "bg-orange-50 text-brand-600 shadow-2xs border border-orange-200/70"
+                      : "text-gray-700 hover:text-brand-600 hover:bg-orange-50/50"
                   }`}
                 >
-                  {link.isSpecial && <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />}
+                  {link.isSpecial && <Flame className="w-3.5 h-3.5 text-brand-500 fill-brand-500" />}
                   <span>{link.name}</span>
                 </Link>
               );
@@ -326,17 +326,17 @@ export default function Navbar() {
             {/* Cart Button */}
             <Link
               href="/cart"
-              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-stone-900/90 hover:bg-stone-800 border border-amber-500/40 text-amber-300 font-bold text-xs transition-all shadow-md active:scale-95"
+              className="flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-gradient-to-r from-orange-50 to-amber-50 hover:from-orange-100 hover:to-amber-100 border border-orange-200 text-brand-700 font-black text-xs transition-all shadow-2xs active:scale-95"
             >
               <div className="relative">
-                <ShoppingBag className="w-4 h-4 text-amber-400" />
+                <ShoppingBag className="w-4 h-4 text-brand-600" />
                 {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2.5 bg-red-600 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center animate-bounce shadow-xs">
+                  <span className="absolute -top-2 -right-2.5 bg-brand-600 text-white text-[10px] font-black rounded-full h-4 w-4 flex items-center justify-center animate-bounce shadow-xs">
                     {cartCount}
                   </span>
                 )}
               </div>
-              <span className="font-black text-xs text-amber-200">
+              <span className="font-black text-xs text-brand-800">
                 {cartAmount > 0 ? `₹${cartAmount}` : "Cart"}
               </span>
             </Link>
@@ -345,7 +345,7 @@ export default function Navbar() {
             {!token ? (
               <button
                 onClick={toggleLoginPopup}
-                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-black text-stone-950 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 hover:from-amber-300 hover:to-amber-400 rounded-full shadow-lg shadow-amber-500/20 active:scale-95 transition-all"
+                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 text-xs font-black text-white bg-gradient-to-r from-brand-600 to-amber-600 hover:from-brand-700 hover:to-amber-700 rounded-full shadow-md shadow-brand-600/20 active:scale-95 transition-all"
               >
                 <User className="w-3.5 h-3.5" />
                 <span>Sign In</span>
@@ -354,7 +354,7 @@ export default function Navbar() {
               <div className="relative" ref={userDropdownRef}>
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-400 via-amber-500 to-red-600 text-stone-950 font-black flex items-center justify-center text-xs shadow-md hover:scale-105 active:scale-95 transition-all ring-2 ring-amber-400/80"
+                  className="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-600 via-orange-500 to-amber-500 text-white font-black flex items-center justify-center text-xs shadow-sm hover:scale-105 active:scale-95 transition-all ring-2 ring-amber-300"
                   title={user?.name || "My Account"}
                   aria-label="User Account Menu"
                 >
@@ -369,37 +369,37 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-52 bg-stone-900 rounded-2xl shadow-2xl border border-amber-500/30 py-2 z-50 overflow-hidden text-white"
+                      className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50 overflow-hidden text-gray-900"
                     >
-                      <div className="px-4 py-2 border-b border-stone-800 text-[11px] text-stone-400">
+                      <div className="px-4 py-2 border-b border-gray-100 text-[11px] text-gray-400">
                         Signed in as <br />
-                        <strong className="text-amber-300 text-xs font-bold truncate block">
+                        <strong className="text-gray-900 text-xs font-bold truncate block">
                           {user?.name || "Customer"}
                         </strong>
                       </div>
                       <Link
                         href="/myorders"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-stone-200 hover:bg-stone-800 hover:text-amber-300 font-bold transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand-600 font-bold transition-colors"
                       >
-                        <Package className="w-4 h-4 text-amber-400" />
+                        <Package className="w-4 h-4 text-brand-500" />
                         <span>My Orders &amp; Track</span>
                       </Link>
                       <Link
                         href="/specials"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-stone-200 hover:bg-stone-800 hover:text-amber-300 font-bold transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-gray-700 hover:bg-orange-50 hover:text-brand-600 font-bold transition-colors"
                       >
-                        <Flame className="w-4 h-4 text-amber-400" />
+                        <Flame className="w-4 h-4 text-brand-500" />
                         <span>Chef&apos;s Specials</span>
                       </Link>
-                      <hr className="my-1 border-stone-800" />
+                      <hr className="my-1 border-gray-100" />
                       <button
                         onClick={() => {
                           setUserDropdownOpen(false);
                           logout();
                         }}
-                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-400 hover:bg-red-950/40 font-bold transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 font-bold transition-colors text-left"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Sign Out</span>
@@ -413,10 +413,10 @@ export default function Navbar() {
             {/* Mobile Menu Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl text-stone-300 hover:bg-stone-900 transition-colors"
+              className="md:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors"
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5 text-amber-400" /> : <Menu className="w-5 h-5 text-amber-400" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -430,34 +430,34 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden border-t border-stone-800 bg-stone-950 px-4 pt-3 pb-6 space-y-2 shadow-2xl"
+            className="md:hidden border-t border-gray-200 bg-white px-4 pt-3 pb-6 space-y-2 shadow-xl"
           >
             <button
               onClick={() => setLocationDropdownOpen(!locationDropdownOpen)}
-              className="w-full flex items-center justify-between py-2.5 px-3 bg-stone-900 rounded-xl text-amber-300 text-xs font-bold mb-2 border border-amber-500/30"
+              className="w-full flex items-center justify-between py-2.5 px-3 bg-orange-50 rounded-xl text-brand-700 text-xs font-bold mb-2 border border-orange-200/60"
             >
               <div className="flex items-center gap-2 truncate">
-                <MapPin className="w-4 h-4 text-red-500 shrink-0" />
-                <span className="truncate text-stone-200">
+                <MapPin className="w-4 h-4 text-brand-500 shrink-0" />
+                <span className="truncate font-bold">
                   {selectedLocation
                     ? `Delivering to: ${selectedLocation.name}`
                     : "Delivering to: Sarfabad (Noida)"}
                 </span>
               </div>
-              <span className="text-[10px] uppercase font-black text-stone-950 bg-amber-400 px-2 py-0.5 rounded-md shrink-0 shadow-xs">
+              <span className="text-[10px] uppercase font-black text-brand-600 bg-white px-2 py-0.5 rounded-md shrink-0 shadow-2xs">
                 {locationDropdownOpen ? "Close ▴" : "Switch ▾"}
               </span>
             </button>
 
             {locationDropdownOpen && (
-              <div className="p-2 mb-3 bg-stone-900 rounded-2xl border border-stone-800 max-h-60 overflow-y-auto space-y-1">
+              <div className="p-2 mb-3 bg-gray-50 rounded-2xl border border-gray-200 max-h-60 overflow-y-auto space-y-1">
                 <Link
                   href="/"
                   onClick={() => handleSelectLocation(null)}
                   className={`block p-2 rounded-xl text-xs font-bold ${
                     !selectedLocation
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                      : "text-stone-300 hover:bg-stone-800"
+                      ? "bg-brand-50 text-brand-700"
+                      : "text-gray-700 hover:bg-gray-100"
                   }`}
                 >
                   🌟 All Locations (Universal)
@@ -469,8 +469,8 @@ export default function Navbar() {
                     onClick={() => handleSelectLocation(loc)}
                     className={`block p-2 rounded-xl text-xs font-bold ${
                       selectedLocation?.slug === loc.slug
-                        ? "bg-amber-500/20 text-amber-300 font-black border border-amber-500/40"
-                        : "text-stone-300 hover:bg-stone-800"
+                        ? "bg-brand-50 text-brand-700 font-black"
+                        : "text-gray-700 hover:bg-gray-100"
                     }`}
                   >
                     📍 {loc.name} {loc.state ? `(${loc.state})` : ""}
@@ -484,7 +484,7 @@ export default function Navbar() {
                 key={link.name}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2.5 rounded-xl text-sm font-bold text-stone-200 hover:bg-stone-900 hover:text-amber-300 transition-colors"
+                className="block px-3 py-2.5 rounded-xl text-sm font-bold text-gray-800 hover:bg-orange-50 hover:text-brand-600 transition-colors"
               >
                 {link.name}
               </Link>
