@@ -10,9 +10,20 @@ export default function CinematicLoader() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    // Show splash on first visit in the session
+    const hasSeen = typeof window !== "undefined" && sessionStorage.getItem("rb_splash_shown");
+    if (hasSeen) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      sessionStorage.setItem("rb_splash_shown", "true");
+    } catch (e) {}
+
     // Smooth cinematic progress counter
     const startTime = Date.now();
-    const duration = 1200; // 1.2s total smooth reveal
+    const duration = 1100; // 1.1s smooth reveal
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -126,3 +137,4 @@ export default function CinematicLoader() {
     </AnimatePresence>
   );
 }
+
